@@ -1,0 +1,10 @@
+{
+  "devDependencies": {
+    "static-server": "^2.0.1",
+    "typescript": "^1.9.0-dev.20160307"
+  },
+  "scripts": {
+      "serve":"static-server -p 1337",
+      "build":"tsc -p directions && tsc -p vuforia"
+  }
+}
