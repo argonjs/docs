@@ -1,7 +1,9 @@
 ---
-layout: post
-title: Tutorial 2 - Compass
+layout: page
+title: Tutorial 2 - Compass Directions
 permalink: /tutorials/tutorial2
+nav_order: 52
+nav_subpage: 1
 ---
 ### Before you start
 Make sure you have completed [tutorial 1](/tutorials/tutorial1)

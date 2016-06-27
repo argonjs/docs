@@ -1,7 +1,9 @@
 ---
-layout: post
-title: Tutorial 3 - Using Argon.js with Vuforia
+layout: page
+title: Tutorial 3 - Vuforia
 permalink: /tutorials/tutorial3
+nav_order: 53
+nav_subpage: 1
 ---
 ### Before you start
 Make sure you have completed [tutorial 1](/tutorials/tutorial1)
