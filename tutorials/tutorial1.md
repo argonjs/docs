@@ -1,16 +1,18 @@
 ---
-layout: post
-title: Tutorial 1 - GETTING STARTED
+layout: page
+title: Tutorial 1 - Getting Started
 permalink: /tutorials/tutorial1
+nav_order: 51
+nav_subpage: 1
 ---
 
 ### Welcome
 **Quick Demo:**
-Download [Argon4](https://itunes.apple.com/us/app/argon4/id944297993?ls=1&mt=8) and [Try Now](Argon4://tutorials.argonjs.io/code/tutorials/tutorial1)
+Download [Argon4](https://itunes.apple.com/us/app/argon4/id944297993?ls=1&mt=8) and [Try Now](argon4://tutorials.argonjs.io/code/tutorials/tutorial1)
 
 ### Setting up
 
-Step 1: Go to Argonjs [Github repository] (https://github.com/argonjs/argon.js).
+Step 1: Go to Argonjs [Github repository] (https://github.com/argonjs/argon).
 
 Step 2: Click the “download ZIP” button to the right of the Github page.
 

@@ -1,13 +1,10 @@
 ---
-layout: post
-title: Welcome
+title: Home
+layout: page
+nav_order: 1
 ---
 
-This site contains a collection of tutorials for web developers using argon.js to add AR content to a web application. On this page, we provide an overview of the design of argon.js, introducing the terminology and concepts used by the framework. In the tutorials, we will go through a sequence of examples that show how to leverage the various features of argon.js in a web application.
-
-* [Tutorial 1 - Getting Started]({{ site.baseurl }}tutorials/tutorial1)
-* [Tutorial 2 - Compass]({{ site.baseurl }}tutorials/tutorial2)
-* [Tutorial 3 - Using Argon.js with Vuforia]({{ site.baseurl }}tutorials/tutorial3)
+This site contains a collection of tutorials for web developers using argon.js to add AR content to a web application. On this page, we provide an overview of the design of argon.js, introducing the terminology and concepts used by the framework. 
 
 * For more information about Argon4, please visit [overview]({{ site.baseurl }}tutorials/Overview).
 
