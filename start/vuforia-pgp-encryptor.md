@@ -11,7 +11,7 @@ nav_subpage: 1
 
 <style>
 textarea {
-  width: 100%
+  width: 100%;
   min-height: 200px;
   display: block;
 }
