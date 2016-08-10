@@ -52,7 +52,7 @@ function updateLicenseData() {
   var key = keyElement.value;
   var domains = domainsElement.value.split(/\s*[\s,]\s*/);
   
-  var json = jsonElement.value =a JSON.stringify({
+  var json = jsonElement.value = JSON.stringify({
     key: key, 
     domains: domains
   });
