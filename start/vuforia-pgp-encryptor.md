@@ -69,8 +69,8 @@ function updateLicenseData() {
 
 hkp.lookup(options).then(function(key) {
     pubkey = openpgp.key.readArmored(key);
-    keyElement.addEventListener('input', updateLicenseData)
-    domainsElement.addEventListener('input', updateLicenseData)
+    keyElement.addEventListener('input', updateLicenseData);
+    domainsElement.addEventListener('input', updateLicenseData);
 });
 
 </script>
