@@ -57,7 +57,7 @@ function updateLicenseData() {
   var json = jsonElement.value = JSON.stringify({
     key: key, 
     domains: domains
-  });
+  }, null, '\t');
   
   var options = {
     data: json,
