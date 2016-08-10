@@ -6,6 +6,8 @@ nav_order: 23
 nav_subpage: 1
 ---
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fetch/1.0.0/fetch.min.js">
+</script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/openpgp/2.3.2/openpgp.js">
 </script>
 
