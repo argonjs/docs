@@ -2,7 +2,8 @@
 layout: page
 title: FAQ
 permalink: /start/faq
-nav_order: 25
+nav_order: 21
+nav_subpage: 1
 ---
 
 # Why does the performance of my app seem slow compared to the samples? 
