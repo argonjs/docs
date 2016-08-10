@@ -12,7 +12,7 @@ nav_subpage: 1
 <style>
 textarea {
   width: 100%;
-  min-height: 200px;
+  min-height: 150px;
   display: block;
 }
 </style>
@@ -33,5 +33,45 @@ textarea {
 <textarea id="encrypted">
 </textarea>
 
+<script>
+var hkp = new openpgp.HKP('https://pgp.mit.edu');
 
+var options = {
+    query: 'secure@argonjs.io'
+};
+
+
+var keyElement = document.getElementById('key');
+var domainsElement = document.getElementById('domains');
+var jsonElement = document.getElementById('json')
+var encryptedElement = document.getElementById('encrypted')
+
+var pubkey;
+
+function updateLicenseData() {
+  var key = keyElement.value;
+  var domains = domainsElement.value.split(/\s*[\s,]\s*/);
+  
+  const json = jsonElement.value = JSON.stringify({
+    key: key, 
+    domains: domains
+  });
+  
+  var options = {
+    data: json,
+    publicKeys: pubkey.keys,
+  };
+  
+  openpgp.encrypt(options).then(function(ciphertext) {
+      encryptedElement.value = ciphertext.data;
+  });
+}
+
+hkp.lookup(options).then(function(key) {
+    pubkey = openpgp.key.readArmored(key);
+    keyElement.addEventListener(updateLicenseData)
+    domainsElement.addEventListener(updateLicenseData)
+});
+
+</script>
 
