@@ -58,7 +58,7 @@ function updateLicenseData() {
   
   var json = jsonElement.value = JSON.stringify({
     key: key, 
-    origins: origins
+    origins: origins.length > 0 ? origins || undefined
   }, null, '\t');
   
   var options = {
@@ -74,7 +74,7 @@ function updateLicenseData() {
 function updateFields() {
   const data = JSON.parse(jsonElement.value);
   keyElement.value = data.key;
-  originsElement.value = (data.origins && data.origins.join('\n')) || '';
+  originsElement.value = (data.origins && data.origins.length > 0 && data.origins.join('\n')) || '';
 }
 
 hkp.lookup(options).then(function(key) {
