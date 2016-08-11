@@ -23,15 +23,18 @@ textarea {
 <textarea id="key" placeholder="AXRIsu7/////AAAAAaYn+sFgpkAomH+Z+tK/Wsc8D+x60P90Nz8Oh0J8onzjVUIP5RbYjdDfyatmpnNgib3xGo1v8iWhkU1swiCaOM9V2jmpC4RZommwQzlgFbBRfZjV8DY3ggx9qAq8mijhN7nMzFDMgUhOlRWeN04VOcJGVUxnKn+R+oot1XTF5OlJZk3oXK2UfGkZo5DzSYafIVA0QS3Qgcx6j2qYAa/SZcPqiReiDM9FpaiObwxV3/xYJhXPUGVxI4wMcDI0XBWtiPR2yO9jAnv+x8+p88xqlMH8GHDSUecG97NbcTlPB0RayGGg1F6Y7v0/nQyk1OIp7J8VQ2YrTK25kKHST0Ny2s3M234SgvNCvnUHfAKFQ5KV">
 </textarea>
 
-### Allowed Domains
-<textarea id="domains" placeholder="mysite.com">
+### Allowed Origins
+Allow your key to be used from these HTTP origins (web sites).
+
+*Use asterisks for wildcards. Commas or whitespace can be used as separators.*
+<textarea id="origins" placeholder="*.example.com/*, www.myothersite.com/demo">
 </textarea>
 
 ### License Data (JSON)
 <textarea id="json">
 </textarea>
 
-### License Data (encrypted JSON)
+### License Data (encrypted)
 <textarea id="encrypted">
 </textarea>
 
@@ -44,7 +47,7 @@ var options = {
 
 
 var keyElement = document.getElementById('key');
-var domainsElement = document.getElementById('domains');
+var originsElement = document.getElementById('origins');
 var jsonElement = document.getElementById('json')
 var encryptedElement = document.getElementById('encrypted')
 
@@ -52,11 +55,11 @@ var pubkey;
 
 function updateLicenseData() {
   var key = keyElement.value;
-  var domains = domainsElement.value.split(/\s*[\s,]\s*/);
+  var allowedOrigins = domainsElement.value.split(/\s*[\s,]\s*/);
   
   var json = jsonElement.value = JSON.stringify({
     key: key, 
-    domains: domains
+    allowedOrigins: allowedOrigins
   }, null, '\t');
   
   var options = {
