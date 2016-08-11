@@ -54,7 +54,7 @@ var pubkey;
 
 function updateLicenseData() {
   var key = keyElement.value;
-  var allowedOrigins = domainsElement.value.split(/\s*[\s,]\s*/);
+  var allowedOrigins = originsElement.value.split(/\s*[\s,]\s*/);
   
   var json = jsonElement.value = JSON.stringify({
     key: key, 
