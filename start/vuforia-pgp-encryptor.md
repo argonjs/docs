@@ -54,11 +54,11 @@ var pubkey;
 
 function updateLicenseData() {
   var key = keyElement.value;
-  var origins = originsElement.value.split(/\s*[\s,]\s*/);
+  var origins = originsElement.value.split(/\s*[\s,]\s*/).filter(function(origin){return origin});
   
   var json = jsonElement.value = JSON.stringify({
     key: key, 
-    origins: origins.length > 0 ? origins || undefined
+    origins: origins && origins.length > 0 ? origins || undefined
   }, null, '\t');
   
   var options = {
