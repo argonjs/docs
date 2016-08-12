@@ -58,7 +58,7 @@ function updateLicenseData() {
   
   var json = jsonElement.value = JSON.stringify({
     key: key, 
-    origins: origins && origins.length > 0 ? origins || undefined
+    origins: (origins && origins.length > 0) ? origins : undefined
   }, null, '\t');
   
   var options = {
