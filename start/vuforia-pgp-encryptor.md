@@ -26,8 +26,8 @@ This tool allows you to encrypt your vuforia license key so that you can leverag
 
 ### Allowed Origins
 Allow your key to be used from these HTTP origins (web sites).
-<br/><sub>Use asterisks for wildcards. Commas or whitespace can be used as separators.</sub>
-<textarea id="origins" placeholder="*.example.com/*, www.myothersite.com/demo">
+<br/><sub>Origins are matched using [minimatch](https://github.com/isaacs/minimatch) glob patterns (the domain and path are each evaluated separately). Commas or whitespace can be used as pattern separators.</sub>
+<textarea id="origins" placeholder="?(*.)example.com/**, www.myothersite.com/demo/**">
 </textarea>
 
 ### License Data (JSON)
