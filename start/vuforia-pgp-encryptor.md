@@ -42,7 +42,7 @@ Allow your key to be used from these HTTP origins (web sites).
 var hkp = new openpgp.HKP('https://pgp.mit.edu');
 
 var options = {
-    query: 'secure@argonjs.io'
+    query: 'argon4@argonjs.io'
 };
 
 var keyElement = document.getElementById('key');
