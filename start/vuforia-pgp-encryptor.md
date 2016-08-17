@@ -75,6 +75,7 @@ function updateFields() {
   const data = JSON.parse(jsonElement.value);
   keyElement.value = data.key;
   originsElement.value = (data.origins && data.origins.length > 0 && data.origins.join('\n')) || '';
+  updateLicenseData();
 }
 
 hkp.lookup(options).then(function(key) {
