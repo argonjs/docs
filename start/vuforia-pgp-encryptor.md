@@ -81,7 +81,7 @@ function updateFields() {
 }
 
 hkp.lookup(options).then(function(key) {
-    pubkey = openpgp.key.readArmored(key);se
+    pubkey = openpgp.key.readArmored(key);
     keyElement.addEventListener('input', updateLicenseData);
     originsElement.addEventListener('input', updateLicenseData);
     jsonElement.addEventListener('input', updateFields);
