@@ -81,13 +81,13 @@ function updateFields() {
 }
 
 hkp.lookup(options).then(function(key) {
-    pubkey = openpgp.key.readArmored(key);
+    pubkey = openpgp.key.readArmored(key);se
     keyElement.addEventListener('input', updateLicenseData);
     originsElement.addEventListener('input', updateLicenseData);
     jsonElement.addEventListener('input', updateFields);
 });
 
-jsonElement.value = JSON.parse(localStorage.getItem('licenseData'));
+jsonElement.value = localStorage.getItem('licenseData');
 
 </script>
 
