@@ -66,6 +66,8 @@ function updateLicenseData() {
     publicKeys: pubkey.keys,
   };
   
+  localStorage.setItem('licenseData', json);
+  
   openpgp.encrypt(options).then(function(ciphertext) {
       encryptedElement.value = ciphertext.data;
   });
@@ -84,6 +86,8 @@ hkp.lookup(options).then(function(key) {
     originsElement.addEventListener('input', updateLicenseData);
     jsonElement.addEventListener('input', updateFields);
 });
+
+jsonElement.value = JSON.parse(localStorage.getItem('licenseData'));
 
 </script>
 
