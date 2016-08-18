@@ -60,7 +60,7 @@ path portion:
 var hkp = new openpgp.HKP('https://pgp.mit.edu');
 
 var options = {
-    query: 'argon4@argonjs.io'
+    query: 'secure@argonjs.io'
 };
 
 var keyElement = document.getElementById('key');
