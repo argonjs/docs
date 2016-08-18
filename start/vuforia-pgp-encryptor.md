@@ -106,6 +106,7 @@ hkp.lookup(options).then(function(key) {
 });
 
 jsonElement.value = localStorage.getItem('licenseData');
+if (JsonElement.value) updateFields();
 
 </script>
 
