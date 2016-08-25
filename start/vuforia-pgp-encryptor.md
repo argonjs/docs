@@ -103,10 +103,10 @@ hkp.lookup(options).then(function(key) {
     keyElement.addEventListener('input', updateLicenseData);
     originsElement.addEventListener('input', updateLicenseData);
     jsonElement.addEventListener('input', updateFields);
+    if (jsonElement.value) updateFields();
 });
 
 jsonElement.value = localStorage.getItem('licenseData');
-if (jsonElement.value) updateFields();
 
 </script>
 
