@@ -1,6 +1,5 @@
-# argon.js Tutorials
-This site contains tutorials for creating content for argon.js, as well as links to other demos of Argon.
+# argon.js documentation
 
-The source files for the tutorials are in the various branches, and the tutorials themselves are in the gh-pages branch.
+This site contains general documentation (articles, tutorial, etc) for developing with argon.js.
 
-Tutorials currently based on Layon, an unassuming [Jekyll](http://jekyllrb.com) theme that places content first by tucking away navigation in a hidden drawer. It's based on [Poole](http://getpoole.com), the Jekyll butler.
+The source files for each step of the tutorial and the tutorial pages themselves are included in this repository.
