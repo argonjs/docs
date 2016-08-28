@@ -10,7 +10,7 @@ nav_subpage: 1
 ## Geolocated Cube
 
 **Demo/needed files**
-Download [Argon4](https://itunes.apple.com/us/app/argon4/id944297993?ls=1&mt=8) on your phone (if you haven't already done this) and [try Geolocated Cube](argon4://tutorials.argonjs.io/code/tutorials/tutorial1)
+Download [Argon4](https://itunes.apple.com/us/app/argon4/id944297993?ls=1&mt=8) on your phone (if you haven't already done this) and [try Geolocated Cube](argon4://tutorials.argonjs.io/code/1-geopose)
 
 If you download the zip of the example for this tutorial, you will find the follow files:
 

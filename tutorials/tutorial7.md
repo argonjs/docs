@@ -18,7 +18,7 @@ emphasize what we changed from three.js example, and why.  Especially integratio
 Intro text here
 
 **Demo/needed files**
-Download [Argon4](https://itunes.apple.com/us/app/argon4/id944297993?ls=1&mt=8) on your phone (if you haven't already done this) and [try Periodic Table](argon4://tutorials.argonjs.io/code/tutorials/tutorial7)
+Download [Argon4](https://itunes.apple.com/us/app/argon4/id944297993?ls=1&mt=8) on your phone (if you haven't already done this) and [try Periodic Table](argon4://tutorials.argonjs.io/code/7-periodic)
 
 If you download the zip of the example for this tutorial, you will find the follow files:
 
