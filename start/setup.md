@@ -5,43 +5,73 @@ permalink: /start/setup
 nav_order: 20
 ---
 
-This quick start page is for:
+### Develop AR-Enabled Apps with argon.js
 
-* those who want to develop new Argon channels, using the existing Argon javascript code
+The argon.js framework is designed to make it easy to build AR-enabled web-applications that will run in any standard web-browser. Apps built with argon.js are normal web-apps which can be hosted with any standard server-side architecture. No proprietary server-side solution required! While argon.js apps will run in any standard web browser, we also envision a future in which browsers have additional AR-inspired capabiltiies. We are exploring these ideas within the [Argon Browser](http://argonjs.io/argon-app/) (which already allows multiple apps to run and be visible at the same time, for example), and these use-cases have informed the design of argon.js.
 
-* those who want to modify and extend the Argon typescript/javascript framework itself
+### Installing argon.js
 
+To install the argon.js library manually, include this script in your html:
 
-### To develop Argon channels
+* [argon.umd.js](https://github.com/argonjs/argon/raw/master/argon.umd.js)
 
-Argon uses a client-server protocol. (The Argon browser for iOS is a modification and extension of the Webkit engine used by mobile Safari.) The Argon browser is the client; you provide the server and put all your files there, just as with any other web application. Then you server via any http server. The files you serve typically include: 
+To install with npm:
 
+```sh
+npm install @argonjs/argon@^1.0
+```
 
-* index.html (imports the needed js frameworks and calls app.js),
-* app.js (holding the developer's code),
-* various media content files, css files, etc., 
-* argon.umd.js (containing the Argon javascript framework), 
-* three.js (a 3D graphcs framework),
-* other javascript frameworks such as jquery. 
+To install with jspm:
 
-You can download the current distribution of Argon code here.
+```sh
+jspm install npm:@argonjs/argon@^1.0
+```
 
-The tutorials (1-9) are designed to take you through the basics of coding in using the Argon framework: how to initialize Arong, who to create 3D objects and geolocate them, how to initialize custome Argon realities (such as panoramas and Streetview),how to create a database of images and track them using the Vuforia tracking system, and so on.  
+### Usage
 
+In your es6 modules, `import` the package `"@argonjs/argon"`:
 
-### To modify and extend Argon 
+```js
+import * as Argon from '@argonjs/argon'
+```
 
-The Typescript/Javascript code for the Argon browser and API are located in a github repository that you can download or clone:
+If you aren't using es6 modules, `require` the package `"@argonjs/argon"`:
 
-Step 1: Go to Argonjs [Github repository] (https://github.com/argonjs/argon).
+```js
+var Argon = require('@argonjs/argon');
+```
 
-Step 2: Click the “download ZIP” button to the right of the Github page.
+If you aren't using modules at all, no worries! The `argon.umd.js` script creates a 
+global `Argon` namespace that exposes the same API. 
 
-Step 3: Unzip these files and move them onto a personal server.
+## Typescript
 
-Step 4: Install [Argon4](https://itunes.apple.com/us/app/argon4/id944297993?ls=1&mt=8)  from the App Store onto an iOS device.
+If you are using Typescript 2.0 and would like to leverage 
+*argon.js* typings (you should!), simply install *argon.js* using `npm` 
+as described above (even if you are not using modules in your 
+project). However, if you aren't using modules, just be sure
+to include a triple-slash reference so that the typescript 
+compiler knows you are using *argon.js* globally:
 
-Step 5: Access your server from the Argon4 mobile browser and open the folder containing your newly unzipped files. <a href = "code.zip">Download</a> tutorials source files from this site.
+```ts
+/// <reference types="@argonjs/argon" />
+```
 
-Step 6: You should see an icon on the corner of your screen. This means you have completed the tutorial!
+Finally, make sure your `tsconfig.json` contains the following 
+compiler options:
 
+```json
+{
+    "compilerOptions": {
+        "moduleResolution": "node",
+        "lib": [
+            "dom",
+            "es2015"
+        ]
+    }
+}
+```
+
+After that, you should have rich typings in any editor that 
+supports Typescript! 
+We recommend [Visual Studio Code](https://code.visualstudio.com).
