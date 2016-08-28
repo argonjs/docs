@@ -1,28 +1,24 @@
 ---
 layout: page
-title: COMING SOON Tutorial 3 - Stereo mode 
-permalink: /tutorials/tutorial3
-nav_order: 53
+title: Tutorial 8 - Panoramas (and Custom Realities) 
+permalink: /tutorials/tutorial8
+nav_order: 58
 nav_subpage: 1
 ---
 
-This tutorial explains how to set up for stereo viewing including:
+Tutorial on panoramas
 
-1. how to deal with stereo in WebGL renderer.  
-2. in the CSS renderer. Point out previous example doesn't work properly in HUD (we would not have set up the two left/right CSS elements to support stereo properly)  
-3. in the HUD renderer.  Ditto
-4. the same cube and the dynamic information from tutorial 2 will be used
+1. how to create panoramas
+2. links to a discussion of custom realities 
 
----THIS TUTORIAL IS STILL UNDER CONSTRUCTION. AVAILABLE SOON.
 
-<!---
 
-## Stereo Mode
+## Panoramas (Custom Realities)
 
 Intro text here
 
 **Demo/needed files**
-Download [Argon4](https://itunes.apple.com/us/app/argon4/id944297993?ls=1&mt=8) on your phone (if you haven't already done this) and [try Stereo Mode](argon4://tutorials.argonjs.io/code/tutorials/tutorial3)
+Download [Argon4](https://itunes.apple.com/us/app/argon4/id944297993?ls=1&mt=8) on your phone (if you haven't already done this) and [try Panoramas](argon4://tutorials.argonjs.io/code/tutorials/tutorial8)
 
 If you download the zip of the example for this tutorial, you will find the follow files:
 
@@ -34,7 +30,7 @@ If you download the zip of the example for this tutorial, you will find the foll
 * three.js.min (a 3D graphcs framework) and other frameworks,
 * a textures folder containing box.png (a texture used in the example)
 
-These are all the assets you need to serve Stereo Mode. If you upload the tutorial1 folder to your own server, then you can serve the example to any Argon4 browser on a iPhone or iPad. 
+These are all the assets you need to serve Panoramas. If you upload the tutorial1 folder to your own server, then you can serve the example to any Argon4 browser on a iPhone or iPad. 
 
 ### The launch file (index.html)
 
@@ -72,7 +68,6 @@ var boxGeoObject = new THREE.Object3D;
 %}
 
 
-### Please continue to [Tutorial 4 (Vuforia)]({{ site.baseurl }}tutorials/tutorial4).
+### Please continue to [Tutorial 9 (Argon in other browsers)]({{ site.baseurl }}tutorials/tutorial9).
 
 ### For more details about the methods discussed above, please refer to [Argonjs documentation](http://argonjs.io/argon/index.html)
--->
