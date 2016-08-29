@@ -3,6 +3,7 @@ title: Home
 layout: page
 nav_order: 1
 ---
+The *argon.js* framework is designed to make it easy to build AR-enabled web-applications that will run in any standard web-browser. Apps built with *argon.js* are normal web-apps which can be hosted with any standard server-side architecture. No proprietary server-side solution required! While argon.js apps will run in any standard web browser, we also envision a future in which browsers have additional AR-inspired capabiltiies. We are exploring these ideas within the [Argon Browser](http://argonjs.io/argon-app/) (which already allows multiple apps to run and be visible at the same time, for example), and these use-cases have informed the design of *argon.js*.
 
 This site contains a collection of articles for learning how to use *argon.js* to add Augmented Reality content to a web application. 
 
