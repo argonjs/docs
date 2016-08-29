@@ -15,9 +15,9 @@ The goal of the *argon.js* framework and associated [Argon Browser](http://argon
 
 There are essentially 3 types of core abstractions that are defined by the *argon.js* framework:
 
-* **Reality Augmentor** - a system that is responsible for *augmenting* a view of reality. 
-* **Reality View** - a system that is responsible for *presenting* a view of reality
-* **Reality Manager** - a system that is responsible for *blending* a particular **Reality View** with
+* **Reality Augmentor** - a system responsible for *augmenting* a view of reality. 
+* **Reality View** - a system responsible for *presenting* a view of reality
+* **Reality Manager** - a system responsible for *blending* a particular **Reality View** with
 one or more **Reality Augmentors**
 
 These **abstractions** are based on a broad view of Augmented Reality, enabling any 3D view of reality to be augmented. In *argon.js*, a **Reality View** is defined by (at minimum) a visual representation of the world and a **Reference Frame** representing the 3D eye pose of the viewer. On a mobile device or tablet, this **Reality View** would generally be geo-posed live-video, enabling rich video-mixed AR experiences (overlaying graphics on the video from the device's camera). However, a **Reality View** could also be constructed from a geo-located panoramic image, geo-posed remote video, an optical see-through display, etc. Developers are free to define their own custom **Reality View**s: anything that displays a view of the world can conceivably be built into a **Reality View** with argon.js. The samples show an example of this, using Google Streetview as the view of reality over which any AR content can be displayed.
