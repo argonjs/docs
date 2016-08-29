@@ -2,7 +2,65 @@
 layout: default
 ---
 
+<style>
+.prev {
+  width: 49.5%;
+  float: left;
+  text-align: left;
+}
+
+.next {
+  width: 49.5%;
+  float: right;
+  text-align: right;
+}
+</style>
+
+{% capture collection_label %}{{page.collection}}{% endcapture %}
+
+{% if page.collection %}
+  {% for c in site.collections %}
+    {% if c.label == collection_label %}
+      {% assign collection = c %}
+      {% assign documents = (c.docs | sort: 'name') %}
+    {% endif %}
+  {% endfor %}
+{% endif %}
+
+{% for item in documents  %}
+  {% if item.title == page.title %}
+    {% unless forloop.first %}
+      {% assign prevpage = prev %}
+    {% endunless %}
+    {% unless forloop.last %}
+      {% assign nextpage = documents[forloop.index] %}
+    {% endunless %}
+  {% endif %}
+  {% assign prev = item %}
+{% endfor %}
+
+
 <div class="page">
-  <h1 class="page-title">{{ page.title }}</h1>
+  {% if prevpage %}<a href="{{prevpage.url}}" class="prev">{{prevpage.title}}</a>{% endif %}
+  {% if nextpage %}<a href="{{nextpage.url}}" class="next">{{nextpage.title}}</a>{% endif %}
+  {% if prevpage or nextpage %}<hr style="clear:both" />{% endif %}
+
+  {% if collection and collection.title %}
+    <h1 class="page-title">{{ collection.title }} — {{ page.title }}</h1>
+  {% else %}
+    <h1 class="page-title">{{ page.title }}</h1>
+  {% endif %}
   {{ content }}
+
+  <hr/>
+  {% if prevpage %}<a href="{{prevpage.url}}" class="prev">{{prevpage.title}}</a>{% endif %}
+  {% if nextpage %}<a href="{{nextpage.url}}" class="next">{{nextpage.title}}</a>{% endif %}
+  {% if prevpage or nextpage %}<div style="clear:both" />{% endif %}
 </div>
+
+<script>
+document.body.onkeyup = function(e){
+{% if prevpage %} if (e.keyCode == '37') { window.location = '{{prevpage.url}}'; } {% endif %}
+{% if nextpage %} if (e.keyCode == '39') { window.location = '{{nextpage.url}}'; } {% endif %}
+};
+</script>

@@ -1,9 +1,6 @@
 ---
 layout: page
-title: Tutorial 4 - Vuforia
-permalink: /tutorials/tutorial4
-nav_order: 54
-nav_subpage: 1
+title: 'Part 4: Vuforia'
 ---
 
 The tutorial below will be modified
@@ -72,14 +69,14 @@ var boxGeoObject = new THREE.Object3D;
 %}
 
 
-### Please continue to [Tutorial 5 (Directions CSS)]({{ site.baseurl }}tutorials/tutorial5).
+### Please continue to [Tutorial 5 (Directions CSS)]({{ site.baseurl }}tutorial/part5).
 
 ### For more details about the methods discussed above, please refer to [Argonjs documentation](http://argonjs.io/argon/index.html)
 
 
 ------OLD VERSION-----
 ### Before you start
-Make sure you have completed [tutorial 1](/tutorials/tutorial1)
+Make sure you have completed [tutorial 1](/tutorial/part1)
 
 Follow:[this](https://developer.vuforia.com/sites/default/files/sample-apps/targets/imagetargets_targets.pdf) link to view the image targets used in this tutorial
 

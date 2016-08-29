@@ -1,9 +1,6 @@
 ---
 layout: page
-title: COMING SOON Tutorial 9 - argon.js in Other Browsers  
-permalink: /tutorials/tutorial9
-nav_order: 59
-nav_subpage: 1
+title: 'Part 9: argon.js in Other Browsers'
 ---
 
 Tutorial on how to properly deal with other browsers, leveraging custom realities, idea of "browser defaults" and still keeping the user in control

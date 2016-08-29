@@ -210,6 +210,15 @@ a.sidebar-nav-item:focus {
   color: #f4bf75;
 }
 
+/* GT Gold */
+.theme-base-gt .sidebar {
+  background-color: #eeb211;
+}
+.theme-base-gt .content a,
+.theme-base-gt .related-posts li a:hover {
+  color: #eeb211;
+}
+
 /* Green */
 .theme-base-0b .sidebar {
   background-color: #90a959;

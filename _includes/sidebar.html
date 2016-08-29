@@ -18,6 +18,7 @@
     <nav class="sidebar-nav">
       <!--<a class="sidebar-nav-item{% if page.url == site.baseurl %} active{% endif %}" href="{{ site.baseurl }}">Home</a>-->
 
+      <!--<
       {% comment %}
         The code below dynamically generates a sidebar nav of pages with
         `layout: page` in the front-matter. See readme for usage.
@@ -37,10 +38,20 @@
           {% endif %}
         {% endif %}
       {% endfor %}
+      -->
+
+      <a class="sidebar-nav-item" href="/">Home</a>
+      <a class="sidebar-nav-item" href="/start/setup/">Quick Start</a>
+      <a class="sidebar-nav-item" href="/concepts/overview/">Overview</a>
+      <a class="sidebar-nav-item" href="/tutorial/">Tutorial</a>
+      <a class="sidebar-nav-item" href="/start/faq/">FAQ</a>
+      <a class="sidebar-nav-item" href="/start/vuforia-pgp-encryptor/">Vuforia PGP Encryptor</a>
+
+      <hr/>
 
       <a class="sidebar-nav-item" href="http://argonjs.io/argon/">API Reference</a>
-      <a class="sidebar-nav-item" href="http://argonjs.io">argonjs on GitHub</a>
-      <span class="sidebar-nav-item">Currently v{{ site.version }}</span>
+      <a class="sidebar-nav-item" href="http://argonjs.io">argon.js on GitHub</a>
+      <a class="sidebar-nav-item" href="http://argonjs.io/argon-app">Argon Browser</a>
     </nav>
 
     <div class="sidebar-item">

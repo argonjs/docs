@@ -1,24 +1,21 @@
 ---
 layout: page
-title: Tutorial 8 - Panoramas (and Custom Realities) 
-permalink: /tutorials/tutorial8
-nav_order: 58
-nav_subpage: 1
+title: 'Part 7: Periodic Table'
 ---
 
-Tutorial on panoramas
+Tutorial on the new periodic table example:
+1. another example of CSS rendering
+2. shows animation of the divs
 
-1. how to create panoramas
-2. links to a discussion of custom realities 
+emphasize what we changed from three.js example, and why.  Especially integration of renderer.
 
 
-
-## Panoramas (Custom Realities)
+## Periodic Table
 
 Intro text here
 
 **Demo/needed files**
-Download [Argon4](https://itunes.apple.com/us/app/argon4/id944297993?ls=1&mt=8) on your phone (if you haven't already done this) and [try Panoramas](argon4://tutorials.argonjs.io/code/8-panoramas)
+Download [Argon4](https://itunes.apple.com/us/app/argon4/id944297993?ls=1&mt=8) on your phone (if you haven't already done this) and [try Periodic Table](argon4://tutorials.argonjs.io/code/7-periodic)
 
 If you download the zip of the example for this tutorial, you will find the follow files:
 
@@ -30,7 +27,7 @@ If you download the zip of the example for this tutorial, you will find the foll
 * three.js.min (a 3D graphcs framework) and other frameworks,
 * a textures folder containing box.png (a texture used in the example)
 
-These are all the assets you need to serve Panoramas. If you upload the tutorial1 folder to your own server, then you can serve the example to any Argon4 browser on a iPhone or iPad. 
+These are all the assets you need to serve Periodic Table. If you upload the tutorial1 folder to your own server, then you can serve the example to any Argon4 browser on a iPhone or iPad. 
 
 ### The launch file (index.html)
 
@@ -68,6 +65,6 @@ var boxGeoObject = new THREE.Object3D;
 %}
 
 
-### Please continue to [Tutorial 9 (Argon in other browsers)]({{ site.baseurl }}tutorials/tutorial9).
+### Please continue to [Tutorial 8 (Panoramas)]({{ site.baseurl }}tutorial/part8).
 
 ### For more details about the methods discussed above, please refer to [Argonjs documentation](http://argonjs.io/argon/index.html)

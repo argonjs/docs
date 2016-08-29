@@ -1,24 +1,25 @@
 ---
 layout: page
-title: Tutorial 7 - Periodic Table
-permalink: /tutorials/tutorial7
-nav_order: 57
-nav_subpage: 1
+title: 'Part 3: Stereo mode'
 ---
 
-Tutorial on the new periodic table example:
-1. another example of CSS rendering
-2. shows animation of the divs
+This tutorial explains how to set up for stereo viewing including:
 
-emphasize what we changed from three.js example, and why.  Especially integration of renderer.
+1. how to deal with stereo in WebGL renderer.  
+2. in the CSS renderer. Point out previous example doesn't work properly in HUD (we would not have set up the two left/right CSS elements to support stereo properly)  
+3. in the HUD renderer.  Ditto
+4. the same cube and the dynamic information from tutorial 2 will be used
 
+---THIS TUTORIAL IS STILL UNDER CONSTRUCTION. AVAILABLE SOON.
 
-## Periodic Table
+<!---
+
+## Stereo Mode
 
 Intro text here
 
 **Demo/needed files**
-Download [Argon4](https://itunes.apple.com/us/app/argon4/id944297993?ls=1&mt=8) on your phone (if you haven't already done this) and [try Periodic Table](argon4://tutorials.argonjs.io/code/7-periodic)
+Download [Argon4](https://itunes.apple.com/us/app/argon4/id944297993?ls=1&mt=8) on your phone (if you haven't already done this) and [try Stereo Mode](argon4://tutorials.argonjs.io/code/tutorial/part3)
 
 If you download the zip of the example for this tutorial, you will find the follow files:
 
@@ -30,7 +31,7 @@ If you download the zip of the example for this tutorial, you will find the foll
 * three.js.min (a 3D graphcs framework) and other frameworks,
 * a textures folder containing box.png (a texture used in the example)
 
-These are all the assets you need to serve Periodic Table. If you upload the tutorial1 folder to your own server, then you can serve the example to any Argon4 browser on a iPhone or iPad. 
+These are all the assets you need to serve Stereo Mode. If you upload the tutorial1 folder to your own server, then you can serve the example to any Argon4 browser on a iPhone or iPad. 
 
 ### The launch file (index.html)
 
@@ -68,6 +69,7 @@ var boxGeoObject = new THREE.Object3D;
 %}
 
 
-### Please continue to [Tutorial 8 (Panoramas)]({{ site.baseurl }}tutorials/tutorial8).
+### Please continue to [Tutorial 4 (Vuforia)]({{ site.baseurl }}tutorial/part4).
 
 ### For more details about the methods discussed above, please refer to [Argonjs documentation](http://argonjs.io/argon/index.html)
+-->

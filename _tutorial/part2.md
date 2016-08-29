@@ -1,9 +1,6 @@
 ---
 layout: page
-title: COMING SOON Tutorial 2 - Dynamic cube 
-permalink: /tutorials/tutorial2
-nav_order: 52
-nav_subpage: 1
+title: 'Part 2: Adding Content'
 ---
 This tutorial will expand on the cube example present in tutorial to include:
 
@@ -25,10 +22,10 @@ Want to spend a bit of time here talking about DOM repair, since we have a dynam
 
 ## Dynamic Cube
 
-In this tutorial we expand on the example in [Tutorial 1(Geolocated Cube)]({{ site.baseurl }}tutorials/tutorial1) by adding information above the cube itself and at the bottom of the screen (in a so-called HUD element, which is rendered in the 2D plane of the screen itself). These elements show you how Argon uses different renderers to combine WebGL with CSS.
+In this tutorial we expand on the example in [Tutorial 1(Geolocated Cube)]({{ site.baseurl }}tutorial/part1) by adding information above the cube itself and at the bottom of the screen (in a so-called HUD element, which is rendered in the 2D plane of the screen itself). These elements show you how Argon uses different renderers to combine WebGL with CSS.
 
 **Demo/needed files**
-Download [Argon4](https://itunes.apple.com/us/app/argon4/id944297993?ls=1&mt=8) on your phone (if you haven't already done this) and [try Dynamic Cube](argon4://tutorials.argonjs.io/code/tutorials/tutorial2)
+Download [Argon4](https://itunes.apple.com/us/app/argon4/id944297993?ls=1&mt=8) on your phone (if you haven't already done this) and [try Dynamic Cube](argon4://tutorials.argonjs.io/code/tutorial/part2)
 
 If you download the zip of the example for this tutorial, you will find the follow files:
 
@@ -78,7 +75,7 @@ var boxGeoObject = new THREE.Object3D;
 %}
 
 
-### Please continue to [Tutorial 3 (Stereo Mode)]({{ site.baseurl }}tutorials/tutorial3).
+### Please continue to [Tutorial 3 (Stereo Mode)]({{ site.baseurl }}tutorial/part3).
 
 ### For more details about the methods discussed above, please refer to [Argonjs documentation](http://argonjs.io/argon/index.html)
 -->

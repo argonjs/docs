@@ -1,7 +1,6 @@
 ---
 layout: page
 title: Quick Start
-permalink: /start/setup
 nav_order: 20
 ---
 

@@ -1,9 +1,6 @@
 ---
 layout: page
-title: Tutorial 5 - Directions CSS
-permalink: /tutorials/tutorial5
-nav_order: 55
-nav_subpage: 1
+title: 'Part 5: Directions CSS'
 ---
 
 This tutorial explains the CSS version of the directions example in Samples. The text below will be changed to match the sample
@@ -70,7 +67,7 @@ var boxGeoObject = new THREE.Object3D;
 %}
 
 
-### Please continue to [Tutorial 6 (Directions WebGL)]({{ site.baseurl }}tutorials/tutorial6).
+### Please continue to [Tutorial 6 (Directions WebGL)]({{ site.baseurl }}tutorial/part6).
 
 ### For more details about the methods discussed above, please refer to [Argonjs documentation](http://argonjs.io/argon/index.html)
 
@@ -78,7 +75,7 @@ var boxGeoObject = new THREE.Object3D;
 ---OLD VERSION
 
 ### Before you start
-Make sure you have completed [tutorial 1](/tutorials/tutorial1)
+Make sure you have completed [tutorial 1](/tutorial/part1)
 
 ### What you should see
 **Quick Demo:**
@@ -103,7 +100,7 @@ In the index.html file, we explain what the example does in the body tag: this w
 ### Code file (app.ts and app.js)
 This example (like the next one, Periodic table) is adapted and simplified from the three.js periodic table example. For the original version, see http://threejs.org/examples/#css3d_periodictable.
 
-We start by initializing (see [1-Getting Started]({{ site.baseurl }}tutorials/tutorial1)).
+We start by initializing (see [1-Getting Started]({{ site.baseurl }}tutorial/part1)).
 
 {% highlight js %}
 app.context.setDefaultReferenceFrame(app.context.localOriginEastUpSouth);
@@ -336,4 +333,4 @@ eyeOrigin.add(cssObjectZpos)
 eyeOrigin.add(cssObjectZneg)'
 %}
 
- Because all the objects are placed relative to the eyeOrigin, they will move with the user/camera. In the next tutorial [Tutorial 3 - Periodic Table]({{ site.baseurl }}tutorials/tutorial3)), we show a more elaborate version of this same idea and also illustrate how the user can interact with 3D objects through the use of buttons on the screen.
+ Because all the objects are placed relative to the eyeOrigin, they will move with the user/camera. In the next tutorial [Tutorial 3 - Periodic Table]({{ site.baseurl }}tutorial/part3)), we show a more elaborate version of this same idea and also illustrate how the user can interact with 3D objects through the use of buttons on the screen.

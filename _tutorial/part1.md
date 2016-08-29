@@ -1,13 +1,7 @@
 ---
 layout: page
-title: Tutorial 1 - Geolocated Cube 
-permalink: /tutorials/tutorial1
-nav_order: 51
-nav_subpage: 1
+title: 'Part 1: Getting Started'
 ---
-
-
-## Geolocated Cube
 
 **Demo/needed files**
 Download [Argon4](https://itunes.apple.com/us/app/argon4/id944297993?ls=1&mt=8) on your phone (if you haven't already done this) and [try Geolocated Cube](argon4://tutorials.argonjs.io/code/1-geopose)
@@ -335,7 +329,7 @@ app.renderEvent.addEventListener(function () {
 With these two events, the code for the first example is complete. 
 
 
-### Please continue to [Tutorial 4 (Vuforia)]({{ site.baseurl }}tutorials/tutorial4).
+### Please continue to [Tutorial 4 (Vuforia)]({{ site.baseurl }}tutorial/part4).
 
 
 ### For more details about the methods discussed above, please refer to [Argonjs documentation](http://argonjs.io/argon/index.html)

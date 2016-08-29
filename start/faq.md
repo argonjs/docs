@@ -1,7 +1,6 @@
 ---
 layout: page
 title: FAQ
-permalink: /start/faq
 nav_order: 21
 nav_subpage: 1
 ---

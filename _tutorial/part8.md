@@ -1,28 +1,21 @@
 ---
 layout: page
-title: Tutorial 6 - Directions WebGL
-permalink: /tutorials/tutorial6
-nav_order: 56
-nav_subpage: 1
+title: 'Part 8: Custom Realities'
 ---
 
-Tutorial on the new WebGL version of the Directions example including:
+Tutorial on panoramas
 
-1. code for creating the 3D compass points
-2. lighting the texts ( preliminary discussion of Cesium used to determine the sun or moon position for lighting)
-3. shadows of the texts.  3D letters will need to be much closer.
-
+1. how to create panoramas
+2. links to a discussion of custom realities 
 
 
----
 
-
-## Directions WebGL
+## Panoramas (Custom Realities)
 
 Intro text here
 
 **Demo/needed files**
-Download [Argon4](https://itunes.apple.com/us/app/argon4/id944297993?ls=1&mt=8) on your phone (if you haven't already done this) and [try Directions WebGL](argon4://tutorials.argonjs.io/code/6-directionWEBGL)
+Download [Argon4](https://itunes.apple.com/us/app/argon4/id944297993?ls=1&mt=8) on your phone (if you haven't already done this) and [try Panoramas](argon4://tutorials.argonjs.io/code/8-panoramas)
 
 If you download the zip of the example for this tutorial, you will find the follow files:
 
@@ -34,7 +27,7 @@ If you download the zip of the example for this tutorial, you will find the foll
 * three.js.min (a 3D graphcs framework) and other frameworks,
 * a textures folder containing box.png (a texture used in the example)
 
-These are all the assets you need to serve Directions WebGL. If you upload the tutorial1 folder to your own server, then you can serve the example to any Argon4 browser on a iPhone or iPad. 
+These are all the assets you need to serve Panoramas. If you upload the tutorial1 folder to your own server, then you can serve the example to any Argon4 browser on a iPhone or iPad. 
 
 ### The launch file (index.html)
 
@@ -72,8 +65,6 @@ var boxGeoObject = new THREE.Object3D;
 %}
 
 
-### Please continue to [Tutorial 7 (Periodic Table)]({{ site.baseurl }}tutorials/tutorial7).
+### Please continue to [Tutorial 9 (Argon in other browsers)]({{ site.baseurl }}tutorial/part9).
 
 ### For more details about the methods discussed above, please refer to [Argonjs documentation](http://argonjs.io/argon/index.html)
-
-

@@ -4,10 +4,10 @@ layout: page
 nav_order: 1
 ---
 
-This site contains a collection of articles for learning how to use *argon.js* to add AR content to a web application. 
+This site contains a collection of articles for learning how to use *argon.js* to add Augmented Reality content to a web application. 
 
-* For an introduction to the terminology and concepts used by the framework, please read the [overview]({{ site.baseurl }}concepts/overview).
-* For a guided walkthrough in building a simple *argon.js* app from start to finish, check out the [tutorial](http://docs.argonjs.io/tutorial/).
+* For an introduction to the terminology and concepts used by the framework, please read the [overview](/concepts/overview/).
+* For a guided walkthrough in building a simple *argon.js* app from start to finish, check out the [tutorial](/tutorial/).
 * If you would like to contribute to *argon.js* (or just peer at the source), the *argon.js* framework is available on [Github](https://github.com/argonjs/argon).
 * Apps built with *argon.js* will run in any standard web browser. However, the [Argon Browser](http://argonjs.io/argon-app) supports additional AR capabilties that can be leveraged by *argon.js* apps.
 

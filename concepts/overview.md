@@ -1,7 +1,6 @@
 ---
 layout: page
 title: Overview
-permalink: /concepts/overview
 nav_order: 15
 ---
 

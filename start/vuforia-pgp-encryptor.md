@@ -1,7 +1,6 @@
 ---
 layout: page
 title: Vuforia PGP Encryptor
-permalink: /start/vuforia-pgp-encryptor
 nav_order: 23
 nav_subpage: 1
 ---
