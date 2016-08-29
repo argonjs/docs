@@ -18,25 +18,29 @@ If you download the zip of the example for this tutorial, you will find the foll
 
 These are all the assets you need to serve Geolocated Cube. If you upload the tutorial1 folder to your own server, then you can serve the example to any Argon4 browser on a iPhone or iPad. Let's examine the example in detail. 
 
-### The launch file (index.html)
+In general, *argon.js* apps can be structured however you want. For this tutorial
+we follow a [single-page app](https://en.wikipedia.org/wiki/Single-page_application)
+structure, in which the entire app loads from one html page. As such, the first thing we
+should examine is our html file:
 
-The launch file (index.html) has the following structure:
-
-{% highlight html %}
+```html
 <html>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
   <head>
-    <title>Tutorial 1 - Simple Argon Application</title>
-    <script src="./resources/lib/three/three.min.js"></script>
+    <title>My Awesome argon.js App</title>
     <script src="./resources/lib/argon.umd.js"></script>
   </head>
   <body>
     <div id="argon"></div>
     <script src="./app.js"></script>   
-  </body>
-
+  </body> 
 </html>
-{% endhighlight %}
+```
+> Note: Don't forget the meta viewport tag, it's important!
+> Also, the simplest way to get started is to load the `argon.umd.js` library globally
+by placing it directly in a script tag in your html as you see here. However, if you are comfortable 
+with using a module loader such as `jspm`, `webpack`, `browserify`, etc., then feel free to 
+import `argon.js` via your favorite javascript package manager (see the [Quick Start](/start/setup/) guide).
 
 As you see here, the application code is not included in the html file. We recommend that you segregate the code into one or more external files. The main application file should be included just before the end-body tag.
 
