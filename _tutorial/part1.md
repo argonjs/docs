@@ -42,7 +42,7 @@ by placing it directly in a script tag in your html as you see here. However, if
 with using a module loader such as `jspm`, `webpack`, `browserify`, etc., then feel free to 
 import `argon.js` via your favorite javascript package manager (see the [Quick Start](/start/setup/) guide).
 
-As you see here, the application code is not included in the html file. We recommend that you segregate the code into one or more external files. The main application file should be included just before the end-body tag.
+As you see here, the application code is not included in the html file. We recommend that you segregate the code into one or more external files. In order to ensure that the body is loaded by the time your script executes, it is convenient to load your application script just before the end-body tag.
 
 In addition to offering AR features (such as geolocation, video of the surrounding world, 3D graphics and image tracking), the Argon4 browser is a standard web browser (i.e., on iOS, it uses Apple's Webkit engine) and can therefore render just about any web content. You can take advantage of these capabilities in two ways
 
