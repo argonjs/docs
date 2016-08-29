@@ -6,22 +6,13 @@ title: 'Part 1: Getting Started'
 **Demo/needed files**
 Download [Argon4](https://itunes.apple.com/us/app/argon4/id944297993?ls=1&mt=8) on your phone (if you haven't already done this) and [try Geolocated Cube](argon4://tutorials.argonjs.io/code/1-geopose)
 
-If you download the zip of the example for this tutorial, you will find the follow files:
-
-* index.html (the launch file, whichimports the needed js frameworks and calls app.js),
-* app.js (holding the developer's code),
-* app.ts (the typescript version of the code, explained below), 
-* a resources folder including:
-* argon.umd.js (containing the argon javascript framework), 
-* three.js.min (a 3D graphcs framework) and other frameworks,
-* a textures folder containing box.png (a texture used in the example)
-
-These are all the assets you need to serve Geolocated Cube. If you upload the tutorial1 folder to your own server, then you can serve the example to any Argon4 browser on a iPhone or iPad. Let's examine the example in detail. 
+The code for each part of this tutorial is available at [https://github.com/argonjs/docs/tree/gh-pages/code](https://github.com/argonjs/docs/tree/gh-pages/code).  
 
 In general, *argon.js* apps can be structured however you want. For this tutorial
 we follow a [single-page app](https://en.wikipedia.org/wiki/Single-page_application)
 structure, in which the entire app loads from one html page. As such, the first thing we
-should examine is our html file:
+should create is our html file and load *argon.js*. 
+
 
 ```html
 <html>
@@ -37,10 +28,7 @@ should examine is our html file:
 </html>
 ```
 > Note: Don't forget the meta viewport tag, it's important!
-> Also, the simplest way to get started is to load the `argon.umd.js` library globally
-by placing it directly in a script tag in your html as you see here. However, if you are comfortable 
-with using a module loader such as `jspm`, `webpack`, `browserify`, etc., then feel free to 
-import `argon.js` via your favorite javascript package manager (see the [Quick Start](/start/setup/) guide).
+> Also, 
 
 As you see here, the application code is not included in the html file. We recommend that you segregate the code into one or more external files. In order to ensure that the body is loaded by the time your script executes, it is convenient to load your application script just before the end-body tag.
 
