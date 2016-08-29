@@ -4,7 +4,7 @@ title: 'Part 1: Getting Started'
 ---
 
 **Demo/needed files**
-Download [Argon4](https://itunes.apple.com/us/app/argon4/id944297993?ls=1&mt=8) on your phone (if you haven't already done this) and try the [Geolocated Cube](html://docs.argonjs.io/code/1-geopose) example.
+Download [Argon4](https://itunes.apple.com/us/app/argon4/id944297993?ls=1&mt=8) on your phone (if you haven't already done this) and try the [Geolocated Cube](/code/1-geopose) example.
 
 >The code and assets for each part of this tutorial are available at [https://github.com/argonjs/docs/tree/gh-pages/code](https://github.com/argonjs/docs/tree/gh-pages/code).
 
@@ -18,7 +18,7 @@ should do is create our html file and load *argon.js*.
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
   <head>
     <title>My Awesome argon.js App</title>
-    <script src="./resources/lib/argon.umd.js"></script>
+    <script src="../resources/lib/argon.umd.js"></script>
   </head>
   <body>
     <div id="argon"></div>
@@ -181,12 +181,12 @@ Whenever the application should update and re-render the scene, two event listen
 An update event listener is where your application should generally make changes to the scene (adding, manipulating, or deleting objects you have created). In this example, the first time the update event listener is called, we place the box in a geospatial position 10 meters to the east of the user (we are using `app.context.localOriginEastUpSouth` as our local reference frame, so positive `x` is east).  After that, the update listener just changes the position and orientation of the box based on changes to the user's position and orientation. It also rotates the box each time through the loop for visual interest (and so you have some indication the application is running when you look at it).
 
 {% include code_highlight.html
-tscode='
+tscode="
 // the updateEvent is called each time the 3D world should be
 // rendered, before the renderEvent.  The state of your application
 // should be updated here.
 app.updateEvent.addEventListener((frame) => {
-    // get the position and orientation (the "pose") of the user
+    // get the position and orientation (the 'pose') of the user
     // in the local coordinate frame.
     const userPose = app.context.getEntityPose(app.context.user);
 
@@ -232,15 +232,15 @@ app.updateEvent.addEventListener((frame) => {
     // rotate the box at a constant speed, independent of frame rates     
     // to make it a little less boring
     box.rotateY( 3 * frame.deltaTime/10000);
-})'
-jscode='
+})"
+jscode="
 var boxInit = false;
 
 // the updateEvent is called each time the 3D world should be
 // rendered, before the renderEvent.  The state of your application
 // should be updated here.
 app.updateEvent.addEventListener(function (frame) {
-    // get the position and orientation (the "pose") of the user
+    // get the position and orientation (the 'pose') of the user
     // in the local coordinate frame.
     var userPose = app.context.getEntityPose(app.context.user);
 
@@ -284,7 +284,7 @@ app.updateEvent.addEventListener(function (frame) {
     // rotate the boxes at a constant speed, independent of frame rates     
     // to make it a little less boring
     box.rotateY(3 * frame.deltaTime / 10000);
-});'
+});"
 %}
 
 The renderEvent listeners are called after the updateEvent listeners. Argon supports multiple subviews within its view (currently, just single or stereo), so the render event needs to handle an arbitrary set of subviews, rendering the scene appropriately in each one. This is straightforward for the WebGL renderer, but the CSS renderer needs to have a separate HTML element for each content element for each subview.  The `CSS3DArgonRender` and `CSS3DArgonHUD` help you manage this, allowing you to provide multiple elements, or simply cloning the element you provide if you only provide one.   As you can see, the `CSS3DArgonRender` and `CSS3DArgonHUD` renderers mimic the interface of the normal `three.js` `WebGLRenderer`, simplifying the code.
