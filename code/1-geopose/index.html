@@ -1,0 +1,61 @@
+<html>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+  <head>
+    <title>Geo</title>
+    <script src="../resources/lib/three/three.min.js"></script>
+    <script src="../resources/lib/CSS3DArgonRenderer.js"></script>
+    <script src="../resources/lib/CSS3DArgonHUD.js"></script>
+    <script src="../resources/lib/argon.umd.js"></script>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <style>
+#description {
+  pointer-events: auto;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  padding: 10px;
+  background-color:rgba(255,255,255,0.7);
+  -webkit-backdrop-filter: blur(5px);
+  position:absolute;
+  bottom: 0px;
+}
+
+.argon-focus #menu {
+  transition: opacity 0.8s;
+  visibility: visible;
+  opacity: 1; 
+}
+
+.argon-no-focus #menu {
+  transition: visibility 0s linear 0.8s, opacity 0.8s;
+  visibility: visible;
+  opacity: 0;
+}
+
+#hud {
+  pointer-events: auto;
+}
+#menu {
+  pointer-events: none;
+}
+
+    </style>
+  </head>
+  <body>
+    <div id="argon">
+      <div id="hud">
+        <div id="menu" class="menu">
+          <button class="location">lon (0) lat (0)</button>
+        </div>
+      </div>
+      <div onclick="hideMe(this)" id="description" >
+        <h2>A Simple Geo example</h2>
+        <h5>(click to dismiss)</h5>
+        <p>This example takes the current location of the viewer, and positions a cube at a well known nearby location (the Georgia Tech campus, for us), and creates a second cube a small distance away from where the viewer was positioned when the example was loaded.  We do this by adding a small amount to our current east-west location, in the local Three.js cartesian coordinates.  This illustrates how to create geospatial content based on the current location, and update the internal geospatial location of the object.</p>
+    </div>
+    </div>
+  </body>
+	<script>
+		function hideMe(elem) {
+		    elem.style.display = 'none';
+		}	
+	</script>  <script src="./app.js"></script>
+</html>
