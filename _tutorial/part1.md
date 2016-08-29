@@ -46,9 +46,9 @@ Segregating the javascript code into a file separate from index.html allows for 
 
 The code for Argon and these tutorials was written in Typescript, [a typed superset of Javascript that compiles to plain Javascript](https://www.typescriptlang.org). The code snippets in these tutorials are given in both forms. Both an `app.ts` (Typescript) and `app.js` (Javascript) file are included in the example folders, but only the `app.js` file is actually downloaded and used in executing the channel. 
 
-Note: These tutorials assume that you are already familiar with the fundamentals of computer graphics: the concept of a scene graph, creating and manipulating 3D objects and textures, the camera, etc. While Argon is agnostic to what rendering system you use, the Argon samples and tutorials currently use the javascript graphics framework `three.js` to create and manage the scenegraph. See [threejs.org](http://threejs.org) for a complete description.  
+Note: These tutorials assume that you are already familiar with the fundamentals of computer graphics: the concept of a scene graph, creating and manipulating 3D objects and textures, the camera, etc. While Argon is agnostic to what rendering system you use, the Argon samples and tutorials currently use the javascript graphics framework [three.js](http://threejs.org/) to create and manage the scenegraph. See the [threejs.org](http://threejs.org) documentation for a complete description.  
 
-In order to initialize Argon and `three.js`, this example (like most Argon samples), begins with:
+In order to initialize Argon and [three.js](http://threejs.org/), this example (like most Argon samples), begins with:
 
 {% include code_highlight.html
 tscode='
@@ -90,7 +90,7 @@ app.view.element.appendChild(renderer.domElement);'
 To display graphics with [three.js](http://threejs.org/docs/#Manual/Introduction/Creating_a_scene), we need three things: a scene, a camera, and a renderer.
 
 * The first lines of the above code initialize Argon, and choose the local frame of reference.  Argon uses global coordinates, which are not convenient for rendering, so a local origin is used for rendering.
-* Create a scene object and camera for `three.js`.
+* Create a scene object and camera for [three.js](http://threejs.org/).
 * userLocation is an object that will hold the position of the user (normally the same as the camera, since the user is holding the camera in their hand). 
 * Both camera and userlocation are added to the scene graph. 
 * Create a renderer for this application to use. Here, the WebGL renderer is used.  
@@ -121,7 +121,7 @@ Although more limited than WebGL for creating 3D content, the CSS renderer lets 
 After the above initialization, additional code is used to create and manipulate the elements of your application, as the first example below illustrates.  
 
 ### Creating the cube
-In this first example we create a simple box (cube) using methods provided by `three.js` and then position that box in the world. This code creates the box and adds a texture to it:
+In this first example we create a simple box (cube) using methods provided by [three.js](http://threejs.org/) and then position that box in the world. This code creates the box and adds a texture to it:
 {% include code_highlight.html
 tscode='
 var boxGeoObject = new THREE.Object3D;
@@ -172,11 +172,13 @@ Up to this point, we have the box (a textured cube) object attached it to a geoE
 
 ### Two important Argon event listeners
 
-Argon is designed to work in a variety of browsers and approaches to AR, so it needs to control the update loop of an application.  This is in contrast to most framework, such as `three.js` that directly use `requestAnimationFrame()` to update their content regularly.  Internally, Argon may use `requestAnimationFrame` to trigger updates, but it may use other approaches.  In the Argon4 browser, for example, when live video is used as the background, updates are triggered whenever a new video frame is available from the camera. 
+Argon is designed to work in a variety of browsers and approaches to AR, so it needs to control the update loop of an application.  This is in contrast to most framework, such as [three.js](http://threejs.org/) that directly use `requestAnimationFrame()` to update their content regularly.  Internally, Argon may use `requestAnimationFrame` to trigger updates, but it may use other approaches.  In the Argon4 browser, for example, when live video is used as the background, updates are triggered whenever a new video frame is available from the camera. 
 
 Whenever the application should update and re-render the scene, two event listeners (`updateEvent` and `renderEvent`) are triggered in turn, allowing the application state to be updated separately from rendering. 
 
-An update event listener is where your application should generally make changes to the scene (adding, manipulating, or deleting objects you have created). In this example, the first time the update event listener is called, we place the box in a geospatial position 10 meters to the east of the user (we are using `app.context.localOriginEastUpSouth` as our local reference frame, so positive `x` is east).  After that, the update listener just changes the position and orientation of the box based on changes to the user's position and orientation. It also rotates the box each time through the loop for visual interest (and so you have some indication the application is running when you look at it).
+An update event listener is where your application should generally make changes to the scene (adding, manipulating, or deleting objects you have created). In this example, the first time the update event listener is called, we place the box in a geospatial position 10 meters to the east of the user (we are using `app.context.localOriginEastUpSouth` as our local reference frame, so positive `x` is east).  To position the box, a new position `boxPos` is created and its `x` incremented by 10.  Next, the value of the `position` property on the Cesium.Eneity `boxGeoEntity` is set to this new position.  It is important to pay attention to the frame of reference for this property, which is our default reference frame:  we do not want to leave the `boxGeoEntity` in this frame of reference because it may get reset at any time if the user moves too far.  Therefore, we call `convertEntityReferenceFrame()` to convert this entity to the `ReferenceFrame.FIXED`, which is Cesium's earth-centered reference frame.  `convertEntityReferenceFrame` updates the `position` and `orientation` properties of the entity such that the entity appears to be in exactly the same position and orientation, but now these properties are expressed in the new reference frame.  If you looked at the values of the properties after this call, the position would be very large, and the orientation will have changed to an angle corresponding to the tangent plane of the earth at your current location.  At this point, the `boxGeoEntity` is expressed in global coordinates, independent of the location of the user.
+
+Next, the update listener sets the position and orientation of the [three.js](http://threejs.org/) `boxGeoObject` based on the pose of the `boxGeoEntity` in the local reference frame. It also rotates the box each time through the loop for visual interest (and so you have some indication the application is running when you look at it).
 
 {% include code_highlight.html
 tscode="
@@ -285,7 +287,7 @@ app.updateEvent.addEventListener(function (frame) {
 });"
 %}
 
-The renderEvent listeners are called after the updateEvent listeners. Argon supports multiple subviews within its view (currently, just single or stereo), so the render event needs to handle an arbitrary set of subviews, rendering the scene appropriately in each one. This is straightforward for the WebGL renderer, but the CSS renderer needs to have a separate HTML element for each content element for each subview.  The `CSS3DArgonRender` and `CSS3DArgonHUD` help you manage this, allowing you to provide multiple elements, or simply cloning the element you provide if you only provide one.   As you can see, the `CSS3DArgonRender` and `CSS3DArgonHUD` renderers mimic the interface of the normal `three.js` `WebGLRenderer`, simplifying the code.
+The renderEvent listeners are called after the updateEvent listeners. Argon supports multiple subviews within its view (currently, just single or stereo), so the render event needs to handle an arbitrary set of subviews, rendering the scene appropriately in each one. This is straightforward for the WebGL renderer, but the CSS renderer needs to have a separate HTML element for each content element for each subview.  The `CSS3DArgonRender` and `CSS3DArgonHUD` help you manage this, allowing you to provide multiple elements, or simply cloning the element you provide if you only provide one.   As you can see, the `CSS3DArgonRender` and `CSS3DArgonHUD` renderers mimic the interface of the normal [three.js](http://threejs.org/) `WebGLRenderer`, simplifying the code.
 
 Here we include render code for all three renderers, although only the code for the renderer(s) you are using needs to be included.
 {% include code_highlight.html
