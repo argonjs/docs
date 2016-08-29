@@ -6,13 +6,12 @@ title: 'Part 1: Getting Started'
 **Demo/needed files**
 Download [Argon4](https://itunes.apple.com/us/app/argon4/id944297993?ls=1&mt=8) on your phone (if you haven't already done this) and [try Geolocated Cube](argon4://tutorials.argonjs.io/code/1-geopose)
 
-The code for each part of this tutorial is available at [https://github.com/argonjs/docs/tree/gh-pages/code](https://github.com/argonjs/docs/tree/gh-pages/code).  
+>The code and assets for each part of this tutorial are available at [https://github.com/argonjs/docs/tree/gh-pages/code](https://github.com/argonjs/docs/tree/gh-pages/code).
 
 In general, *argon.js* apps can be structured however you want. For this tutorial
 we follow a [single-page app](https://en.wikipedia.org/wiki/Single-page_application)
 structure, in which the entire app loads from one html page. As such, the first thing we
 should create is our html file and load *argon.js*. 
-
 
 ```html
 <html>
@@ -27,8 +26,11 @@ should create is our html file and load *argon.js*.
   </body> 
 </html>
 ```
-> Note: Don't forget the meta viewport tag, it's important!
-> Also, 
+> Note: One way to load *argon.js* is to download the 
+[argon.umd.js](https://github.com/argonjs/argon/raw/master/argon.umd.js) library and
+manually place it in a script tag in your html. However, if you are comfortable 
+with using a module loader such as `jspm`, `webpack`, `browserify`, etc., then feel free to 
+do that instead (see the [Quick Start](/start/setup/) guide). 
 
 As you see here, the application code is not included in the html file. We recommend that you segregate the code into one or more external files. In order to ensure that the body is loaded by the time your script executes, it is convenient to load your application script just before the end-body tag.
 
