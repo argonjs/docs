@@ -11,7 +11,7 @@ Download [Argon4](https://itunes.apple.com/us/app/argon4/id944297993?ls=1&mt=8) 
 In general, *argon.js* apps can be structured however you want. For this tutorial
 we follow a [single-page app](https://en.wikipedia.org/wiki/Single-page_application)
 structure, in which the entire app loads from one html page. As such, the first thing we
-should create is our html file and load *argon.js*. 
+should do is create our html file and load *argon.js*. 
 
 ```html
 <html>
