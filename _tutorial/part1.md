@@ -13,7 +13,7 @@ we follow a [single-page app](https://en.wikipedia.org/wiki/Single-page_applicat
 structure, in which the entire app loads from one html page. As such, the first thing we
 should do is create our html file and load *argon.js*. 
 
-```html
+{% highlight html %}
 <html>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
   <head>
@@ -25,7 +25,8 @@ should do is create our html file and load *argon.js*.
     <script src="./app.js"></script>   
   </body> 
 </html>
-```
+{% endhighlight %}
+
 > Note: One way to load `argon.js` is to download the 
 [argon.umd.js](https://github.com/argonjs/argon/raw/master/argon.umd.js) library and
 manually place it in a script tag in your html as you see here. However, if you are comfortable 
@@ -52,7 +53,6 @@ In order to initialize Argon and `three.js`, this example (like most Argon sampl
 {% include code_highlight.html
 tscode='
 // initialize Argon
-declare const Argon:any;
 const app = Argon.init();
 app.context.setDefaultReferenceFrame(app.context.localOriginEastUpSouth);
 
@@ -158,16 +158,14 @@ var boxGeoEntity = new Argon.Cesium.Entity({
     position: Cartesian3.ZERO,
     orientation: Cesium.Quaternion.IDENTITY
 });
-boxGeoObject.add(box);
-'
+boxGeoObject.add(box);'
 jscode='
 var boxGeoEntity = new Argon.Cesium.Entity({
     name: "I have a box",
     position: Cartesian3.ZERO,
     orientation: Cesium.Quaternion.IDENTITY
 });
-boxGeoObject.add(box);
-'
+boxGeoObject.add(box);'
 %}
 
 Up to this point, we have the box (a textured cube) object attached it to a geoEntity.  We have not yet actually located that entity in the world. The position of boxGeoEntity is set to (0,0,0) by default. We will figure out the geolocation of the boxGeoEntity the first time that the first of the two event listeners described below are run.
