@@ -15,7 +15,7 @@ The goal of the *argon.js* framework and associated [Argon Browser](http://argon
 
 There are essentially 3 types of core abstractions that are defined by the *argon.js* framework:
 
-* **Reality Augmentor** - a system responsible for *augmenting* a view of reality. 
+* **Reality Augmentor** - a system responsible for *augmenting* a view of reality
 * **Reality View** - a system responsible for *presenting* a view of reality
 * **Reality Manager** - a system responsible for *blending* a particular **Reality View** with
 one or more **Reality Augmentors**
