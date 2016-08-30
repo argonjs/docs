@@ -2,6 +2,8 @@
 layout: page
 title: 'Part 2: Adding Content'
 ---
+> *Download [Argon4](http://argonjs.io/argon-app)* and the [Tutorial Source Code](https://github.com/argonjs/docs/tree/gh-pages/code). <br> This tutorial uses the *2-html* and *resources* directories   
+
 This tutorial will expand on the geospatial cube example developed in [part 1](../part1) of the tutorial to include HTML content.  This part discusses the correct way to add HTML elements to the 2D display, and into the 3D scene.  
 
 Although more limited than WebGL for creating 3D content, any HTML elements (interactive DIVs, movies, etc.) can be placed in 3D, greatly simplifying certain kinds of application content.  The biggest limitation of using both WebGL and 3D HTML content is that they cannot be mixed easily in 3D:  the WebGL `canvas` element and the HTML `perspective` element are separate, and whichever is placed in front has all of it's content (regardless of 3D position) in front of all of the content of the other.  

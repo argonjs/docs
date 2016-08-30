@@ -3,10 +3,7 @@ layout: page
 title: 'Part 1: Getting Started'
 ---
 
-**Demo/needed files**
-Download [Argon4](https://itunes.apple.com/us/app/argon4/id944297993?ls=1&mt=8) on your phone (if you haven't already done this) and try the [Geolocated Cube](/code/1-geopose) example.
-
->The code and assets for each part of this tutorial are available at [https://github.com/argonjs/docs/tree/gh-pages/code](https://github.com/argonjs/docs/tree/gh-pages/code).
+> *Download [Argon4](http://argonjs.io/argon-app)* and the [Tutorial Source Code](https://github.com/argonjs/docs/tree/gh-pages/code). <br> This tutorial uses the *1-geopose* and *resources* directories   
 
 In general, *argon.js* apps can be structured however you want. For this tutorial
 we follow a [single-page app](https://en.wikipedia.org/wiki/Single-page_application)
