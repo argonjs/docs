@@ -29,7 +29,7 @@ should do is create our html file and load *argon.js*.
 {% endhighlight %}
 
 > Note: One way to load `argon.js` is to download the 
-[argon.umd.js](https://github.com/argonjs/argon/raw/master/argon.umd.js) library and
+[argon.min.js](https://github.com/argonjs/argon/raw/master/argon.min.js) library and
 manually place it in a script tag in your html as you see here. However, if you are comfortable 
 with using a module loader such as `jspm`, `webpack`, `browserify`, etc., then feel free to 
 do that instead (see the [Quick Start](/start/setup/) guide). 
