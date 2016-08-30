@@ -3,7 +3,7 @@ layout: page
 title: 'Part 1: Getting Started'
 ---
 
-> *Download [Argon4](http://argonjs.io/argon-app)* and the [Tutorial Source Code](https://github.com/argonjs/docs/tree/gh-pages/code). <br> This tutorial uses the *1-geopose* and *resources* directories   
+> Download [Argon4](http://argonjs.io/argon-app) and the [Tutorial Source Code](https://github.com/argonjs/docs/tree/gh-pages/code). <br> This tutorial uses the *1-geopose* and *resources* directories   
 
 In general, *argon.js* apps can be structured however you want. For this tutorial
 we follow a [single-page app](https://en.wikipedia.org/wiki/Single-page_application)
