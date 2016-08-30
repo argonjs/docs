@@ -33,7 +33,7 @@ If you aren't using es6 modules, `require` the package `"@argonjs/argon"`:
 var Argon = require('@argonjs/argon');
 ```
 
-If you aren't using modules at all, no worries! The `argon.umd.js` script creates a 
+If you aren't using modules at all, no worries! The `argon.min.js` script creates a 
 global `Argon` namespace that exposes the same API. 
 
 ## Typescript
