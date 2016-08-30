@@ -3,6 +3,7 @@ layout: page
 title: 'Part 4: Vuforia'
 ---
 
+<!--
 The tutorial below will be modified
 
 1. to change the code for the new setup and render callback
@@ -11,12 +12,12 @@ The tutorial below will be modified
 4. when the target is lost, the cube will move to north of the user.  Change size when moving.  
 
 ---
-
+--> 
 
 
 ## Vuforia
 
-Intro text here
+Argon uses the Vuforia system for image tracking. 
 
 **Demo/needed files**
 Download [Argon4](https://itunes.apple.com/us/app/argon4/id944297993?ls=1&mt=8) on your phone (if you haven't already done this) and [try Vuforia](argon4://tutorials.argonjs.io/code/4-vuforia)
@@ -41,7 +42,7 @@ The launch file has the same structure as in Tutorial 1.
 <html>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
   <head>
-    <title>Tutorial 2 - Simple Argon Application</title>
+    <title>Tutorial 4 - Vuforia</title>
     <script src="./resources/lib/three/three.min.js"></script>
     <script src="./resources/lib/argon.umd.js"></script>
   </head>
@@ -197,3 +198,11 @@ app.renderEvent.addEventListener(() => {
 ### Going beyond this example…
 
 While this tutorial provides a basic demonstration of Vuforia, the same principles can be used in conjunction with other Vuforia image targets to create various augmented reality content. The Vuforia Developer Library provides more information on the application and its capabilities.
+
+
+### Please continue to [Tutorial 5 (DirectionsHTML)]({{ site.baseurl }}tutorials/tutorial5).
+
+
+### For more details about the methods discussed above, please refer to [Argonjs documentation](http://argonjs.io/argon/index.html)
+
+
