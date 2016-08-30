@@ -20,17 +20,43 @@ const userLocation = new THREE.Object3D;
 scene.add(camera);
 scene.add(userLocation);
 
+// The CSS3DArgonRenderer supports mono and stereo views.  Currently
+// not using it in this example, but left it in the code in case we
+// want to add an HTML element near the geo object. 
+// The CSS3DArgonHUD is a place to put things that appear 
+// fixed to the screen (heads-up-display).  
 // In this demo, we are  rendering the 3D graphics with WebGL, 
-// using the standard WebGLRenderer
+// using the standard WebGLRenderer, and using the CSS3DArgonHUD
+// to manage the 2D display fixed content
+const cssRenderer = new (<any>THREE).CSS3DArgonRenderer();
+const hud = new (<any>THREE).CSS3DArgonHUD();
 const renderer = new THREE.WebGLRenderer({ 
     alpha: true, 
     logarithmicDepthBuffer: true
 });
 renderer.setPixelRatio(window.devicePixelRatio);
+
+// Assuming the z-orders are the same, the order of sibling elements
+// in the DOM determines which content is in front (top->bottom = back->front)
 app.view.element.appendChild(renderer.domElement);
+app.view.element.appendChild(cssRenderer.domElement);
+app.view.element.appendChild(hud.domElement);
 
 // We put some elements in the index.html, for convenience. 
-const locationElement = document.getElementById("location");
+// Here, we retrieve them, duplicate and move the information boxes to the 
+// the CSS3DArgonHUD hudElements.  We are explicitly creating the two
+// elements so we can update them both.
+const hudContent = document.getElementById('hud');
+hud.hudElements[0].appendChild(hudContent);
+hud.hudElements[1].appendChild(hudContent.cloneNode(true));
+var locationElements = hud.domElement.getElementsByClassName('location');
+
+//  We also move the description box to the left Argon HUD.  
+// We don't duplicated it because we only use it in mono mode
+var holder = document.createElement( 'div' );
+var hudDescription = document.getElementById( 'description' );
+holder.appendChild(hudDescription);
+hudContent.appendChild(holder);
 
 // Tell argon what local coordinate system you want.  The default coordinate
 // frame used by Argon is Cesium's FIXED frame, which is centered at the center
@@ -80,6 +106,14 @@ var boxGeoEntity = new Argon.Cesium.Entity({
 
 boxGeoObject.add(box);
 
+// Create a DIV to use to label the position and distance of the cube
+let boxLocDiv = document.getElementById("box-location");
+let boxLocDiv2 = boxLocDiv.cloneNode(true) as HTMLElement;
+const boxLabel = new THREE.CSS3DSprite([boxLocDiv, boxLocDiv2]);
+boxLabel.scale.set(0.02, 0.02, 0.02);
+boxLabel.position.set(0,1.25,0);
+boxGeoObject.add(boxLabel);
+
 // putting position and orientation in the constructor above is the 
 // equivalent of doing this:
 //
@@ -93,6 +127,7 @@ boxGeoObject.add(box);
 var boxInit = false;
 var boxCartographicDeg = [0,0,0];
 var lastInfoText = "";
+var lastBoxText = "";
 
 // make floating point output a little less ugly
 function toFixed(value, precision) {
@@ -188,12 +223,22 @@ app.updateEvent.addEventListener((frame) => {
     // create some feedback text
     var infoText = "Geospatial Argon example:<br>"
     infoText += "Your location is lla (" + toFixed(gpsCartographicDeg[0],6) + ", ";
-    infoText += toFixed(gpsCartographicDeg[1], 6) + ", " + toFixed(gpsCartographicDeg[2], 2) + ")<br>";
-    infoText += "box is " + toFixed(distanceToBox,2) + " meters away";
+    infoText += toFixed(gpsCartographicDeg[1], 6) + ", " + toFixed(gpsCartographicDeg[2], 2) + ")";
+
+    var boxLabelText = "box lla = " + toFixed(boxCartographicDeg[0], 6) + ", ";
+    boxLabelText += toFixed(boxCartographicDeg[1], 6) + ", " + toFixed(boxCartographicDeg[2], 2) + "<br>";
+    boxLabelText += "box is " + toFixed(distanceToBox,2) + " meters away";
 
     if (lastInfoText !== infoText) { // prevent unecessary DOM invalidations
-        locationElement.innerHTML = infoText;
+        locationElements[0].innerHTML = infoText;
+        locationElements[1].innerHTML = infoText;
         lastInfoText = infoText;
+    }
+
+    if (lastBoxText !== boxLabelText) { // prevent unecessary DOM invalidations
+        boxLocDiv.innerHTML = boxLabelText;
+        boxLocDiv2.innerHTML = boxLabelText;
+        lastBoxText = boxLabelText;
     }
 })
     
@@ -204,6 +249,16 @@ app.renderEvent.addEventListener(() => {
     // both views if we are in stereo viewing mode
     const viewport = app.view.getViewport();
     renderer.setSize(viewport.width, viewport.height);
+    cssRenderer.setSize(viewport.width, viewport.height);
+    hud.setSize(viewport.width, viewport.height);
+
+    // There is 1 subview in monocular mode, 2 in stereo mode.
+    // If we are in mono view, show the description.  If not, hide it, 
+    if (app.view.getSubviews().length > 1) {
+      holder.style.display = 'none';
+    } else {
+      holder.style.display = 'block';
+    }
 
     // there is 1 subview in monocular mode, 2 in stereo mode    
     for (let subview of app.view.getSubviews()) {
@@ -219,11 +274,21 @@ app.renderEvent.addEventListener(() => {
         // set the viewport for this view
         let {x,y,width,height} = subview.viewport;
 
+        // set the CSS rendering up, by computing the FOV, and render this view
+        camera.fov = THREE.Math.radToDeg(frustum.fovy);
+
+        cssRenderer.setViewport(x,y,width,height, subview.index);
+        cssRenderer.render(scene, camera, subview.index);
+
         // set the webGL rendering parameters and render this view
         renderer.setViewport(x,y,width,height);
         renderer.setScissor(x,y,width,height);
         renderer.setScissorTest(true);
         renderer.render(scene, camera);
+
+        // adjust the hud
+        hud.setViewport(x,y,width,height, subview.index);
+        hud.render(subview.index);
     }
 })
 

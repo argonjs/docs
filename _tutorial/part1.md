@@ -220,7 +220,8 @@ app.updateEvent.addEventListener((frame) => {
         // the box doesn't move if the local coordinate system origin changes.
         if (Argon.convertEntityReferenceFrame(boxGeoEntity, frame.time, 
                                               ReferenceFrame.FIXED)) {
-            scene.add(boxGeoObject);            
+            scene.add(boxGeoObject);
+            boxInit = true;            
         }
     }
 
@@ -274,6 +275,7 @@ app.updateEvent.addEventListener(function (frame) {
         // the box doesn't move if the local coordinate system origin changes.
         if (Argon.convertEntityReferenceFrame(boxGeoEntity, frame.time, ReferenceFrame.FIXED)) {
             scene.add(boxGeoObject);
+            boxInit = true;            
         }
     }
     // get the local coordinates of the local box, and set the THREE object
