@@ -33,15 +33,19 @@
 
 html {
   font-family: "PT Sans", Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  line-height: 1.1;
 }
 @media (min-width: 48em) {
   html {
-    font-size: 14px;
+    font-size: 16px;
+    line-height: 1.5;
   }
 }
 @media (min-width: 58em) {
   html {
     font-size: 18px;
+    line-height: 1.5;
   }
 }
 
@@ -55,7 +59,7 @@ html {
 
 .sidebar {
   text-align: center;
-  padding: 2rem 1rem;
+  padding: 1rem 0.5rem;
   color: rgba(255,255,255,.5);
   background-color: #202020;
   overflow-y: auto;
@@ -63,6 +67,7 @@ html {
 }
 @media (min-width: 48em) {
   .sidebar {
+    padding: 2rem 1rem;
     position: fixed;
     top: 0;
     left: 0;
@@ -89,9 +94,28 @@ html {
 .sidebar-nav {
   margin-bottom: 1rem;
 }
+
 .sidebar-nav-item {
-  display: block;
-  line-height: 1.75;
+  display: inline;
+  line-height: 1.25;
+}
+
+.sidebar-nav-item span::after { 
+   content: "| ";
+}
+.sidebar-nav-item span:last-of-type::after { 
+   content: "";
+}
+
+@media (min-width: 48em) {
+  .sidebar-nav-item {
+    display: block;
+    line-height: 1.75;
+  }
+
+  .sidebar-nav-item span::after { 
+    content: "";
+  }
 }
 a.sidebar-nav-item:hover,
 a.sidebar-nav-item:focus {
@@ -128,12 +152,14 @@ a.sidebar-nav-item:focus {
  */
 
 .content {
-  padding-top:    4rem;
-  padding-bottom: 4rem;
+  padding-top:    2rem;
+  padding-bottom: 2rem;
 }
 
 @media (min-width: 48em) {
   .content {
+    padding-top:    4rem;
+    padding-bottom: 4rem;
     max-width: 38rem;
     margin-left: 20rem;
     margin-right: 2rem;
@@ -142,6 +168,8 @@ a.sidebar-nav-item:focus {
 
 @media (min-width: 64em) {
   .content {
+    padding-top:    4rem;
+    padding-bottom: 4rem;
     margin-left: 22rem;
     margin-right: 4rem;
   }
