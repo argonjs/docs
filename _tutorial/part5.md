@@ -14,7 +14,7 @@ Reiterate the relationship between geospatial coordinates and local, 3D coordina
 
 ## Directions CSS
 
-Intro text here
+In this tutorial we locate markers at the compass points (east, west, north, south) as well as up and down. The markers are located relative to the user's location (where the phone is) rather than being absolutely located in the world. Objects located this way will follow the user around in the same relative position. In addition these objects are rendered using the CSS renderer, rather than WebGL. Tutorial 6 creates similar markers using the WebGL renderer. 
 
 **Demo/needed files**
 Download [Argon4](https://itunes.apple.com/us/app/argon4/id944297993?ls=1&mt=8) on your phone (if you haven't already done this) and [try Directions CSS](argon4://tutorials.argonjs.io/code/5-directionsHTML)
@@ -27,27 +27,62 @@ If you download the zip of the example for this tutorial, you will find the foll
 * a resources folder including:
 * argon.umd.js (containing the argon javascript framework), 
 * three.js.min (a 3D graphcs framework) and other frameworks,
-* a textures folder containing box.png (a texture used in the example)
 
 These are all the assets you need to serve Directions CSS. If you upload the tutorial1 folder to your own server, then you can serve the example to any Argon4 browser on a iPhone or iPad. 
 
 ### The launch file (index.html)
 
-The launch file has the same structure as in Tutorial 1. 
+The launch file has the same structure as in Tutorial 1. Note that we load additional CSS renderers for this applicaiton. There is an div with text explaining the example that appears on the screen when the examples starts. The user clicks to make that div invisible. 
 
 {% highlight html %}
 <html>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
-  <head>
-    <title>Tutorial 2 - Simple Argon Application</title>
-    <script src="./resources/lib/three/three.min.js"></script>
-    <script src="./resources/lib/argon.umd.js"></script>
-  </head>
-  <body>
-    <div id="argon"></div>
-    <script src="./app.js"></script>   
-  </body>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+<head>
+    <title>Directions</title>
+    <script src="../resources/lib/three/three.min.js"></script>
+    <script src="../resources/lib/CSS3DArgonHUD.js"></script>
+    <script src="../resources/lib/CSS3DArgonRenderer.js"></script>
+    <script src="../resources/lib/argon.umd.js"></script>
+    <style>
 
+#description {
+  pointer-events:auto;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  padding: 10px;
+  background-color:rgba(255,255,255,0.7);
+  -webkit-backdrop-filter: blur(5px);
+  position:absolute;
+  bottom: 0px;
+}
+
+.argon-focus #description {
+  transition: opacity 0.8s;
+  visibility: visible;
+  opacity: 1; 
+}
+
+.argon-no-focus #description {
+  transition: visibility 0s linear 0.8s, opacity 0.8s;
+  visibility: visible;
+  opacity: 0;
+}
+    </style>
+</head>
+  <body>
+    <div id="argon">
+      <div onclick="hideMe(this)" id="description">
+        <h2>Six directions in HTML</h2>
+        <h5>(click to dismiss)</h5>
+        <p>This example displays a directional reference frame around the camera in Cartesian coordinates, using the EastUpSouth orientation for positive (x, y, z). A userLocation geospatial entity is created and positioned at the position of the user, and updated when the user's position changes. It uses HTML elements to put a text label at 200 meters in each of the negative/positive directions: x is west/east; y is down/up; z is north/south.</p>  
+      </div>
+    </div>
+  </body>
+	<script>
+		function hideMe(elem) {
+		    elem.style.display = 'none';
+		}	
+	</script>
+  <script src="app.js"></script>
 </html>
 {% endhighlight %}
 
@@ -55,7 +90,51 @@ As in Tutorial 1, a separate file, app.js (the Typescript version is app.ts), co
 
 ### The application code (Typescript and Javascript)
 
-The code below is similar to Tutorial 1. 
+The initializing code is very similar to 
+
+{% include code_highlight.html
+tscode='
+// When we distribute Argon typings, we can get rid of this, but for now
+// we need to shut up the Typescript compiler about missing Argon typings
+declare const Argon:any;
+
+// set up Argon
+const app = Argon.init();
+
+// set up THREE.  Create a scene, a perspective camera and an object
+// for the users location
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera();
+const userLocation = new THREE.Object3D;
+scene.add(camera);
+scene.add(userLocation);
+
+// The CSS3DArgonRenderer supports mono and stereo views, and 
+// includes both 3D elements and a place to put things that appear 
+// fixed to the screen (heads-up-display) 
+const renderer = new (<any>THREE).CSS3DArgonRenderer();
+app.view.element.appendChild(renderer.domElement);'
+jscode='
+/// <reference path="../../typings/index.d.ts"/>
+// set up Argon
+var app = Argon.init();
+// set up THREE.  Create a scene, a perspective camera and an object
+// for the user location
+var scene = new THREE.Scene();
+var camera = new THREE.PerspectiveCamera();
+var userLocation = new THREE.Object3D;
+scene.add(camera);
+scene.add(userLocation);
+// The CSS3DArgonRenderer supports mono and stereo views, and 
+// includes both 3D elements and a place to put things that appear 
+// fixed to the screen (heads-up-display) 
+var renderer = new THREE.CSS3DArgonRenderer();
+app.view.element.appendChild(renderer.domElement);
+// to easily control stuff on the display
+var hud = new THREE.CSS3DArgonHUD();
+'
+%}
+
 
 {% include code_highlight.html
 tscode='
@@ -66,6 +145,14 @@ var boxGeoObject = new THREE.Object3D;
 '
 %}
 
+{% include code_highlight.html
+tscode='
+var boxGeoObject = new THREE.Object3D;
+'
+jscode='
+var boxGeoObject = new THREE.Object3D;
+'
+%}
 
 ### Please continue to [Tutorial 6 (Directions WebGL)]({{ site.baseurl }}tutorial/part6).
 
