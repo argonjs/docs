@@ -37,7 +37,7 @@ As you see here, the application code is not included in the html file. We recom
 
 In addition to offering AR features (such as geolocation, video of the surrounding world, 3D graphics and image tracking), the Argon4 browser is a standard web browser (i.e., on iOS, it uses Apple's Webkit engine) and can therefore render just about any web content. You can take advantage of these capabilities in two ways:
 
-* First, argon uses (or creates) a special div with the id "argon" as its `view`. Anything you put in this div (or in divs nested inside this one) will be rendered on the screen in 2D, in front of the 3D AR content in the Argon view. The examples use [threejs.org](http://threejs.org); the `CSS3DArgonRenderer.js` creates a CSS 3D `perspective` element for HTML content, and uses `THREE.WebGLRender.js` to render in a WebGL `canvas` behind any other content in this div. The samples use a simple *heads-up display* "renderer" (`CSS3DArgonHUD.js`) that helps manage 2D content in both mono and stereo viewer modes.
+* First, argon uses (or creates) a special div with the id "argon" as its `view`. Anything you put in this div (or in divs nested inside this one) will be rendered on the screen in 2D, in front of the 3D AR content in the Argon view. See [part 2](../part2) of the tutorial for an in-depth discussion on including HTML content in Argon applications.
 
 * Second, because Webkit is a full-featured HTML5 engine (used by Safari), Argon can render most web pages (e.g., including those without any AR features). Just type the url into the text box.
 
@@ -48,7 +48,7 @@ The code for Argon and these tutorials was written in Typescript, [a typed super
 
 Note: These tutorials assume that you are already familiar with the fundamentals of computer graphics: the concept of a scene graph, creating and manipulating 3D objects and textures, the camera, etc. While Argon is agnostic to what rendering system you use, the Argon samples and tutorials currently use the javascript graphics framework [three.js](http://threejs.org/) to create and manage the scenegraph. See the [threejs.org](http://threejs.org) documentation for a complete description.  
 
-In order to initialize Argon and [three.js](http://threejs.org/), this example (like most Argon samples), begins with:
+In order to initialize Argon and [three.js](http://threejs.org/), this example (like most [Argon samples](http://argonjs.io/samples)), begins with:
 
 {% include code_highlight.html
 tscode='
@@ -94,31 +94,6 @@ To display graphics with [three.js](http://threejs.org/docs/#Manual/Introduction
 * userLocation is an object that will hold the position of the user (normally the same as the camera, since the user is holding the camera in their hand). 
 * Both camera and userlocation are added to the scene graph. 
 * Create a renderer for this application to use. Here, the WebGL renderer is used.  
-
-In some of samples and tutorials, we also use the `CSS3DArgonRenderer` to position HTML elements in 3D and the `CSS3DArgonHUD` to simplify managing 2D content on the display, which would be initialized similarly:
-
-{% include code_highlight.html
-tscode='
-const cssRenderer = new (<any>THREE).CSS3DArgonRenderer();
-const hud = new (<any>THREE).CSS3DArgonHUD();
-app.view.element.appendChild(cssRenderer.domElement);
-app.view.element.appendChild(hud.domElement);'
-jscode='
-var cssRenderer = new THREE.CSS3DArgonRenderer();
-var hud = new THREE.CSS3DArgonHUD();
-app.view.element.appendChild(cssRenderer.domElement);
-app.view.element.appendChild(hud.domElement);'
-%}
-
-Although more limited than WebGL for creating 3D content, the CSS renderer lets you place arbitrary HTML elements (DIVs, etc.) in 3D.  If you do use the `CSSArgonRenderer`, you also need to include the `CSS3DArgonRenderer.js` script in the index.html file:
-
-{% highlight html %}
-<head>
-    <script src="./resources/lib/CSS3DArgonRenderer.js"></script>
-</head>
-{% endhighlight %}
-
-After the above initialization, additional code is used to create and manipulate the elements of your application, as the first example below illustrates.  
 
 ### Creating the cube
 In this first example we create a simple box (cube) using methods provided by [three.js](http://threejs.org/) and then position that box in the world. This code creates the box and adds a texture to it:
@@ -289,20 +264,17 @@ app.updateEvent.addEventListener(function (frame) {
 });"
 %}
 
-The renderEvent listeners are called after the updateEvent listeners. Argon supports multiple subviews within its view (currently, just single or stereo), so the render event needs to handle an arbitrary set of subviews, rendering the scene appropriately in each one. This is straightforward for the WebGL renderer, but the CSS renderer needs to have a separate HTML element for each content element for each subview.  The `CSS3DArgonRender` and `CSS3DArgonHUD` help you manage this, allowing you to provide multiple elements, or simply cloning the element you provide if you only provide one.   As you can see, the `CSS3DArgonRender` and `CSS3DArgonHUD` renderers mimic the interface of the normal [three.js](http://threejs.org/) `WebGLRenderer`, simplifying the code.
+The renderEvent listeners are called after the updateEvent listeners. Argon supports multiple subviews within its view (currently, just single or stereo), so the render event needs to handle an arbitrary set of subviews, rendering the scene appropriately in each one. This is straightforward for the WebGL renderer, which supports rendering into subviews within the `canvas`.  Each subview can simply be rendererd independently. 
 
-Here we include render code for all three renderers, although only the code for the renderer(s) you are using needs to be included.
 {% include code_highlight.html
 tscode='
 // renderEvent is fired whenever argon wants the app to update its display
 app.renderEvent.addEventListener(() => {
-    // set the renderers to know the current size of the viewport.
+    // set the renderer to know the current size of the viewport.
     // This is the full size of the viewport, which would include
     // both views if we are in stereo viewing mode
     const viewport = app.view.getViewport();
     renderer.setSize(viewport.width, viewport.height);
-    cssRenderer.setSize(viewport.width, viewport.height);
-    hud.setSize(viewport.width, viewport.height);
 
     // there is 1 subview in monocular mode, 2 in stereo mode    
     for (let subview of app.view.getSubviews()) {
@@ -318,32 +290,21 @@ app.renderEvent.addEventListener(() => {
         // set the viewport for this view
         let {x,y,width,height} = subview.viewport;
 
-        // set the CSS rendering up, by computing the FOV, and render this view
-        camera.fov = THREE.Math.radToDeg(frustum.fovy);
-        cssRenderer.setViewport(x,y,width,height, subview.index);
-        cssRenderer.render(scene, camera, subview.index);
-
         // set the webGL rendering parameters and render this view
         renderer.setViewport(x,y,width,height);
         renderer.setScissor(x,y,width,height);
         renderer.setScissorTest(true);
         renderer.render(scene, camera);
-
-        // adjust the hud
-        hud.setViewport(x,y,width,height, subview.index);
-        hud.render(subview.index);
     }
 });'
 jscode='
 // renderEvent is fired whenever argon wants the app to update its display
 app.renderEvent.addEventListener(function () {
-    // set the renderers to know the current size of the viewport.
+    // set the renderer to know the current size of the viewport.
     // This is the full size of the viewport, which would include
     // both views if we are in stereo viewing mode
     var viewport = app.view.getViewport();
     renderer.setSize(viewport.width, viewport.height);
-    cssRenderer.setSize(viewport.width, viewport.height);
-    hud.setSize(viewport.width, viewport.height);
 
     // there is 1 subview in monocular mode, 2 in stereo mode    
     for (var _i = 0, _a = app.view.getSubviews(); _i < _a.length; _i++) {
@@ -360,20 +321,11 @@ app.renderEvent.addEventListener(function () {
         // set the viewport for this view
         var _b = subview.viewport, x = _b.x, y = _b.y, width = _b.width, height = _b.height;
 
-        // set the CSS rendering up, by computing the FOV, and render this view
-        camera.fov = THREE.Math.radToDeg(frustum.fovy);
-        cssRenderer.setViewport(x, y, width, height, subview.index);
-        cssRenderer.render(scene, camera, subview.index);
-
         // set the webGL rendering parameters and render this view
         renderer.setViewport(x, y, width, height);
         renderer.setScissor(x, y, width, height);
         renderer.setScissorTest(true);
         renderer.render(scene, camera);
-
-        // adjust the hud
-        hud.setViewport(x, y, width, height, subview.index);
-        hud.render(subview.index);
     }
 });'
 %}
@@ -383,6 +335,3 @@ With these two events, the code for the first example is complete.
 ### Please continue to [Tutorial 4 (Vuforia)]({{ site.baseurl }}tutorial/part4).
 
 ### For more details about the methods discussed above, please refer to [Argonjs documentation](http://argonjs.io/argon/index.html)
-
-
-
