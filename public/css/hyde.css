@@ -100,10 +100,10 @@ html {
   line-height: 1.25;
 }
 
-.sidebar-nav-item span::after { 
-   content: "| ";
+.sidebar-nav-item::after { 
+   content: " | ";
 }
-.sidebar-nav-item span:last-of-type::after { 
+.sidebar-nav-item:last-of-type::after { 
    content: "";
 }
 
@@ -113,7 +113,7 @@ html {
     line-height: 1.75;
   }
 
-  .sidebar-nav-item span::after { 
+  .sidebar-nav-item::after { 
     content: "";
   }
 }
