@@ -5,7 +5,7 @@ title: Quick Start
 
 To install the argon.js library manually, include this script in your html:
 
-* [argon.umd.js](https://github.com/argonjs/argon/raw/master/argon.umd.js)
+* [argon.min.js](https://github.com/argonjs/argon/raw/master/argon.min.js)
 
 To install with npm:
 
