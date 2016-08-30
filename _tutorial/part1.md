@@ -18,6 +18,7 @@ should do is create our html file and load *argon.js*.
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
   <head>
     <title>My Awesome argon.js App</title>
+    <script src="../resources/lib/three/three.min.js"></script>
     <script src="../resources/lib/argon.umd.js"></script>
   </head>
   <body>
@@ -41,12 +42,12 @@ In addition to offering AR features (such as geolocation, video of the surroundi
 
 * Second, because Webkit is a full-featured HTML5 engine (used by Safari), Argon can render most web pages (e.g., including those without any AR features). Just type the url into the text box.
 
-### The application code (Typescript and Javascript)
-Segregating the javascript code into a file separate from index.html allows for a cleaner workflow as well as the use of Javascript development tools to transcode, minify or otherwise manipulate your code. We name the file `app.js` in each of the tutorials.
+### The application code (TypeScript and JavaScript)
+Segregating the JavaScript code into a file separate from index.html allows for a cleaner workflow as well as the use of Javascript development tools to transcode, minify or otherwise manipulate your code. For this tutorial, the application script is named `app.js`.
 
-The code for Argon and these tutorials was written in Typescript, [a typed superset of Javascript that compiles to plain Javascript](https://www.typescriptlang.org). The code snippets in these tutorials are given in both forms. Both an `app.ts` (Typescript) and `app.js` (Javascript) file are included in the example folders, but only the `app.js` file is actually downloaded and used in executing the channel. 
+The code for this tutorial (and argon.js!) is written in Typescript, [a typed superset of Javascript that compiles to plain Javascript](https://www.typescriptlang.org). The code snippets in these tutorials are given in both forms. Both an `app.ts` (Typescript) and `app.js` (Javascript) file are included in the example folders, but only the `app.js` file is actually downloaded and used in executing the channel. 
 
-Note: These tutorials assume that you are already familiar with the fundamentals of computer graphics: the concept of a scene graph, creating and manipulating 3D objects and textures, the camera, etc. While Argon is agnostic to what rendering system you use, the Argon samples and tutorials currently use the javascript graphics framework [three.js](http://threejs.org/) to create and manage the scenegraph. See the [threejs.org](http://threejs.org) documentation for a complete description.  
+Note: This tutorial assumes that you are already familiar with the fundamentals of computer graphics: the concept of a scene graph, creating and manipulating 3D objects and textures, the camera, etc. While Argon is agnostic to what rendering system you use, the Argon samples and tutorials currently use the javascript graphics framework [three.js](http://threejs.org/) to create and manage the scenegraph. See the [threejs.org](http://threejs.org) documentation for a complete description.  
 
 In order to initialize Argon and [three.js](http://threejs.org/), this example (like most [Argon samples](http://argonjs.io/samples)), begins with:
 
