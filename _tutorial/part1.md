@@ -19,7 +19,7 @@ should do is create our html file and load *argon.js*.
   <head>
     <title>My Awesome argon.js App</title>
     <script src="../resources/lib/three/three.min.js"></script>
-    <script src="../resources/lib/argon.umd.js"></script>
+    <script src="../resources/lib/argon.min.js"></script>
   </head>
   <body>
     <div id="argon"></div>
