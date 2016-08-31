@@ -69,7 +69,7 @@ hudContent.appendChild(hudDescription);
 // licensed under https://creativecommons.org/licenses/by/2.0/legalcode
 var boxGeoObject = new THREE.Object3D();
 var box = new THREE.Object3D();
-var loader = new THREE.TextureLoader()();
+var loader = new THREE.TextureLoader();
 loader.load('box.png', function (texture) {
     var geometry = new THREE.BoxGeometry(1, 1, 1);
     var material = new THREE.MeshBasicMaterial({ map: texture });
@@ -101,7 +101,7 @@ function toFixed(value, precision) {
 // rendered, before the renderEvent.  The state of your application
 // should be updated here.
 app.updateEvent.addEventListener(function (frame) {
-    // get the position and orientation (the 'pose'') of the user
+    // get the position and orientation (the 'pose') of the user
     // in the local coordinate frame.
     var userPose = app.context.getEntityPose(app.context.user);
     // assuming we know the user's pose, set the position of our 
@@ -140,11 +140,12 @@ app.updateEvent.addEventListener(function (frame) {
     // rotate the boxes at a constant speed, independent of frame rates     
     // to make it a little less boring
     box.rotateY(3 * frame.deltaTime / 10000);
-    // stuff to print out the status message.  It's fairly expensive to convert FIXED
-    // coordinates back to LLA, but those coordinates probably make the most sense as
+    // stuff to print out the status message.
+    // It's fairly expensive to convert FIXED coordinates back to LLA, 
+    // but those coordinates probably make the most sense as
     // something to show the user, so we'll do that computation.
-    //
-    // cartographicDegrees is a 3 element array containing [longitude, latitude, height]
+    // cartographicDegrees is a 3 element array containing 
+    // [longitude, latitude, height]
     var gpsCartographicDeg = [0, 0, 0];
     // get user position in global coordinates
     var userPoseFIXED = app.context.getEntityPose(app.context.user, ReferenceFrame.FIXED);
@@ -165,11 +166,13 @@ app.updateEvent.addEventListener(function (frame) {
             boxLLA.height
         ];
     }
-    // we'll compute the distance to the cube, just for fun. If the cube could be further away,
-    // we'd want to use Cesium.EllipsoidGeodesic, rather than Euclidean distance, but this is fine here.
-    var cameraPos = camera.getWorldPosition();
+    // we'll compute the distance to the cube, just for fun. 
+    // If the cube could be further away, we'd want to use 
+    // Cesium.EllipsoidGeodesic, rather than Euclidean distance, 
+    // but this is fine here.
+    var userPos = userLocation.getWorldPosition();
     var boxPos = box.getWorldPosition();
-    var distanceToBox = cameraPos.distanceTo(boxPos);
+    var distanceToBox = userPos.distanceTo(boxPos);
     // create some feedback text
     var infoText = 'Geospatial Argon example:<br>';
     infoText += 'Your location is lla (' + toFixed(gpsCartographicDeg[0], 6) + ', ';
