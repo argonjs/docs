@@ -8,7 +8,20 @@ var JulianDate = Argon.Cesium.JulianDate;
 var CesiumMath = Argon.Cesium.CesiumMath;
 // set up Argon
 var app = Argon.init();
-//app.view.element.style.zIndex = 0;
+// Tell argon what local coordinate system you want.  The default coordinate
+// frame used by Argon is Cesium's FIXED frame, which is centered at the center
+// of the earth and oriented with the earth's axes.  
+// The FIXED frame is inconvenient for a number of reasons: the numbers used are
+// large and cause issues with rendering, and the orientation of the user's "local
+// view of the world" is different that the FIXED orientation (my perception of "up"
+// does not correspond to one of the FIXED axes).  
+// Therefore, Argon uses a local coordinate frame that sits on a plane tangent to 
+// the earth near the user's current location.  This frame automatically changes if the
+// user moves more than a few kilometers.
+// The EUS frame cooresponds to the typical 3D computer graphics coordinate frame, so we use
+// that here.  The other option Argon supports is localOriginEastNorthUp, which is
+// more similar to what is used in the geospatial industry
+app.context.setDefaultReferenceFrame(app.context.localOriginEastUpSouth);
 // set up THREE.  Create a scene, a perspective camera and an object
 // for the user's location
 var scene = new THREE.Scene();
@@ -37,48 +50,29 @@ app.view.element.appendChild(renderer.domElement);
 app.view.element.appendChild(cssRenderer.domElement);
 app.view.element.appendChild(hud.domElement);
 // We put some elements in the index.html, for convenience. 
-// Here, we retrieve them, duplicate and move the information boxes to the 
-// the CSS3DArgonHUD hudElements.  We are explicitly creating the two
-// elements so we can update them both.
+// Here, we retrieve them and move the information boxes to the 
+// the CSS3DArgonHUD hudElement.
 var hudContent = document.getElementById('hud');
-hud.hudElements[0].appendChild(hudContent);
-hud.hudElements[1].appendChild(hudContent.cloneNode(true));
+hud.appendChild(hudContent);
 var locationElements = hud.domElement.getElementsByClassName('location');
-//  We also move the description box to the left Argon HUD.  
-// We don't duplicated it because we only use it in mono mode
+// We also move the description box to the left Argon HUD.  
+// We don't duplicated it because we only use it in mono mode, but will
+// nest it inside another element that we can turn on and off
 var holder = document.createElement('div');
 var hudDescription = document.getElementById('description');
 holder.appendChild(hudDescription);
 hudContent.appendChild(holder);
-// Tell argon what local coordinate system you want.  The default coordinate
-// frame used by Argon is Cesium's FIXED frame, which is centered at the center
-// of the earth and oriented with the earth's axes.  
-// The FIXED frame is inconvenient for a number of reasons: the numbers used are
-// large and cause issues with rendering, and the orientation of the user's "local
-// view of the world" is different that the FIXED orientation (my perception of "up"
-// does not correspond to one of the FIXED axes).  
-// Therefore, Argon uses a local coordinate frame that sits on a plane tangent to 
-// the earth near the user's current location.  This frame automatically changes if the
-// user moves more than a few kilometers.
-// The EUS frame cooresponds to the typical 3D computer graphics coordinate frame, so we use
-// that here.  The other option Argon supports is localOriginEastNorthUp, which is
-// more similar to what is used in the geospatial industry
-app.context.setDefaultReferenceFrame(app.context.localOriginEastUpSouth);
 // All geospatial objects need to have an Object3D linked to a Cesium Entity.
 // We need to do this because Argon needs a mapping between Entities and Object3Ds.
 //
-// Here we create two objects, showing two slightly different approaches.
-//
-// First, we position a cube near Georgia Tech using a known LLA.
-//
-// Second, we will position a cube near our starting location.  This geolocated object starts without a
+// Here, we will position a cube near our starting location.  This geolocated object starts without a
 // location, until our reality is set and we know the location.  Each time the reality changes, we update
 // the cube position.
 // create a 1m cube with a wooden box texture on it, that we will attach to the geospatial object when we create it
 // Box texture from https://www.flickr.com/photos/photoshoproadmap/8640003215/sizes/l/in/photostream/
-//, licensed under https://creativecommons.org/licenses/by/2.0/legalcode
-var boxGeoObject = new THREE.Object3D;
-var box = new THREE.Object3D;
+// licensed under https://creativecommons.org/licenses/by/2.0/legalcode
+var boxGeoObject = new THREE.Object3D();
+var box = new THREE.Object3D();
 var loader = new THREE.TextureLoader();
 loader.load('box.png', function (texture) {
     var geometry = new THREE.BoxGeometry(1, 1, 1);
@@ -86,12 +80,12 @@ loader.load('box.png', function (texture) {
     var mesh = new THREE.Mesh(geometry, material);
     box.add(mesh);
 });
+boxGeoObject.add(box);
 var boxGeoEntity = new Argon.Cesium.Entity({
     name: "I have a box",
     position: Cartesian3.ZERO,
     orientation: Cesium.Quaternion.IDENTITY
 });
-boxGeoObject.add(box);
 // Create a DIV to use to label the position and distance of the cube
 var boxLocDiv = document.getElementById("box-location");
 var boxLocDiv2 = boxLocDiv.cloneNode(true);
@@ -99,15 +93,6 @@ var boxLabel = new THREE.CSS3DSprite([boxLocDiv, boxLocDiv2]);
 boxLabel.scale.set(0.02, 0.02, 0.02);
 boxLabel.position.set(0, 1.25, 0);
 boxGeoObject.add(boxLabel);
-// putting position and orientation in the constructor above is the 
-// equivalent of doing this:
-//
-//     const boxPosition = new Cesium.ConstantPositionProperty
-//                   (Cartesian3.ZERO.clone(), ReferenceFrame.FIXED);
-//     boxGeoEntity.position = boxPosition;
-//     const boxOrientation = new Cesium.ConstantProperty(Cesium.Quaternion);
-//     boxOrientation.setValue(Cesium.Quaternion.IDENTITY);
-//     boxGeoEntity.orientation = boxOrientation;
 var boxInit = false;
 var boxCartographicDeg = [0, 0, 0];
 var lastInfoText = "";
@@ -160,11 +145,12 @@ app.updateEvent.addEventListener(function (frame) {
     // rotate the boxes at a constant speed, independent of frame rates     
     // to make it a little less boring
     box.rotateY(3 * frame.deltaTime / 10000);
-    // stuff to print out the status message.  It's fairly expensive to convert FIXED
-    // coordinates back to LLA, but those coordinates probably make the most sense as
+    // stuff to print out the status message.
+    // It's fairly expensive to convert FIXED coordinates back to LLA, 
+    // but those coordinates probably make the most sense as
     // something to show the user, so we'll do that computation.
-    //
-    // cartographicDegrees is a 3 element array containing [longitude, latitude, height]
+    // cartographicDegrees is a 3 element array containing 
+    // [longitude, latitude, height]
     var gpsCartographicDeg = [0, 0, 0];
     // get user position in global coordinates
     var userPoseFIXED = app.context.getEntityPose(app.context.user, ReferenceFrame.FIXED);
@@ -185,18 +171,20 @@ app.updateEvent.addEventListener(function (frame) {
             boxLLA.height
         ];
     }
-    // we'll compute the distance to the cube, just for fun. If the cube could be further away,
-    // we'd want to use Cesium.EllipsoidGeodesic, rather than Euclidean distance, but this is fine here.
-    var cameraPos = camera.getWorldPosition();
+    // we'll compute the distance to the cube, just for fun. 
+    // If the cube could be further away, we'd want to use 
+    // Cesium.EllipsoidGeodesic, rather than Euclidean distance, 
+    // but this is fine here.
+    var userPos = userLocation.getWorldPosition();
     var boxPos = box.getWorldPosition();
-    var distanceToBox = cameraPos.distanceTo(boxPos);
+    var distanceToBox = userPos.distanceTo(boxPos);
     // create some feedback text
     var infoText = "Geospatial Argon example:<br>";
     infoText += "Your location is lla (" + toFixed(gpsCartographicDeg[0], 6) + ", ";
     infoText += toFixed(gpsCartographicDeg[1], 6) + ", " + toFixed(gpsCartographicDeg[2], 2) + ")";
-    var boxLabelText = "box lla = " + toFixed(boxCartographicDeg[0], 6) + ", ";
-    boxLabelText += toFixed(boxCartographicDeg[1], 6) + ", " + toFixed(boxCartographicDeg[2], 2) + "<br>";
-    boxLabelText += "box is " + toFixed(distanceToBox, 2) + " meters away";
+    infoText += "box is " + toFixed(distanceToBox, 2) + " meters away";
+    var boxLabelText = "a wooden box!<br>lla = " + toFixed(boxCartographicDeg[0], 6) + ", ";
+    boxLabelText += toFixed(boxCartographicDeg[1], 6) + ", " + toFixed(boxCartographicDeg[2], 2) + "";
     if (lastInfoText !== infoText) {
         locationElements[0].innerHTML = infoText;
         locationElements[1].innerHTML = infoText;

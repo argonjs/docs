@@ -86,7 +86,7 @@ loader.load( 'box.png', function ( texture ) {
     var material = new THREE.MeshBasicMaterial( { map: texture } );
     var mesh = new THREE.Mesh( geometry, material );
     box.add( mesh );
-})
+});
 boxGeoObject.add(box);
 
 var boxGeoEntity = new Argon.Cesium.Entity({
