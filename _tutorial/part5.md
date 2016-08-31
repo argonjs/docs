@@ -3,32 +3,15 @@ layout: page
 title: 'Part 5: Directions CSS'
 ---
 
-This tutorial explains the CSS version of the directions example in Samples. The text below will be changed to match the sample
 
-Critical here is to contextualize why you would want to "put stuff around the user but not attached to the world.".
-
-Reiterate the relationship between geospatial coordinates and local, 3D coordinates.
-
----
+> Download [Argon4](http://argonjs.io/argon-app) and the [Tutorial Source Code](https://github.com/argonjs/docs/tree/gh-pages/code). <br> This tutorial uses the *5-directionsHTML* and *resources* directories. **[Live Demo](/code/5-directionsHTML)**
 
 
-## Directions CSS
+In this tutorial we locate markers at the compass points (east, west, north, south) as well as up and down. These objects are rendered using the CSS renderer, rather than WebGL. Tutorial 6 creates similar markers using the WebGL renderer. 
 
-In this tutorial we locate markers at the compass points (east, west, north, south) as well as up and down. The markers are located relative to the user's location (where the phone is) rather than being absolutely located in the world. Objects located this way will follow the user around in the same relative position. In addition these objects are rendered using the CSS renderer, rather than WebGL. Tutorial 6 creates similar markers using the WebGL renderer. 
+The markers are located relative to the user's location (where the phone is) rather than being absolutely located in the world. When the application starts, the user's current location is used to set up a local 3D frame of reference, which is geolocated relative to the Cesium FIXED frame (from the center of the earth). The markers are then position relative to this local frame and move along with the user.
 
-**Demo/needed files**
-Download [Argon4](https://itunes.apple.com/us/app/argon4/id944297993?ls=1&mt=8) on your phone (if you haven't already done this) and [try Directions CSS](argon4://tutorials.argonjs.io/code/5-directionsHTML)
 
-If you download the zip of the example for this tutorial, you will find the follow files:
-
-* index.html (the launch file, whichimports the needed js frameworks and calls app.js),
-* app.js (holding the developer's code),
-* app.ts (the typescript version of the code, explained below), 
-* a resources folder including:
-* argon.umd.js (containing the argon javascript framework), 
-* three.js.min (a 3D graphcs framework) and other frameworks,
-
-These are all the assets you need to serve Directions CSS. If you upload the tutorial1 folder to your own server, then you can serve the example to any Argon4 browser on a iPhone or iPad. 
 
 ### The launch file (index.html)
 
@@ -86,14 +69,15 @@ The launch file has the same structure as in Tutorial 1. Note that we load addit
 </html>
 {% endhighlight %}
 
-As in Tutorial 1, a separate file, app.js (the Typescript version is app.ts), contains the application code. 
+As in Tutorial 1, a separate file, app.js (the Typescript is app.ts), contains the application code. 
 
 ### The application code (Typescript and Javascript)
 
-The initializing code is very similar to 
+The initializing code is very similar to Tutorial 1
 
 {% include code_highlight.html
 tscode='
+/// <reference path="../../typings/index.d.ts"/>
 // When we distribute Argon typings, we can get rid of this, but for now
 // we need to shut up the Typescript compiler about missing Argon typings
 declare const Argon:any;
@@ -135,15 +119,37 @@ var hud = new THREE.CSS3DArgonHUD();
 '
 %}
 
+This code  creates a HUD elements to hold text that describes the example, which appears on the screen when the user opens the application.
 
 {% include code_highlight.html
 tscode='
-var boxGeoObject = new THREE.Object3D;
+// to easily control stuff on the display
+const hud = new (<any>THREE).CSS3DArgonHUD();
+// We put some elements in the index.html, for convenience. 
+// Here, we retrieve the description box and move it to the 
+// the CSS3DArgonHUD hudElements[0].  We only put it in the left
+// hud since we will be hiding it in stereo
+var description = document.getElementById( "description" );
+hud.hudElements[0].appendChild(description);
+app.view.element.appendChild(hud.domElement);
+// Tell argon what local coordinate system you want. 
+app.context.setDefaultReferenceFrame(app.context.localOriginEastUpSouth);
 '
 jscode='
-var boxGeoObject = new THREE.Object3D;
-'
+// to easily control stuff on the display
+var hud = new THREE.CSS3DArgonHUD();
+// We put some elements in the index.html, for convenience. 
+// Here, we retrieve the description box and move it to the 
+// the CSS3DArgonHUD hudElements[0].  We only put it in the left
+// hud since we will be hiding it in stereo
+var description = document.getElementById("description");
+hud.hudElements[0].appendChild(description);
+app.view.element.appendChild(hud.domElement);
+// Tell argon what local coordinate system you want. 
+app.context.setDefaultReferenceFrame(app.context.localOriginEastUpSouth);'
 %}
+
+Now we set up the six markers...
 
 {% include code_highlight.html
 tscode='
