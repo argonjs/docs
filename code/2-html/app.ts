@@ -60,14 +60,12 @@ app.view.element.appendChild(hud.domElement);
 // Here, we retrieve them and move the information boxes to the 
 // the CSS3DArgonHUD hudElement.
 const hudContent = document.getElementById('hud');
-hud.hudElements[0].appendChild(hudContent);
+hud.appendChild(hudContent);
 var locationElements = hudContent.getElementsByClassName('location');
 
-//  We also move the description box to the Argon HUD.  
-var holder = document.createElement( 'div' );
+//  We also move the description box to the Argon HUD, but moving it inside the 'hud' element
 var hudDescription = document.getElementById( 'description' );
-holder.appendChild(hudDescription);
-hudContent.appendChild(holder);
+hudContent.appendChild(hudDescription);
 
 // All geospatial objects need to have an Object3D linked to a Cesium Entity.
 // We need to do this because Argon needs a mapping between Entities and Object3Ds.
@@ -106,8 +104,8 @@ boxGeoObject.add(boxLabel);
 
 var boxInit = false;
 var boxCartographicDeg = [0,0,0];
-var lastInfoText = "";
-var lastBoxText = "";
+var lastInfoText = '';
+var lastBoxText = '';
 
 // make floating point output a little less ugly
 function toFixed(value, precision) {
@@ -119,7 +117,7 @@ function toFixed(value, precision) {
 // rendered, before the renderEvent.  The state of your application
 // should be updated here.
 app.updateEvent.addEventListener((frame) => {
-    // get the position and orientation (the "pose") of the user
+    // get the position and orientation (the 'pose') of the user
     // in the local coordinate frame.
     const userPose = app.context.getEntityPose(app.context.user);
     // assuming we know the user's pose, set the position of our 
@@ -165,12 +163,13 @@ app.updateEvent.addEventListener((frame) => {
     // to make it a little less boring
     box.rotateY( 3 * frame.deltaTime/10000);
 
-    // stuff to print out the status message.  It's fairly expensive to convert FIXED
-    // coordinates back to LLA, but those coordinates probably make the most sense as
+    // stuff to print out the status message.
+    // It's fairly expensive to convert FIXED coordinates back to LLA, 
+    // but those coordinates probably make the most sense as
     // something to show the user, so we'll do that computation.
-    //
 
-    // cartographicDegrees is a 3 element array containing [longitude, latitude, height]
+    // cartographicDegrees is a 3 element array containing 
+    // [longitude, latitude, height]
     var gpsCartographicDeg = [0,0,0];
 
     // get user position in global coordinates
@@ -194,20 +193,22 @@ app.updateEvent.addEventListener((frame) => {
         ];
     }
 
-    // we'll compute the distance to the cube, just for fun. If the cube could be further away,
-    // we'd want to use Cesium.EllipsoidGeodesic, rather than Euclidean distance, but this is fine here.
-	var cameraPos = camera.getWorldPosition();
+    // we'll compute the distance to the cube, just for fun. 
+    // If the cube could be further away, we'd want to use 
+    // Cesium.EllipsoidGeodesic, rather than Euclidean distance, 
+    // but this is fine here.
+	var userPos = userLocation.getWorldPosition();
     var boxPos = box.getWorldPosition();
-    var distanceToBox = cameraPos.distanceTo( boxPos );
+    var distanceToBox = userPos.distanceTo( boxPos );
 
     // create some feedback text
-    var infoText = "Geospatial Argon example:<br>"
-    infoText += "Your location is lla (" + toFixed(gpsCartographicDeg[0],6) + ", ";
-    infoText += toFixed(gpsCartographicDeg[1], 6) + ", " + toFixed(gpsCartographicDeg[2], 2) + ")";
+    var infoText = 'Geospatial Argon example:<br>';
+    infoText += 'Your location is lla (' + toFixed(gpsCartographicDeg[0],6) + ', ';
+    infoText += toFixed(gpsCartographicDeg[1], 6) + ', ' + toFixed(gpsCartographicDeg[2], 2) + ')';
+    infoText += 'box is ' + toFixed(distanceToBox,2) + ' meters away';
 
-    var boxLabelText = "box lla = " + toFixed(boxCartographicDeg[0], 6) + ", ";
-    boxLabelText += toFixed(boxCartographicDeg[1], 6) + ", " + toFixed(boxCartographicDeg[2], 2) + "<br>";
-    boxLabelText += "box is " + toFixed(distanceToBox,2) + " meters away";
+    var boxLabelText = 'a wooden box!<br>lla = ' + toFixed(boxCartographicDeg[0], 6) + ', ';
+    boxLabelText += toFixed(boxCartographicDeg[1], 6) + ', ' + toFixed(boxCartographicDeg[2], 2);
 
     if (lastInfoText !== infoText) { // prevent unecessary DOM invalidations
         locationElements[0].innerHTML = infoText;
@@ -218,7 +219,7 @@ app.updateEvent.addEventListener((frame) => {
         boxLocDiv.innerHTML = boxLabelText;
         lastBoxText = boxLabelText;
     }
-})
+});
     
 // renderEvent is fired whenever argon wants the app to update its display
 app.renderEvent.addEventListener(() => {
@@ -260,5 +261,4 @@ app.renderEvent.addEventListener(() => {
         hud.setViewport(x,y,width,height, subview.index);
         hud.render(subview.index);
     }
-})
-
+});

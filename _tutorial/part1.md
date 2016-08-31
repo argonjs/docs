@@ -31,7 +31,7 @@ manually place it in a script tag in your html as you see here. However, if you 
 with using a module loader such as `jspm`, `webpack`, `browserify`, etc., then feel free to 
 do that instead (see the [Quick Start](/start/setup/) guide). 
 
-As you see here, the application code is not included in the html file. We recommend that you segregate the code into one or more external files. In order to ensure that the body is loaded by the time your script executes, it is convenient to load your application script just before the end-body tag.
+As you see here, the application code is not included in the html file, instead it is segregated into one or more external files. In order to ensure that the body is loaded by the time your script executes, it is convenient to load your application script just before the end-body tag.
 
 In addition to offering AR features (such as geolocation, video of the surrounding world, 3D graphics and image tracking), the Argon4 browser is a standard web browser (i.e., on iOS, it uses Apple's Webkit engine) and can therefore render just about any web content. You can take advantage of these capabilities in two ways:
 
@@ -94,7 +94,7 @@ To display graphics with [three.js](http://threejs.org/docs/#Manual/Introduction
 * Create a renderer for this application to use. Here, the WebGL renderer is used.  
 
 ## Creating the cube
-In this first example we create a simple box (cube) using methods provided by [three.js](http://threejs.org/) and then position that box in the world. This code creates the box and adds a texture to it:
+In this first example, a simple box (cube) is created using methods provided by [three.js](http://threejs.org/) and then position that box in the world. This code creates the box and adds a texture to it:
 {% include code_highlight.html
 tscode='
 var boxGeoObject = new THREE.Object3D();
@@ -120,11 +120,11 @@ loader.load( "box.png", function ( texture ) {
 boxGeoObject.add(box);'
 %}
 
-We have created two objects (the box itself and boxGeoObject to which to attach the box). In order to give the box a geolocation, we have to create a Cesium `Entity`, boxGeoEntity. Argon uses an enhanced set of the core libraries from [Cesium](http://cesiumjs.org) to represent and manipulate it's frames of reference, using a single coordinate system for every object, from geospatial coordinates down to items tracked with the camera.
+This code creates two objects (the box itself and boxGeoObject to which to attach the box). In order to give the box a geolocation, a Cesium `Entity` is used. Argon uses an enhanced set of the core libraries from [Cesium](http://cesiumjs.org) to represent and manipulate it's frames of reference, using a single coordinate system for every object, from geospatial coordinates down to items tracked with the camera.
 
-The `Cesium.Entity` object has properties for the position and orientation of the entity. The default coordinate frame used by Argon is Cesium's `FIXED` reference frame, which is centered at the center of the earth and oriented with the earth's axes. Unfortunately, this reference frame is inconvenient to use directly, as any point on the earth is very far from the center of the earth, and the orientation of the surface of the earth is not intuitive (as "up" is aligned with the axes between the north and south poles).  Thereore, within the `FIXED` reference frame, Argon defines a local coordinate frame that sits on a plane tangent to the earth near the user's current location (we selected which one above, using the `setDefaultReferenceFrame` function). 
+The Cesium `Entity` object has properties for the position and orientation of the entity. The default coordinate frame used by Argon is Cesium's `FIXED` reference frame, which is centered at the center of the earth and oriented with the earth's axes. Unfortunately, this reference frame is inconvenient to use directly, as any point on the earth is very far from the center of the earth, and the orientation of the surface of the earth is not intuitive (as "up" is aligned with the axes between the north and south poles).  Thereore, within the `FIXED` reference frame, Argon defines a local coordinate frame that sits on a plane tangent to the earth near the user's current location (`setDefaultReferenceFrame()` is used to set the local frame). 
 
-Argon reports the position and orientation of entities relative to this local frame. While arbitrary (the programmer does not choose the origin of this coordinate system), this local reference frame has an intuitive orientation relative to the user's location on the surface of the earth. Here we use `localOriginEastUpSouth` as our reference frame, so the positive x-axis is east, the positive y-axis is up and the positive z-axis is south.  If the user moves more than a few kilometers from the origin of this local frame, Argon updates the origin to their location, ensuring that the local reference frame is a reasonable approximation to what the user (and programmer) perceive as their local coordinates (i.e., as you move around the earth, positive y will remain "up", positive x will point east and positive z will point south).
+Argon reports the position and orientation of entities relative to this local frame. While arbitrary (the programmer does not choose the origin of this coordinate system), this local reference frame has an intuitive orientation relative to the user's location on the surface of the earth. This example uses `localOriginEastUpSouth` as the default reference frame, so the positive x-axis is east, the positive y-axis is up and the positive z-axis is south.  If the user moves more than a few kilometers from the origin of this local frame, Argon updates the origin to their location, ensuring that the local reference frame is a reasonable approximation to what the user (and programmer) perceive as their local coordinates (i.e., as you move around the earth, positive y will remain "up", positive x will point east and positive z will point south).
 
 Since the local reference frame may change at any time, a programmer should not save and use the values in this frame for more than a single update and render step. If the values need to be saved and used over multiple frames, it is possible to be notified when the local frame of reference changes.
 
@@ -140,11 +140,10 @@ var boxGeoEntity = new Argon.Cesium.Entity({
     name: "I have a box",
     position: Cartesian3.ZERO,
     orientation: Cesium.Quaternion.IDENTITY
-});
-boxGeoObject.add(box);'
+});'
 %}
 
-Up to this point, we have the box (a textured cube) object attached it to a geoEntity.  We have not yet actually located that entity in the world. The position of boxGeoEntity is set to (0,0,0) by default. We will figure out the geolocation of the boxGeoEntity the first time that the first of the two event listeners described below are run.
+At this point, the box object (a textured cube) is attached to the scene and there is a Cesium Entity for it, but it is not yet actually located that in the world. The position of boxGeoEntity is set to (0,0,0) by default. The geolocation of the boxGeoEntity will be computed after Argon has determined the location of the user, below.
 
 ## The Argon Update and Rendering Events 
 
@@ -152,9 +151,9 @@ Argon is designed to work in a variety of browsers and leverage different approa
 
 Whenever the application should update and re-render the scene, two event listeners (`updateEvent` and `renderEvent`) are triggered in turn, allowing the application state to be updated separately from rendering. Your application (and support libraries) may subscribe to these events in multiple places, and all update event listeners will be called before all render event listeners.
 
-An update event listener is where your application should generally make changes to the scene (adding, manipulating, or deleting objects you have created). In this example, the first time the update event listener is called, we place the box in a geospatial position 10 meters to the east of the user (we are using `localOriginEastUpSouth` as our local reference frame, so positive `x` is east).  To position the box, a new position `boxPos` is created and its `x` incremented by 10.  Next, the value of the `position` property on the Cesium.Eneity `boxGeoEntity` is set to this new position.  
+An update event listener is where your application should generally make changes to the scene (adding, manipulating, or deleting objects you have created). In this example, the first time the update event listener is called, the box's geospatial position is set to be 10 meters to the east of the user (the local reference frame is `localOriginEastUpSouth` so positive `x` is east).  To position the box, a new position `boxPos` is created and its `x` incremented by 10.  Next, the value of the `position` property on the Cesium.Eneity `boxGeoEntity` is set to this new position.  
 
-It is *very* important to pay attention to the frame of reference for this property, which is our default reference frame:  we do not want to leave the `boxGeoEntity` in this frame of reference because the default reference frame may get reset at any time (if the user moves away from the origin of the frame).  Therefore, we call `convertEntityReferenceFrame()` to convert this entity to `ReferenceFrame.FIXED`, Cesium's earth-centered reference frame.  `convertEntityReferenceFrame` updates the `position` and `orientation` properties of the entity such that the entity appears to be in exactly the same position and orientation, but now these properties are expressed in the new reference frame.  If you looked at the values of the properties after this call, the position would be very large, and the orientation will have changed to an angle corresponding to the tangent plane of the earth at your current location.  At this point, the `boxGeoEntity` is expressed in geospatial coordinates, independent of the location of the user and the (arbitrary) local reference frame.
+It is *very* important to pay attention to the frame of reference for this property, which is our default reference frame:  you do not want to leave the `boxGeoEntity` in this frame of reference because the default reference frame may get reset at any time (if the user moves away from the origin of the frame).  Therefore,  `convertEntityReferenceFrame()` is called to convert this entity to `ReferenceFrame.FIXED`, Cesium's earth-centered reference frame.  `convertEntityReferenceFrame` updates the `position` and `orientation` properties of the entity such that the entity appears to be in exactly the same position and orientation, but now these properties are expressed in the new reference frame.  If you looked at the values of the properties after this call, the position would be very large, and the orientation will have changed to an angle corresponding to the tangent plane of the earth at your current location.  At this point, the `boxGeoEntity` is expressed in geospatial coordinates, independent of the location of the user and the (arbitrary) local reference frame.
 
 Next, the update listener sets the position and orientation of the [three.js](http://threejs.org/) `boxGeoObject` based on the pose of the `boxGeoEntity` in the local reference frame. It also rotates the box each time through the loop for visual interest (and so you have some indication the application is running when you look at it).
 
@@ -335,7 +334,7 @@ app.renderEvent.addEventListener(function () {
 });'
 %}
 
-With these two events, the code for the first example is complete. 
+With these two events, the code for the first example is complete.  The details of the code in the render event listener will be discussed in greater detail in [part 3](../part3) of this tutorial, when we discuss how an Argon application should handle Argon4's *Stereo Viewer Mode*.
 
 ## Epiloge: Modern GPS and Location Technology
 

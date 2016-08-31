@@ -223,10 +223,10 @@ app.updateEvent.addEventListener((frame) => {
     var infoText = "Geospatial Argon example:<br>"
     infoText += "Your location is lla (" + toFixed(gpsCartographicDeg[0],6) + ", ";
     infoText += toFixed(gpsCartographicDeg[1], 6) + ", " + toFixed(gpsCartographicDeg[2], 2) + ")";
+    infoText += "box is " + toFixed(distanceToBox,2) + " meters away";
 
-    var boxLabelText = "box lla = " + toFixed(boxCartographicDeg[0], 6) + ", ";
-    boxLabelText += toFixed(boxCartographicDeg[1], 6) + ", " + toFixed(boxCartographicDeg[2], 2) + "<br>";
-    boxLabelText += "box is " + toFixed(distanceToBox,2) + " meters away";
+    var boxLabelText = "a wooden box!<br>lla = " + toFixed(boxCartographicDeg[0], 6) + ", ";
+    boxLabelText += toFixed(boxCartographicDeg[1], 6) + ", " + toFixed(boxCartographicDeg[2], 2) + "";
 
     if (lastInfoText !== infoText) { // prevent unecessary DOM invalidations
         locationElements[0].innerHTML = infoText;

@@ -8,7 +8,20 @@ var JulianDate = Argon.Cesium.JulianDate;
 var CesiumMath = Argon.Cesium.CesiumMath;
 // set up Argon
 var app = Argon.init();
-//app.view.element.style.zIndex = 0;
+// Tell argon what local coordinate system you want.  The default coordinate
+// frame used by Argon is Cesium's FIXED frame, which is centered at the center
+// of the earth and oriented with the earth's axes.  
+// The FIXED frame is inconvenient for a number of reasons: the numbers used are
+// large and cause issues with rendering, and the orientation of the user's "local
+// view of the world" is different that the FIXED orientation (my perception of "up"
+// does not correspond to one of the FIXED axes).  
+// Therefore, Argon uses a local coordinate frame that sits on a plane tangent to 
+// the earth near the user's current location.  This frame automatically changes if the
+// user moves more than a few kilometers.
+// The EUS frame cooresponds to the typical 3D computer graphics coordinate frame, so we use
+// that here.  The other option Argon supports is localOriginEastNorthUp, which is
+// more similar to what is used in the geospatial industry
+app.context.setDefaultReferenceFrame(app.context.localOriginEastUpSouth);
 // set up THREE.  Create a scene, a perspective camera and an object
 // for the user's location
 var scene = new THREE.Scene();
@@ -26,35 +39,18 @@ renderer.setPixelRatio(window.devicePixelRatio);
 app.view.element.appendChild(renderer.domElement);
 // We put some elements in the index.html, for convenience. 
 var locationElement = document.getElementById("location");
-// Tell argon what local coordinate system you want.  The default coordinate
-// frame used by Argon is Cesium's FIXED frame, which is centered at the center
-// of the earth and oriented with the earth's axes.  
-// The FIXED frame is inconvenient for a number of reasons: the numbers used are
-// large and cause issues with rendering, and the orientation of the user's "local
-// view of the world" is different that the FIXED orientation (my perception of "up"
-// does not correspond to one of the FIXED axes).  
-// Therefore, Argon uses a local coordinate frame that sits on a plane tangent to 
-// the earth near the user's current location.  This frame automatically changes if the
-// user moves more than a few kilometers.
-// The EUS frame cooresponds to the typical 3D computer graphics coordinate frame, so we use
-// that here.  The other option Argon supports is localOriginEastNorthUp, which is
-// more similar to what is used in the geospatial industry
-app.context.setDefaultReferenceFrame(app.context.localOriginEastUpSouth);
 // All geospatial objects need to have an Object3D linked to a Cesium Entity.
 // We need to do this because Argon needs a mapping between Entities and Object3Ds.
 //
-// Here we create two objects, showing two slightly different approaches.
-//
-// First, we position a cube near Georgia Tech using a known LLA.
-//
-// Second, we will position a cube near our starting location.  This geolocated object starts without a
+// Here, we will position a cube near our starting location.  This geolocated object starts without a
 // location, until our reality is set and we know the location.  Each time the reality changes, we update
 // the cube position.
-// create a 1m cube with a wooden box texture on it, that we will attach to the geospatial object when we create it
+// This code creates a 1m cube with a wooden box texture on it, 
+// that we will attach to the geospatial object when we create it.
 // Box texture from https://www.flickr.com/photos/photoshoproadmap/8640003215/sizes/l/in/photostream/
-//, licensed under https://creativecommons.org/licenses/by/2.0/legalcode
-var boxGeoObject = new THREE.Object3D;
-var box = new THREE.Object3D;
+// licensed under https://creativecommons.org/licenses/by/2.0/legalcode
+var boxGeoObject = new THREE.Object3D();
+var box = new THREE.Object3D();
 var loader = new THREE.TextureLoader();
 loader.load('box.png', function (texture) {
     var geometry = new THREE.BoxGeometry(1, 1, 1);
@@ -62,25 +58,16 @@ loader.load('box.png', function (texture) {
     var mesh = new THREE.Mesh(geometry, material);
     box.add(mesh);
 });
+boxGeoObject.add(box);
 var boxGeoEntity = new Argon.Cesium.Entity({
     name: "I have a box",
     position: Cartesian3.ZERO,
     orientation: Cesium.Quaternion.IDENTITY
 });
-boxGeoObject.add(box);
-// putting position and orientation in the constructor above is the 
-// equivalent of doing this:
-//
-//     const boxPosition = new Cesium.ConstantPositionProperty
-//                   (Cartesian3.ZERO.clone(), ReferenceFrame.FIXED);
-//     boxGeoEntity.position = boxPosition;
-//     const boxOrientation = new Cesium.ConstantProperty(Cesium.Quaternion);
-//     boxOrientation.setValue(Cesium.Quaternion.IDENTITY);
-//     boxGeoEntity.orientation = boxOrientation;
-var boxInit = false;
 // the updateEvent is called each time the 3D world should be
 // rendered, before the renderEvent.  The state of your application
 // should be updated here.
+var boxInit = false;
 app.updateEvent.addEventListener(function (frame) {
     // get the position and orientation (the "pose") of the user
     // in the local coordinate frame.

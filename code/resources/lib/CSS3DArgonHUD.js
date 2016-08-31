@@ -20,12 +20,15 @@ THREE.CSS3DArgonHUD = function () {
 	hudElements[0].style.display = 'none'; // start hidden
 	hudElements[0].style.position = 'absolute';
 	hudElements[0].style.overflow = 'hidden';
+	hudElements[0].classList.add('argonhud');
+	hudElements[0].classList.add('argonhudReft');
 	domElement.appendChild( hudElements[0] );
 
 	hudElements[1] = document.createElement( 'div' );
 	hudElements[1].style.display = 'none'; // start hidden
 	hudElements[1].style.position = 'absolute';
 	hudElements[1].style.overflow = 'hidden';
+	hudElements[0].classList.add('argonhudRight');
 	domElement.appendChild( hudElements[1] );
 
 	this.appendChild = function (element, element2) {
