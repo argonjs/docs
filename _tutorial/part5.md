@@ -154,17 +154,17 @@ The six markers are defined as divs with styled content.
 {% include code_highlight.html
 tscode='
 // creating 6 divs to indicate the x y z positioning
-var divXpos = document.createElement('div')
-var divXneg = document.createElement('div')
-var divYpos = document.createElement('div')
-var divYneg = document.createElement('div')
-var divZpos = document.createElement('div')
-var divZneg = document.createElement('div')
+var divXpos = document.createElement("div")
+var divXneg = document.createElement("div")
+var divYpos = document.createElement("div")
+var divYneg = document.createElement("div")
+var divZpos = document.createElement("div")
+var divZneg = document.createElement("div")
 
 // programatically create a stylesheet for our direction divs
 // and add it to the document
 const style = document.createElement("style");
-style.type = 'text/css';
+style.type = "text/css";
 document.head.appendChild(style);
 const sheet = <CSSStyleSheet>style.sheet;
 sheet.insertRule(`
@@ -205,21 +205,19 @@ divZpos.innerText = "Pos Z = South"
 
 divZneg.className = "cssContent"
 divZneg.style.backgroundColor = "green"
-divZneg.innerText = "Neg Z = North"
-
-'
+divZneg.innerText = "Neg Z = North"'
 jscode='
 // creating 6 divs to indicate the x y z positioning
-var divXpos = document.createElement('div');
-var divXneg = document.createElement('div');
-var divYpos = document.createElement('div');
-var divYneg = document.createElement('div');
-var divZpos = document.createElement('div');
-var divZneg = document.createElement('div');
+var divXpos = document.createElement("div");
+var divXneg = document.createElement("div");
+var divYpos = document.createElement("div");
+var divYneg = document.createElement("div");
+var divZpos = document.createElement("div");
+var divZneg = document.createElement("div");
 // programatically create a stylesheet for our direction divs
 // and add it to the document
 var style = document.createElement("style");
-style.type = 'text/css';
+style.type = "text/css";
 document.head.appendChild(style);
 var sheet = style.sheet;
 sheet.insertRule("\n    .cssContent {\n        opacity: 0.5;\n        width: 100px;\n        height: 100px;\n        border-radius: 50%;\n        line-height: 100px;\n        fontSize: 20px;\n        text-align: center;\n    }\n", 0);
@@ -244,9 +242,7 @@ divZpos.style.backgroundColor = "green";
 divZpos.innerText = "Pos Z = South";
 divZneg.className = "cssContent";
 divZneg.style.backgroundColor = "green";
-divZneg.innerText = "Neg Z = North";
-
-'
+divZneg.innerText = "Neg Z = North";'
 %}
 
 6 CSS objects are created, one associated with each div.
@@ -301,9 +297,7 @@ cssObjectZpos.rotation.y = Math.PI
 cssObjectZneg.position.x = 0.0
 cssObjectZneg.position.y = 0.0
 cssObjectZneg.position.z = -200.0
-//no rotation need for this one
-
-'
+//no rotation need for this one'
 jscode='
 // create 6 CSS3DObjects in the scene graph.  The CSS3DObject object 
 // is used by the CSS3DArgonRenderer. Because an HTML element can only
@@ -348,8 +342,7 @@ cssObjectZpos.rotation.y = Math.PI;
 cssObjectZneg.position.x = 0.0;
 cssObjectZneg.position.y = 0.0;
 cssObjectZneg.position.z = -200.0;
-// no rotation needed for z
-'
+// no rotation needed for z'
 %}
 
 
@@ -443,7 +436,7 @@ app.updateEvent.addEventListener(function () {
 %}
 
 
-
+<!--
 eyeOrigin is linked to the entity that contains the position of the camera. Since we made eyeOrigin the root object in three.js, all 6 directional signs will be positioned relative to eyeOrigin.
 
 
@@ -625,3 +618,4 @@ eyeOrigin.add(cssObjectZneg)'
 %}
 
  Because all the objects are placed relative to the eyeOrigin, they will move with the user/camera. In the next tutorial [Tutorial 3 - Periodic Table]({{ site.baseurl }}tutorial/part3)), we show a more elaborate version of this same idea and also illustrate how the user can interact with 3D objects through the use of buttons on the screen.
+-->
