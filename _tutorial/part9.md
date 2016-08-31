@@ -2,26 +2,11 @@
 layout: page
 title: 'Part 9: argon.js in Other Browsers'
 ---
+> Download [Argon4](http://argonjs.io/argon-app) and the [Tutorial Source Code](https://github.com/argonjs/docs/tree/gh-pages/code). <br> This tutorial uses the *9-browsers* and *resources* directories.<br> **[Live Demo](/code/9-browsers)**
 
-Tutorial on how to properly deal with other browsers, leveraging custom realities, idea of "browser defaults" and still keeping the user in control
+## Coming Soon ...
 
---- THIS TUTORIAL IS STILL UNDER CONSTRUCTION. AVAILABLE SOON.
+This part of the tutorial will discuss how to create Argon applications that correctly deal with being viewed in traditional web browsers in addition to Argon4.  
 
-<!--
+This tutorial will leveraging custom realities, and discuss how the goal of keeping the user in control of the experience has guided the design of argon.js and how it supports multiple browsers.
 
-At this time, there is no comprehensive authoring environment for Argon. As a result the best way to test and debug Argon experiences is by running the code in the standard browsers (Safari or Chrome), either on a laptop or on a mobile device connected to a laptop. While more testing is possible using a Mac running OS X, you can also do some testing on a Windows machine. 
-
-### Preliminary debugging of html, css, or javascript
-
-Any html and css that you have in your experience can of course be developed and tested using any web editor/environment that you prefer prior to inserting the code into the Argon experience. The same is true of any javascript/Typescript code that does not call use Argon methods or objects.
-
-### Test an Argon channel on a desktop or laptop browser
-
-Using Safari or Chrome browser
-
-
-### Test an Argon channel on an iPhone or iPad in the Safari browser connected to a laptop or desktop
-
-Much of the functionality of the experience can be tested and debugging by connecting the Safari browser on your iPhone/iPad and to Safari browser 
-
--->
