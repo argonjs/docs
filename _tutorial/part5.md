@@ -115,8 +115,7 @@ scene.add(userLocation);
 var renderer = new THREE.CSS3DArgonRenderer();
 app.view.element.appendChild(renderer.domElement);
 // to easily control stuff on the display
-var hud = new THREE.CSS3DArgonHUD();
-'
+var hud = new THREE.CSS3DArgonHUD();'
 %}
 
 This code  creates a HUD elements to hold text that describes the example, which appears on the screen when the user opens the application.
@@ -133,8 +132,7 @@ var description = document.getElementById( "description" );
 hud.hudElements[0].appendChild(description);
 app.view.element.appendChild(hud.domElement);
 // Tell argon what local coordinate system you want. 
-app.context.setDefaultReferenceFrame(app.context.localOriginEastUpSouth);
-'
+app.context.setDefaultReferenceFrame(app.context.localOriginEastUpSouth);'
 jscode='
 // to easily control stuff on the display
 var hud = new THREE.CSS3DArgonHUD();
