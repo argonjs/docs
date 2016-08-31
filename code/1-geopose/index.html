@@ -3,23 +3,16 @@
   <head>
     <title>Geo</title>
     <script src="../resources/lib/three/three.min.js"></script>
-    <script src="../resources/lib/CSS3DArgonRenderer.js"></script>
-    <script src="../resources/lib/CSS3DArgonHUD.js"></script>
     <script src="../resources/lib/argon.min.js"></script>
     <link rel="stylesheet" type="text/css" href="style.css">
   </head>
   <body>
     <div id="argon">
-      <div id="hud">
-        <div id="menu" class="menu">
-          <button id="location" class="location">lon (0) lat (0)</button>
-        </div>
-      </div>
       <div onclick="hideMe(this)" id="description" >
         <h2>A Simple Geo example</h2>
         <h5>(click to dismiss)</h5>
         <p>This example takes the current location of the viewer, and positions a cube a small distance away from where the viewer was positioned when the example was loaded.  We do this by adding a small amount to our current east-west location, in the local Three.js cartesian coordinates.  This illustrates how to create geospatial content based on the current location, and update the internal geospatial location of the object.</p>
-    </div>
+      </div>
     </div>
   </body>
 	<script>

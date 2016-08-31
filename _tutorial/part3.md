@@ -1,8 +1,8 @@
 ---
 layout: page
-title: 'Part 3: Stereo mode'
+title: 'Part 3: Stereo Viewer Mode'
 ---
-
+> Download [Argon4](http://argonjs.io/argon-app) and the [Tutorial Source Code](https://github.com/argonjs/docs/tree/gh-pages/code). <br> This tutorial uses the *3-stereo* and *resources* directories.<br> **[Live Demo](/code/3-stereo)**
 This tutorial explains how to set up for stereo viewing including:
 
 1. how to deal with stereo in WebGL renderer.  
@@ -11,6 +11,15 @@ This tutorial explains how to set up for stereo viewing including:
 4. the same cube and the dynamic information from tutorial 2 will be used
 
 ---THIS TUTORIAL IS STILL UNDER CONSTRUCTION. AVAILABLE SOON.
+
+
+It did not, however, deal with (3).  If you switch the example to *Viewer Mode* the 2D element on the display appears only in the left eye.
+
+
+Both support two viewports, and allow the programmer to provide either one or two HTML elements for each HTML element to be displayed;  the second element will be used for the right eye in *Viewer Mode*, and will be created by cloning the first one if only one is provided.
+
+
+`CSS3DArgonRenderer.js` creates two CSS 3D `perspective` elements for HTML content (to support stereo;  the first element is used when not in stereo mode).  Similarly, `CSS3DArgonHUD.js` creates two absolutely positioned and sized HTML elements as containers for the 2D content on the display.
 
 <!---
 

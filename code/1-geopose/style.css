@@ -6,43 +6,6 @@ a {
 	color: #ffffff;
 }
 
-.menu {
-	position: absolute;
-	bottom: 0;
-	width: 100%;
-	text-align: center;
-}
-
-button {
-	color: white;
-	background: rgba(27,55,55,0.75);;
-	outline: 1px solid rgba(127,255,255,0.75);
-	border: 0px;
-	margin-bottom: 20px;
-	padding: 5px 10px;
-	cursor: pointer;
-}
-
-button:hover {
-	background-color: rgba(0,255,255,0.5);
-}
-
-button:active {
-	color: #000000;
-	background-color: rgba(0,255,255,0.75);
-}
-
-#hud {
-  	pointer-events: auto;
-	display: inline-block;
-	position: absolute; 
-	overflow: hidden; 
-	top: 0px; 
-	left: 0px; 
-	width: 100%; 
-	height: 100%;
-}
-
 #description {
   pointer-events: auto;
   font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
@@ -51,23 +14,4 @@ button:active {
   -webkit-backdrop-filter: blur(5px);
   position:absolute;
   bottom: 0px;
-}
-
-.argon-focus #menu {
-  transition: opacity 0.8s;
-  visibility: visible;
-  opacity: 1; 
-}
-
-.argon-no-focus #menu {
-  transition: visibility 0s linear 0.8s, opacity 0.8s;
-  visibility: visible;
-  opacity: 0;
-}
-
-#hud {
-}
-
-#menu {
-  pointer-events: none;
 }

@@ -34,29 +34,58 @@ const userLocation = new THREE.Object3D;
 scene.add(camera);
 scene.add(userLocation);
 
+// The CSS3DArgonRenderer supports mono and stereo views.  Currently
+// not using it in this example, but left it in the code in case we
+// want to add an HTML element near the geo object. 
+// The CSS3DArgonHUD is a place to put things that appear 
+// fixed to the screen (heads-up-display).  
 // In this demo, we are  rendering the 3D graphics with WebGL, 
-// using the standard WebGLRenderer
+// using the standard WebGLRenderer, and using the CSS3DArgonHUD
+// to manage the 2D display fixed content
+const cssRenderer = new (<any>THREE).CSS3DArgonRenderer();
+const hud = new (<any>THREE).CSS3DArgonHUD();
 const renderer = new THREE.WebGLRenderer({ 
     alpha: true, 
     logarithmicDepthBuffer: true
 });
 renderer.setPixelRatio(window.devicePixelRatio);
+
+// Assuming the z-orders are the same, the order of sibling elements
+// in the DOM determines which content is in front (top->bottom = back->front)
 app.view.element.appendChild(renderer.domElement);
+app.view.element.appendChild(cssRenderer.domElement);
+app.view.element.appendChild(hud.domElement);
 
 // We put some elements in the index.html, for convenience. 
-const locationElement = document.getElementById("location");
+// Here, we retrieve them, duplicate and move the information boxes to the 
+// the CSS3DArgonHUD hudElements.  We are explicitly creating the two
+// elements so we can update them both.
+const hudContent = document.getElementById('hud');
+hud.hudElements[0].appendChild(hudContent);
+hud.hudElements[1].appendChild(hudContent.cloneNode(true));
+var locationElements = hud.domElement.getElementsByClassName('location');
+
+//  We also move the description box to the left Argon HUD.  
+// We don't duplicated it because we only use it in mono mode
+var holder = document.createElement( 'div' );
+var hudDescription = document.getElementById( 'description' );
+holder.appendChild(hudDescription);
+hudContent.appendChild(holder);
 
 // All geospatial objects need to have an Object3D linked to a Cesium Entity.
 // We need to do this because Argon needs a mapping between Entities and Object3Ds.
 //
-// Here, we will position a cube near our starting location.  This geolocated object starts without a
+// Here we create two objects, showing two slightly different approaches.
+//
+// First, we position a cube near Georgia Tech using a known LLA.
+//
+// Second, we will position a cube near our starting location.  This geolocated object starts without a
 // location, until our reality is set and we know the location.  Each time the reality changes, we update
 // the cube position.
 
-// This code creates a 1m cube with a wooden box texture on it, 
-// that we will attach to the geospatial object when we create it.
+// create a 1m cube with a wooden box texture on it, that we will attach to the geospatial object when we create it
 // Box texture from https://www.flickr.com/photos/photoshoproadmap/8640003215/sizes/l/in/photostream/
-// licensed under https://creativecommons.org/licenses/by/2.0/legalcode
+//, licensed under https://creativecommons.org/licenses/by/2.0/legalcode
 var boxGeoObject = new THREE.Object3D();
 
 var box = new THREE.Object3D();
@@ -65,9 +94,8 @@ loader.load( 'box.png', function ( texture ) {
     var geometry = new THREE.BoxGeometry(1, 1, 1);
     var material = new THREE.MeshBasicMaterial( { map: texture } );
     var mesh = new THREE.Mesh( geometry, material );
-    box.add( mesh )
-});
-boxGeoObject.add(box);
+    box.add( mesh );
+})
 
 var boxGeoEntity = new Argon.Cesium.Entity({
     name: "I have a box",
@@ -75,11 +103,40 @@ var boxGeoEntity = new Argon.Cesium.Entity({
     orientation: Cesium.Quaternion.IDENTITY
 });
 
+boxGeoObject.add(box);
+
+// Create a DIV to use to label the position and distance of the cube
+let boxLocDiv = document.getElementById("box-location");
+let boxLocDiv2 = boxLocDiv.cloneNode(true) as HTMLElement;
+const boxLabel = new THREE.CSS3DSprite([boxLocDiv, boxLocDiv2]);
+boxLabel.scale.set(0.02, 0.02, 0.02);
+boxLabel.position.set(0,1.25,0);
+boxGeoObject.add(boxLabel);
+
+// putting position and orientation in the constructor above is the 
+// equivalent of doing this:
+//
+//     const boxPosition = new Cesium.ConstantPositionProperty
+//                   (Cartesian3.ZERO.clone(), ReferenceFrame.FIXED);
+//     boxGeoEntity.position = boxPosition;
+//     const boxOrientation = new Cesium.ConstantProperty(Cesium.Quaternion);
+//     boxOrientation.setValue(Cesium.Quaternion.IDENTITY);
+//     boxGeoEntity.orientation = boxOrientation;
+
+var boxInit = false;
+var boxCartographicDeg = [0,0,0];
+var lastInfoText = "";
+var lastBoxText = "";
+
+// make floating point output a little less ugly
+function toFixed(value, precision) {
+    var power = Math.pow(10, precision || 0);
+    return String(Math.round(value * power) / power);
+}
+
 // the updateEvent is called each time the 3D world should be
 // rendered, before the renderEvent.  The state of your application
 // should be updated here.
-var boxInit = false;
-
 app.updateEvent.addEventListener((frame) => {
     // get the position and orientation (the "pose") of the user
     // in the local coordinate frame.
@@ -127,6 +184,61 @@ app.updateEvent.addEventListener((frame) => {
     // to make it a little less boring
     box.rotateY( 3 * frame.deltaTime/10000);
 
+    // stuff to print out the status message.  It's fairly expensive to convert FIXED
+    // coordinates back to LLA, but those coordinates probably make the most sense as
+    // something to show the user, so we'll do that computation.
+    //
+
+    // cartographicDegrees is a 3 element array containing [longitude, latitude, height]
+    var gpsCartographicDeg = [0,0,0];
+
+    // get user position in global coordinates
+    const userPoseFIXED = app.context.getEntityPose(app.context.user, ReferenceFrame.FIXED);
+    const userLLA = Cesium.Ellipsoid.WGS84.cartesianToCartographic(userPoseFIXED.position);
+    if (userLLA) {
+        gpsCartographicDeg = [
+            CesiumMath.toDegrees(userLLA.longitude),
+            CesiumMath.toDegrees(userLLA.latitude),
+            userLLA.height
+        ];
+    }
+
+    const boxPoseFIXED = app.context.getEntityPose(boxGeoEntity, ReferenceFrame.FIXED);
+    const boxLLA = Cesium.Ellipsoid.WGS84.cartesianToCartographic(boxPoseFIXED.position);
+    if (boxLLA) {
+        boxCartographicDeg = [
+            CesiumMath.toDegrees(boxLLA.longitude),
+            CesiumMath.toDegrees(boxLLA.latitude),
+            boxLLA.height
+        ];
+    }
+
+    // we'll compute the distance to the cube, just for fun. If the cube could be further away,
+    // we'd want to use Cesium.EllipsoidGeodesic, rather than Euclidean distance, but this is fine here.
+	var cameraPos = camera.getWorldPosition();
+    var boxPos = box.getWorldPosition();
+    var distanceToBox = cameraPos.distanceTo( boxPos );
+
+    // create some feedback text
+    var infoText = "Geospatial Argon example:<br>"
+    infoText += "Your location is lla (" + toFixed(gpsCartographicDeg[0],6) + ", ";
+    infoText += toFixed(gpsCartographicDeg[1], 6) + ", " + toFixed(gpsCartographicDeg[2], 2) + ")";
+
+    var boxLabelText = "box lla = " + toFixed(boxCartographicDeg[0], 6) + ", ";
+    boxLabelText += toFixed(boxCartographicDeg[1], 6) + ", " + toFixed(boxCartographicDeg[2], 2) + "<br>";
+    boxLabelText += "box is " + toFixed(distanceToBox,2) + " meters away";
+
+    if (lastInfoText !== infoText) { // prevent unecessary DOM invalidations
+        locationElements[0].innerHTML = infoText;
+        locationElements[1].innerHTML = infoText;
+        lastInfoText = infoText;
+    }
+
+    if (lastBoxText !== boxLabelText) { // prevent unecessary DOM invalidations
+        boxLocDiv.innerHTML = boxLabelText;
+        boxLocDiv2.innerHTML = boxLabelText;
+        lastBoxText = boxLabelText;
+    }
 })
     
 // renderEvent is fired whenever argon wants the app to update its display
@@ -136,6 +248,16 @@ app.renderEvent.addEventListener(() => {
     // both views if we are in stereo viewing mode
     const viewport = app.view.getViewport();
     renderer.setSize(viewport.width, viewport.height);
+    cssRenderer.setSize(viewport.width, viewport.height);
+    hud.setSize(viewport.width, viewport.height);
+
+    // There is 1 subview in monocular mode, 2 in stereo mode.
+    // If we are in mono view, show the description.  If not, hide it, 
+    if (app.view.getSubviews().length > 1) {
+      holder.style.display = 'none';
+    } else {
+      holder.style.display = 'block';
+    }
 
     // there is 1 subview in monocular mode, 2 in stereo mode    
     for (let subview of app.view.getSubviews()) {
@@ -151,11 +273,21 @@ app.renderEvent.addEventListener(() => {
         // set the viewport for this view
         let {x,y,width,height} = subview.viewport;
 
+        // set the CSS rendering up, by computing the FOV, and render this view
+        camera.fov = THREE.Math.radToDeg(frustum.fovy);
+
+        cssRenderer.setViewport(x,y,width,height, subview.index);
+        cssRenderer.render(scene, camera, subview.index);
+
         // set the webGL rendering parameters and render this view
         renderer.setViewport(x,y,width,height);
         renderer.setScissor(x,y,width,height);
         renderer.setScissorTest(true);
         renderer.render(scene, camera);
+
+        // adjust the hud
+        hud.setViewport(x,y,width,height, subview.index);
+        hud.render(subview.index);
     }
 })
 

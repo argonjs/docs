@@ -3,7 +3,7 @@ layout: page
 title: 'Part 1: Getting Started'
 ---
 
-> Download [Argon4](http://argonjs.io/argon-app) and the [Tutorial Source Code](https://github.com/argonjs/docs/tree/gh-pages/code). <br> This tutorial uses the *1-geopose* and *resources* directories. **[Live Demo](/code/1-geopose)**
+> Download [Argon4](http://argonjs.io/argon-app) and the [Tutorial Source Code](https://github.com/argonjs/docs/tree/gh-pages/code). <br> This tutorial uses the *1-geopose* and *resources* directories.<br> **[Live Demo](/code/1-geopose)**
 
 In general, *argon.js* apps can be structured however you want. For this tutorial
 we follow a [single-page app](https://en.wikipedia.org/wiki/Single-page_application)
@@ -39,14 +39,14 @@ In addition to offering AR features (such as geolocation, video of the surroundi
 
 * Second, because Webkit is a full-featured HTML5 engine (used by Safari), Argon can render most web pages (e.g., including those without any AR features). Just type the url into the text box.
 
-### The application code (TypeScript and JavaScript)
+## The Application Code (TypeScript and JavaScript)
 Segregating the JavaScript code into a file separate from index.html allows for a cleaner workflow as well as the use of Javascript development tools to transcode, minify or otherwise manipulate your code. For this tutorial, the application script is named `app.js`.
 
 The code for this tutorial (and argon.js!) is written in Typescript, [a typed superset of Javascript that compiles to plain Javascript](https://www.typescriptlang.org). The code snippets in these tutorials are given in both forms. Both an `app.ts` (Typescript) and `app.js` (Javascript) file are included in the example folders, but only the `app.js` file is actually downloaded and used in executing the channel. 
 
 Note: This tutorial assumes that you are already familiar with the fundamentals of computer graphics: the concept of a scene graph, creating and manipulating 3D objects and textures, the camera, etc. While Argon is agnostic to what rendering system you use, the Argon samples and tutorials currently use the javascript graphics framework [three.js](http://threejs.org/) to create and manage the scenegraph. See the [threejs.org](http://threejs.org) documentation for a complete description.  
 
-In order to initialize Argon and [three.js](http://threejs.org/), this example (like most [Argon samples](http://argonjs.io/samples)), begins with:
+In order to initialize Argon and [three.js](http://threejs.org/), this example (like most [Argon samples](http://argonjs.io/samples)) begins with:
 
 {% include code_highlight.html
 tscode='
@@ -89,40 +89,44 @@ To display graphics with [three.js](http://threejs.org/docs/#Manual/Introduction
 
 * The first lines of the above code initialize Argon, and choose the local frame of reference.  Argon uses global coordinates, which are not convenient for rendering, so a local origin is used for rendering.
 * Create a scene object and camera for [three.js](http://threejs.org/).
-* userLocation is an object that will hold the position of the user (normally the same as the camera, since the user is holding the camera in their hand). 
+* userLocation is an object that will be located at the position of the user (normally the same as the camera, since the user is holding the camera in their hand).  It is not used in this example, but included in the code since it is often needed. 
 * Both camera and userlocation are added to the scene graph. 
 * Create a renderer for this application to use. Here, the WebGL renderer is used.  
 
-### Creating the cube
+## Creating the cube
 In this first example we create a simple box (cube) using methods provided by [three.js](http://threejs.org/) and then position that box in the world. This code creates the box and adds a texture to it:
 {% include code_highlight.html
 tscode='
-var boxGeoObject = new THREE.Object3D;
-var box = new THREE.Object3D
-var loader = new THREE.TextureLoader()
+var boxGeoObject = new THREE.Object3D();
+var box = new THREE.Object3D();
+var loader = new THREE.TextureLoader();
 loader.load( "box.png", function ( texture ) {
-    var geometry = new THREE.BoxGeometry(2, 2, 2)
-    var material = new THREE.MeshBasicMaterial( { map: texture } )
-    var mesh = new THREE.Mesh( geometry, material )
-    box.add( mesh )
-})
-'
+    var geometry = new THREE.BoxGeometry(2, 2, 2);
+    var material = new THREE.MeshBasicMaterial( { map: texture } );
+    var mesh = new THREE.Mesh( geometry, material );
+    box.add( mesh );
+});
+boxGeoObject.add(box);'
 jscode='
-var boxGeoObject = new THREE.Object3D;
-var box = new THREE.Object3D
-var loader = new THREE.TextureLoader()
+var boxGeoObject = new THREE.Object3D();
+var box = new THREE.Object3D();
+var loader = new THREE.TextureLoader();
 loader.load( "box.png", function ( texture ) {
-    var geometry = new THREE.BoxGeometry(2, 2, 2)
-    var material = new THREE.MeshBasicMaterial( { map: texture } )
-    var mesh = new THREE.Mesh( geometry, material )
-    box.add( mesh )
-})
-'
+    var geometry = new THREE.BoxGeometry(2, 2, 2);
+    var material = new THREE.MeshBasicMaterial( { map: texture } );
+    var mesh = new THREE.Mesh( geometry, material );
+    box.add( mesh );
+});
+boxGeoObject.add(box);'
 %}
 
 We have created two objects (the box itself and boxGeoObject to which to attach the box). In order to give the box a geolocation, we have to create a Cesium `Entity`, boxGeoEntity. Argon uses an enhanced set of the core libraries from [Cesium](http://cesiumjs.org) to represent and manipulate it's frames of reference, using a single coordinate system for every object, from geospatial coordinates down to items tracked with the camera.
 
-The `Cesium.Entity` object has properties for the position and orientation of the entity. The default coordinate frame used by Argon is Cesium's `FIXED` reference frame, which is centered at the center of the earth and oriented with the earth's axes. Unfortunately, this reference frame is inconvenient to use directly, as any point on the earth is very far from the center of the earth, and the orientation of the surface of the earth is not intuitive (as "up" is aligned with the axes between the north and south poles).  Thereore, within the `FIXED` reference frame, Argon defines a local coordinate frame that sits on a plane tangent to the earth near the user's current location (we selected which one above, using the `app.context.setDefaultReferenceFrame` function). Argon reports the position and orientation of entities relative to this local frame.  A programmer should not save and use the values in this frame for more than a single update and render step, as Argon automatically changes this frame if the user moves more than a few kilometers from the origin. (If the values need to be saved and used over multiple frames, it is possible to be notified when the local frame of reference changes, however.)
+The `Cesium.Entity` object has properties for the position and orientation of the entity. The default coordinate frame used by Argon is Cesium's `FIXED` reference frame, which is centered at the center of the earth and oriented with the earth's axes. Unfortunately, this reference frame is inconvenient to use directly, as any point on the earth is very far from the center of the earth, and the orientation of the surface of the earth is not intuitive (as "up" is aligned with the axes between the north and south poles).  Thereore, within the `FIXED` reference frame, Argon defines a local coordinate frame that sits on a plane tangent to the earth near the user's current location (we selected which one above, using the `setDefaultReferenceFrame` function). 
+
+Argon reports the position and orientation of entities relative to this local frame. While arbitrary (the programmer does not choose the origin of this coordinate system), this local reference frame has an intuitive orientation relative to the user's location on the surface of the earth. Here we use `localOriginEastUpSouth` as our reference frame, so the positive x-axis is east, the positive y-axis is up and the positive z-axis is south.  If the user moves more than a few kilometers from the origin of this local frame, Argon updates the origin to their location, ensuring that the local reference frame is a reasonable approximation to what the user (and programmer) perceive as their local coordinates (i.e., as you move around the earth, positive y will remain "up", positive x will point east and positive z will point south).
+
+Since the local reference frame may change at any time, a programmer should not save and use the values in this frame for more than a single update and render step. If the values need to be saved and used over multiple frames, it is possible to be notified when the local frame of reference changes.
 
 {% include code_highlight.html
 tscode='
@@ -130,8 +134,7 @@ var boxGeoEntity = new Argon.Cesium.Entity({
     name: "I have a box",
     position: Cartesian3.ZERO,
     orientation: Cesium.Quaternion.IDENTITY
-});
-boxGeoObject.add(box);'
+});'
 jscode='
 var boxGeoEntity = new Argon.Cesium.Entity({
     name: "I have a box",
@@ -143,13 +146,15 @@ boxGeoObject.add(box);'
 
 Up to this point, we have the box (a textured cube) object attached it to a geoEntity.  We have not yet actually located that entity in the world. The position of boxGeoEntity is set to (0,0,0) by default. We will figure out the geolocation of the boxGeoEntity the first time that the first of the two event listeners described below are run.
 
-### Two important Argon event listeners
+## The Argon Update and Rendering Events 
 
-Argon is designed to work in a variety of browsers and approaches to AR, so it needs to control the update loop of an application.  This is in contrast to most framework, such as [three.js](http://threejs.org/) that directly use `requestAnimationFrame()` to update their content regularly.  Internally, Argon may use `requestAnimationFrame` to trigger updates, but it may use other approaches.  In the Argon4 browser, for example, when live video is used as the background, updates are triggered whenever a new video frame is available from the camera. 
+Argon is designed to work in a variety of browsers and leverage different approaches to AR. Since different setups have different update requirements, Argon controls the update loop of an application. This is in contrast to most web frameworks, such as [three.js](http://threejs.org/), that directly use `requestAnimationFrame()` to update their content. Internally, Argon may use `requestAnimationFrame` to trigger updates, but it may not.  For example, when live video is used as the background in the Argon4 browser, updates are triggered whenever a new video frame is available from the camera.  To ensure your app renders the scene at the right time, you should use Argon's update methods.
 
-Whenever the application should update and re-render the scene, two event listeners (`updateEvent` and `renderEvent`) are triggered in turn, allowing the application state to be updated separately from rendering. 
+Whenever the application should update and re-render the scene, two event listeners (`updateEvent` and `renderEvent`) are triggered in turn, allowing the application state to be updated separately from rendering. Your application (and support libraries) may subscribe to these events in multiple places, and all update event listeners will be called before all render event listeners.
 
-An update event listener is where your application should generally make changes to the scene (adding, manipulating, or deleting objects you have created). In this example, the first time the update event listener is called, we place the box in a geospatial position 10 meters to the east of the user (we are using `app.context.localOriginEastUpSouth` as our local reference frame, so positive `x` is east).  To position the box, a new position `boxPos` is created and its `x` incremented by 10.  Next, the value of the `position` property on the Cesium.Eneity `boxGeoEntity` is set to this new position.  It is important to pay attention to the frame of reference for this property, which is our default reference frame:  we do not want to leave the `boxGeoEntity` in this frame of reference because it may get reset at any time if the user moves too far.  Therefore, we call `convertEntityReferenceFrame()` to convert this entity to the `ReferenceFrame.FIXED`, which is Cesium's earth-centered reference frame.  `convertEntityReferenceFrame` updates the `position` and `orientation` properties of the entity such that the entity appears to be in exactly the same position and orientation, but now these properties are expressed in the new reference frame.  If you looked at the values of the properties after this call, the position would be very large, and the orientation will have changed to an angle corresponding to the tangent plane of the earth at your current location.  At this point, the `boxGeoEntity` is expressed in global coordinates, independent of the location of the user.
+An update event listener is where your application should generally make changes to the scene (adding, manipulating, or deleting objects you have created). In this example, the first time the update event listener is called, we place the box in a geospatial position 10 meters to the east of the user (we are using `localOriginEastUpSouth` as our local reference frame, so positive `x` is east).  To position the box, a new position `boxPos` is created and its `x` incremented by 10.  Next, the value of the `position` property on the Cesium.Eneity `boxGeoEntity` is set to this new position.  
+
+It is *very* important to pay attention to the frame of reference for this property, which is our default reference frame:  we do not want to leave the `boxGeoEntity` in this frame of reference because the default reference frame may get reset at any time (if the user moves away from the origin of the frame).  Therefore, we call `convertEntityReferenceFrame()` to convert this entity to `ReferenceFrame.FIXED`, Cesium's earth-centered reference frame.  `convertEntityReferenceFrame` updates the `position` and `orientation` properties of the entity such that the entity appears to be in exactly the same position and orientation, but now these properties are expressed in the new reference frame.  If you looked at the values of the properties after this call, the position would be very large, and the orientation will have changed to an angle corresponding to the tangent plane of the earth at your current location.  At this point, the `boxGeoEntity` is expressed in geospatial coordinates, independent of the location of the user and the (arbitrary) local reference frame.
 
 Next, the update listener sets the position and orientation of the [three.js](http://threejs.org/) `boxGeoObject` based on the pose of the `boxGeoEntity` in the local reference frame. It also rotates the box each time through the loop for visual interest (and so you have some indication the application is running when you look at it).
 
@@ -158,6 +163,8 @@ tscode="
 // the updateEvent is called each time the 3D world should be
 // rendered, before the renderEvent.  The state of your application
 // should be updated here.
+var boxInit = false;
+
 app.updateEvent.addEventListener((frame) => {
     // get the position and orientation (the 'pose') of the user
     // in the local coordinate frame.
@@ -208,11 +215,11 @@ app.updateEvent.addEventListener((frame) => {
     box.rotateY( 3 * frame.deltaTime/10000);
 })"
 jscode="
-var boxInit = false;
-
 // the updateEvent is called each time the 3D world should be
 // rendered, before the renderEvent.  The state of your application
 // should be updated here.
+var boxInit = false;
+
 app.updateEvent.addEventListener(function (frame) {
     // get the position and orientation (the 'pose') of the user
     // in the local coordinate frame.
@@ -330,6 +337,13 @@ app.renderEvent.addEventListener(function () {
 
 With these two events, the code for the first example is complete. 
 
-### Please continue to [Tutorial 4 (Vuforia)]({{ site.baseurl }}tutorial/part4).
+## Epiloge: Modern GPS and Location Technology
 
-### For more details about the methods discussed above, please refer to [Argonjs documentation](http://argonjs.io/argon/index.html)
+When you run the [Live Demo](/code/1-geopose) of this part of the tutorial on a modern phone or tablet, you will likely notice the cube moving around in a very erratic fashion.  While the Global Positioning System (GPS) used in phones and (some) tablets a more than adequate for 2D mapping applications, when viewed from a first-person augmented reality perspective, it's limitations become obviously.  On most devices, the location is updated once per second, and the accuracy is relatively poor (in the 2-5 meter range).  This means the position of the phone (the viewer) only changes once per second, no matter how they are moving;  in this example, this manifests as the cube appearing to move once per second (the cube isn't moving;  the viewer's location is).
+
+Worse, an accuracy of 2-5 meters means that the GPS system on the phone reports your position as being within 2-5 meters of your actual position, and that position could change each second *even if you aren't moving*.  Essentially, each second, the position of the phone is reported as being somewhere within a few meters of it's true location, and it is impossible to predict if that will be north or south, east or west, up or down from the true location.  Worse, anything that blocks your devices view of the GPS satellites in the sky will make these errors worse:  dense tree foliage or tall buildings could case the estimate of the device position to fall to only being within 10 or more meters of it's true location.  And if you move inside a building, the GPS system stops working entirely, causing the device to fall back to the crude location estimate provided by the operating system (typically based on the signal strength of WIFI).
+
+This is not meant as a criticism of the location tracking capabilities of modern mobile devices; the fact that a tiny chip with a small antenna can determine it's location on the earth to within a few meters based on the extrememly low-power signals from a few dozen GPS satellites is amazing.  
+
+However, as an AR developer, you must be aware of the limitations of the location tracking hardware in the devices if you are to create compelling experiences for your users.  
+

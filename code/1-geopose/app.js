@@ -78,13 +78,6 @@ boxGeoObject.add(box);
 //     boxOrientation.setValue(Cesium.Quaternion.IDENTITY);
 //     boxGeoEntity.orientation = boxOrientation;
 var boxInit = false;
-var boxCartographicDeg = [0, 0, 0];
-var lastInfoText = "";
-// make floating point output a little less ugly
-function toFixed(value, precision) {
-    var power = Math.pow(10, precision || 0);
-    return String(Math.round(value * power) / power);
-}
 // the updateEvent is called each time the 3D world should be
 // rendered, before the renderEvent.  The state of your application
 // should be updated here.
@@ -107,11 +100,11 @@ app.updateEvent.addEventListener(function (frame) {
         var defaultFrame = app.context.getDefaultReferenceFrame();
         // set the box's position to 10 meters away from the user.
         // First, clone the userPose postion, and add 10 to the X
-        var boxPos_1 = userPose.position.clone();
-        boxPos_1.x += 10;
+        var boxPos = userPose.position.clone();
+        boxPos.x += 10;
         // set the value of the box Entity to this local position, by
         // specifying the frame of reference to our local frame
-        boxGeoEntity.position.setValue(boxPos_1, defaultFrame);
+        boxGeoEntity.position.setValue(boxPos, defaultFrame);
         // orient the box according to the local world frame
         boxGeoEntity.orientation.setValue(Cesium.Quaternion.IDENTITY);
         // now, we want to move the box's coordinates to the FIXED frame, so
@@ -128,45 +121,6 @@ app.updateEvent.addEventListener(function (frame) {
     // rotate the boxes at a constant speed, independent of frame rates     
     // to make it a little less boring
     box.rotateY(3 * frame.deltaTime / 10000);
-    // stuff to print out the status message.  It's fairly expensive to convert FIXED
-    // coordinates back to LLA, but those coordinates probably make the most sense as
-    // something to show the user, so we'll do that computation.
-    //
-    // cartographicDegrees is a 3 element array containing [longitude, latitude, height]
-    var gpsCartographicDeg = [0, 0, 0];
-    // get user position in global coordinates
-    var userPoseFIXED = app.context.getEntityPose(app.context.user, ReferenceFrame.FIXED);
-    var userLLA = Cesium.Ellipsoid.WGS84.cartesianToCartographic(userPoseFIXED.position);
-    if (userLLA) {
-        gpsCartographicDeg = [
-            CesiumMath.toDegrees(userLLA.longitude),
-            CesiumMath.toDegrees(userLLA.latitude),
-            userLLA.height
-        ];
-    }
-    var boxPoseFIXED = app.context.getEntityPose(boxGeoEntity, ReferenceFrame.FIXED);
-    var boxLLA = Cesium.Ellipsoid.WGS84.cartesianToCartographic(boxPoseFIXED.position);
-    if (boxLLA) {
-        boxCartographicDeg = [
-            CesiumMath.toDegrees(boxLLA.longitude),
-            CesiumMath.toDegrees(boxLLA.latitude),
-            boxLLA.height
-        ];
-    }
-    // we'll compute the distance to the cube, just for fun. If the cube could be further away,
-    // we'd want to use Cesium.EllipsoidGeodesic, rather than Euclidean distance, but this is fine here.
-    var cameraPos = camera.getWorldPosition();
-    var boxPos = box.getWorldPosition();
-    var distanceToBox = cameraPos.distanceTo(boxPos);
-    // create some feedback text
-    var infoText = "Geospatial Argon example:<br>";
-    infoText += "Your location is lla (" + toFixed(gpsCartographicDeg[0], 6) + ", ";
-    infoText += toFixed(gpsCartographicDeg[1], 6) + ", " + toFixed(gpsCartographicDeg[2], 2) + ")<br>";
-    infoText += "box is " + toFixed(distanceToBox, 2) + " meters away";
-    if (lastInfoText !== infoText) {
-        locationElement.innerHTML = infoText;
-        lastInfoText = infoText;
-    }
 });
 // renderEvent is fired whenever argon wants the app to update its display
 app.renderEvent.addEventListener(function () {
