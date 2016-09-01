@@ -6,13 +6,13 @@ title: 'Part 5: Directions CSS'
 
 This part of the tutorial uses HTML elements to place labels at the compass points (east, west, north, south), as well as up and down. The purpose is to demonstrate how to place content near the user, such that it moves with them but has a fixed orientation relative to the earth, as well as demonstrating creating HTML content on the fly.
 
-This example also demonstrates how to decouple the render update listener from Argon so that it runs in response to requestAnimationFrame(), and shows how to leverage CSS to hide/show HTML content when the Argon-enabled web page looses/gains focus (i.e., another web page is selected and brought to the front, or this page is selected again).
+This example also demonstrates how to decouple the render update listener from Argon so that it runs in response to requestAnimationFrame() and shows how to leverage CSS to hide/show HTML content when the Argon-enabled web page looses/gains focus (i.e. another web page is selected and brought to the front or this page is selected again).
 
-The structure of the code for this examples is very similar to previous parts of the tutorial, so we will not repeat most of it here. This example uses the CSS3D and HUD renderers, and moves the "description" text in the `index.html` file into the HUD (as previous examples did).
+The structure of the code for this examples is very similar to previous parts of the tutorial, so most of the standard setup code is not repeated here. This example uses the CSS3D and HUD renderers and moves the "description" text in the `index.html` file into the HUD (as previous examples did).
 
 ## Focus and Blur 
 
-One addition to the CSS embedded in the HTML file fades out the "description" text when the web page loses focus (i.e., refered to as blur), and fades it back in when the application gains focus.  To do this, the examples leverages the `.argon-focus` and `.argon-no-focus` classes, which Argon adds and removes to its view element in respose to blur and focus events. 
+One addition to the CSS embedded in the HTML file fades out the "description" text when the web page loses focus (referred to as *blur*) and fades it back in when the application gains focus.  To do this, the example leverages the `.argon-focus` and `.argon-no-focus` classes, which Argon adds and removes to its view element in response to blur and focus events. 
 
 {% highlight html %}
 .argon-focus #description {
@@ -59,7 +59,7 @@ if (userPose.poseStatus & Argon.PoseStatus.KNOWN) {
 }'
 %}
 
-Notice that only the position of the `userPose` is copied to `userLocation`, not the orientation.  The default orientation is the identity matrix, orienting the user with it's parent frame, which in this case is the local reference frame.  The result is that the `userLocation` object is positioned where the user is, but does not rotate with the user.
+Notice that only the position of the `userPose` is copied to `userLocation`, not the orientation.  The default orientation is the identity matrix, orienting the user with its parent frame, which in this case is the local reference frame.  The result is that the `userLocation` object is positioned where the user is, but does not rotate with the user.
 
 The six direction elements are created on the fly:
 
