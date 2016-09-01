@@ -2,42 +2,19 @@
 layout: page
 title: 'Part 5: Directions CSS'
 ---
-
-
 > Download [Argon4](http://argonjs.io/argon-app) and the [Tutorial Source Code](https://github.com/argonjs/docs/tree/gh-pages/code). <br> This tutorial uses the *5-directionsHTML* and *resources* directories. **[Live Demo](/code/5-directionsHTML)**
 
+This part of the tutorial uses HTML elements to place labels at the compass points (east, west, north, south), as well as up and down. The purpose is to demonstrate how to place content near the user, such that it moves with them but has a fixed orientation relative to the earth, as well as demonstrating creating HTML content on the fly.
 
-In this tutorial we locate markers at the compass points (east, west, north, south) as well as up and down. These objects are rendered using the CSS renderer, rather than WebGL. Tutorial 6 creates similar markers using the WebGL renderer. 
+This example also demonstrates how to decouple the render update listener from Argon so that it runs in response to requestAnimationFrame(), and shows how to leverage CSS to hide/show HTML content when the Argon-enabled web page looses/gains focus (i.e., another web page is selected and brought to the front, or this page is selected again).
 
-The markers are located relative to the user's location (where the phone is) rather than being absolutely located in the world. When the application starts, the user's current location is used to set up a local 3D frame of reference, which is geolocated relative to the Cesium FIXED frame (from the center of the earth). The markers are then position relative to this local frame and move along with the user.
+The structure of the code for this examples is very similar to previous parts of the tutorial, so we will not repeat most of it here. This example uses the CSS3D and HUD renderers, and moves the "description" text in the `index.html` file into the HUD (as previous examples did).
 
+## Focus and Blur 
 
-
-### The launch file (index.html)
-
-The launch file has the same structure as in Tutorial 1. Note that we load additional CSS renderers for this applicaiton. There is an div with text explaining the example that appears on the screen when the examples starts. The user clicks to make that div invisible. 
+One addition to the CSS embedded in the HTML file fades out the "description" text when the web page loses focus (i.e., refered to as blur), and fades it back in when the application gains focus.  To do this, the examples leverages the `.argon-focus` and `.argon-no-focus` classes, which Argon adds and removes to its view element in respose to blur and focus events. 
 
 {% highlight html %}
-<html>
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
-<head>
-    <title>Directions</title>
-    <script src="../resources/lib/three/three.min.js"></script>
-    <script src="../resources/lib/CSS3DArgonHUD.js"></script>
-    <script src="../resources/lib/CSS3DArgonRenderer.js"></script>
-    <script src="../resources/lib/argon.umd.js"></script>
-    <style>
-
-#description {
-  pointer-events:auto;
-  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-  padding: 10px;
-  background-color:rgba(255,255,255,0.7);
-  -webkit-backdrop-filter: blur(5px);
-  position:absolute;
-  bottom: 0px;
-}
-
 .argon-focus #description {
   transition: opacity 0.8s;
   visibility: visible;
@@ -49,105 +26,42 @@ The launch file has the same structure as in Tutorial 1. Note that we load addit
   visibility: visible;
   opacity: 0;
 }
-    </style>
-</head>
-  <body>
-    <div id="argon">
-      <div onclick="hideMe(this)" id="description">
-        <h2>Six directions in HTML</h2>
-        <h5>(click to dismiss)</h5>
-        <p>This example displays a directional reference frame around the camera in Cartesian coordinates, using the EastUpSouth orientation for positive (x, y, z). A userLocation geospatial entity is created and positioned at the position of the user, and updated when the user's position changes. It uses HTML elements to put a text label at 200 meters in each of the negative/positive directions: x is west/east; y is down/up; z is north/south.</p>  
-      </div>
-    </div>
-  </body>
-	<script>
-		function hideMe(elem) {
-		    elem.style.display = 'none';
-		}	
-	</script>
-  <script src="app.js"></script>
-</html>
 {% endhighlight %}
 
-As in Tutorial 1, a separate file, app.js (the Typescript is app.ts), contains the application code. 
+You can also explicitly listen for the `app.focusEvent` and `app.blurEvent` similarly to the update and render events.
 
-### The application code (Typescript and Javascript)
+## Placing HTML Elements Around the User
 
-The initializing code is very similar to Tutorial 1
+The six directional objects are HTML elements rendered using the CSS3D renderer introduced in [part 2](../part2) of the tutorial. ([Part 6](../part6) places 3D text at these locations using WebGL, as part of demonstrating how to illuminate virtual content with light coming from the direction of the Sun and/or Moon). 
 
-{% include code_highlight.html
-tscode='
-/// <reference path="../../typings/index.d.ts"/>
-// When we distribute Argon typings, we can get rid of this, but for now
-// we need to shut up the Typescript compiler about missing Argon typings
-declare const Argon:any;
-
-// set up Argon
-const app = Argon.init();
-
-// set up THREE.  Create a scene, a perspective camera and an object
-// for the users location
-const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera();
-const userLocation = new THREE.Object3D;
-scene.add(camera);
-scene.add(userLocation);
-
-// The CSS3DArgonRenderer supports mono and stereo views, and 
-// includes both 3D elements and a place to put things that appear 
-// fixed to the screen (heads-up-display) 
-const renderer = new (<any>THREE).CSS3DArgonRenderer();
-app.view.element.appendChild(renderer.domElement);'
-jscode='
-/// <reference path="../../typings/index.d.ts"/>
-// set up Argon
-var app = Argon.init();
-// set up THREE.  Create a scene, a perspective camera and an object
-// for the user location
-var scene = new THREE.Scene();
-var camera = new THREE.PerspectiveCamera();
-var userLocation = new THREE.Object3D;
-scene.add(camera);
-scene.add(userLocation);
-// The CSS3DArgonRenderer supports mono and stereo views, and 
-// includes both 3D elements and a place to put things that appear 
-// fixed to the screen (heads-up-display) 
-var renderer = new THREE.CSS3DArgonRenderer();
-app.view.element.appendChild(renderer.domElement);
-// to easily control stuff on the display
-var hud = new THREE.CSS3DArgonHUD();'
-%}
-
-This code  creates a HUD elements to hold text that describes the example, which appears on the screen when the user opens the application.
+The elements are located relative to the user's location (where the phone is) by adding them to the `userLocation` object, rather than being absolutely located in the world. In previous parts of the tutorial, the user's current location was copied to the three.js `userLocation` object using code similar to this:
 
 {% include code_highlight.html
 tscode='
-// to easily control stuff on the display
-const hud = new (<any>THREE).CSS3DArgonHUD();
-// We put some elements in the index.html, for convenience. 
-// Here, we retrieve the description box and move it to the 
-// the CSS3DArgonHUD hudElements[0].  We only put it in the left
-// hud since we will be hiding it in stereo
-var description = document.getElementById( "description" );
-hud.hudElements[0].appendChild(description);
-app.view.element.appendChild(hud.domElement);
-// Tell argon what local coordinate system you want. 
-app.context.setDefaultReferenceFrame(app.context.localOriginEastUpSouth);'
+// get the position and orientation (the "pose") of the user
+// in the local coordinate frame.
+const userPose = app.context.getEntityPose(app.context.user);
+
+// assuming we know the user pose, set the position of our 
+// THREE user object to match it
+if (userPose.poseStatus & Argon.PoseStatus.KNOWN) {
+    userLocation.position.copy(<any>userPose.position);
+}'
 jscode='
-// to easily control stuff on the display
-var hud = new THREE.CSS3DArgonHUD();
-// We put some elements in the index.html, for convenience. 
-// Here, we retrieve the description box and move it to the 
-// the CSS3DArgonHUD hudElements[0].  We only put it in the left
-// hud since we will be hiding it in stereo
-var description = document.getElementById("description");
-hud.hudElements[0].appendChild(description);
-app.view.element.appendChild(hud.domElement);
-// Tell argon what local coordinate system you want. 
-app.context.setDefaultReferenceFrame(app.context.localOriginEastUpSouth);'
+// get the position and orientation (the "pose") of the user
+// in the local coordinate frame.
+var userPose = app.context.getEntityPose(app.context.user);
+
+// assuming we know the user pose, set the position of our 
+// THREE user object to match it
+if (userPose.poseStatus & Argon.PoseStatus.KNOWN) {
+    userLocation.position.copy(userPose.position);
+}'
 %}
 
-The six markers are defined as divs with styled content.
+Notice that only the position of the `userPose` is copied to `userLocation`, not the orientation.  The default orientation is the identity matrix, orienting the user with it's parent frame, which in this case is the local reference frame.  The result is that the `userLocation` object is positioned where the user is, but does not rotate with the user.
+
+The six direction elements are created on the fly:
 
 {% include code_highlight.html
 tscode='
@@ -243,8 +157,7 @@ divZneg.style.backgroundColor = "green";
 divZneg.innerText = "Neg Z = North";'
 %}
 
-6 CSS objects are created, one associated with each div. The CSS objects are positioned in the local reference frame around the user location, using the EUS (east, up, south) system. Each object is also rotated, where necessary, to face the user. 
-
+These six HTML elements are used to create six `CSS3DObject`s, which are positioned along their respective axes, and attached to the `userLocation` object.  The objects are positioned in the local reference frame around the user location, using the EUS (east, up, south) system. Each object is also rotated, where necessary, to face the user. 
 
 {% include code_highlight.html
 tscode='
@@ -297,7 +210,14 @@ cssObjectZpos.rotation.y = Math.PI
 cssObjectZneg.position.x = 0.0
 cssObjectZneg.position.y = 0.0
 cssObjectZneg.position.z = -200.0
-//no rotation need for this one'
+//no rotation need for this one
+
+userLocation.add(cssObjectXpos)
+userLocation.add(cssObjectXneg)
+userLocation.add(cssObjectYpos)
+userLocation.add(cssObjectYneg)
+userLocation.add(cssObjectZpos)
+userLocation.add(cssObjectZneg)'
 jscode='
 // create 6 CSS3DObjects in the scene graph.  The CSS3DObject object 
 // is used by the CSS3DArgonRenderer. Because an HTML element can only
@@ -342,74 +262,22 @@ cssObjectZpos.rotation.y = Math.PI;
 cssObjectZneg.position.x = 0.0;
 cssObjectZneg.position.y = 0.0;
 cssObjectZneg.position.z = -200.0;
-// no rotation needed for z'
-%}
+// no rotation needed for z
 
-
-Then the six CSS objects are added to the user location object, which is already in the scene graph. 
-
-{% include code_highlight.html
-tscode='
 userLocation.add(cssObjectXpos)
 userLocation.add(cssObjectXneg)
 userLocation.add(cssObjectYpos)
 userLocation.add(cssObjectYneg)
 userLocation.add(cssObjectZpos)
-userLocation.add(cssObjectZneg)
-
-'
-jscode='
-userLocation.add(cssObjectXpos)
-userLocation.add(cssObjectXneg)
-userLocation.add(cssObjectYpos)
-userLocation.add(cssObjectYneg)
-userLocation.add(cssObjectZpos)
-userLocation.add(cssObjectZneg)
-
-'
+userLocation.add(cssObjectZneg)'
 %}
 
-## The Argon Update and Rendering Events 
-The Argon Update and Rendering Events complete the code. For an explanation of these two events, see parts 1 and 3 of the tutorials.
 
-The Update Event is simple here because the six markers are fixed relative to the user object. It is only necessary to update the user object's position relative to the local coordinate frame. 
+## Decoupling Rendering from the Render Event Listener
 
-{% include code_highlight.html
-tscode='
-// the updateEvent is called each time the 3D world should be
-// rendered, before the renderEvent.  The state of your application
-// should be updated here.
-app.updateEvent.addEventListener(() => {
-    // get the position and orientation (the "pose") of the user
-    // in the local coordinate frame.
-    const userPose = app.context.getEntityPose(app.context.user);
+The update and render event listeners are similar to those in the previous parts of the tutorial. 
 
-    // assuming we know the user pose, set the position of our 
-    // THREE user object to match it
-    if (userPose.poseStatus & Argon.PoseStatus.KNOWN) {
-        userLocation.position.copy(userPose.position);
-    }
-})
-
-'
-jscode='
-// the updateEvent is called each time the 3D world should be
-// rendered, before the renderEvent.  The state of your application
-// should be updated here.
-app.updateEvent.addEventListener(function () {
-    // get the position and orientation (the "pose") of the user
-    // in the local coordinate frame.
-    var userPose = app.context.getEntityPose(app.context.user);
-    // assuming we know the user pose, set the position of our 
-    // THREE user object to match it
-    if (userPose.poseStatus & Argon.PoseStatus.KNOWN) {
-        userLocation.position.copy(userPose.position);
-    }
-});
-'
-%}
-
-The renderEvent listeners are called after the updateEvent listeners. This code can handle mono  or stereo mode. See parts 1 and 3 of this tutorial for an explanation. 
+One important change in this example is that the render event listener is decoupled from the actual rendering using `requestAnimationFrame(renderFunc)`.  This is useful in two ways.  First, the DOM will only be repaired once after `renderFunc()` completes (assuming you do not do anything to force a repair during rendering).  Applications with significant HTML content, especially content that changes frequently, will see better performance using this approach.  Second, while not applicable in this example, if the application has a slow render update listener, decoupling the renderer from the update callback can help the application degrade more gracefully.
 
 {% include code_highlight.html
 tscode='
@@ -470,9 +338,7 @@ function renderFunc() {
             hud.render(subview.index);
         }
     }
-}
-
-'
+}'
 jscode='
 // for the CSS renderer, we want to use requestAnimationFrame to 
 // limit the number of repairs of the DOM.  Otherwise, as the 
@@ -524,10 +390,7 @@ function renderFunc() {
             hud.render(subview.index);
         }
     }
-}
-
-'
+}'
 %}
 
-This completes the Directions CSS tutorial. 
-
+Notice that the render event listener will not call `requestAnimationFrame(renderFunc)` until the previous rending has completed and `rAFpending` is reset to `false`.
