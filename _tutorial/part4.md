@@ -7,19 +7,19 @@ title: 'Part 4: Reference Frames and Vuforia Tracking'
 In the first three parts of this tutorial, we showed how to set up an Argon web application, use Argon's geospatial reference frames, include both WebGL and HTML content in the 3D scene, and properly support stereo views.
 
 ## Frames of Reference
-The example in these previous parts relied on absolute geospatial tracking: the frames of reference were based on the location of the viewer and objects in the world. However, the exact same approach would work with any *external* reference frames: if you could track the user inside a room or building, and specify the location of the AR content relative to that same room or building, the exact same approach would work.  
+The examples in those previous parts relied on absolute geospatial tracking: the frames of reference were based on the location of the viewer and objects in the world. However, the exact same approach would work with any *external* reference frames: if you could track the user inside a room or building and specify the location of the AR content relative to that same room or building, the exact same approach would work.  
 
 Internally, Argon frames of reference can be expressed relative to any other frames of reference, and as long as the following two conditions are met, the content can be displayed:
 
 1. The user's pose (position and orientation) must be known relative to the `setDefaultReferenceFrame`. 
 2. There must be a path connecting the user to the object (e.g., the user is in this *room*, the *room* this *building*, and the AR content is in this *building*) 
 
-The user's pose is determined by the current *reality*. The default view of reality in the Argon Browser is the live video view of the camera, and the pose is reported relative to the world using the location and orientation sensors on the device running Argon. ([Part 8](../part8) of this tutorial discusses building and using custom representations of reality). Therefore, if you can deterimine the pose of an object relative to the world, or to the user, Argon can determine the pose of the content relative to the user and the application would be able to display content relative to it.  
+The user's pose is determined by the current *reality*. The default view of reality in the Argon Browser is the live video view of the camera, and the pose is reported relative to the world using the location and orientation sensors on the device running Argon. ([Part 8](../part8) of this tutorial discusses building and using custom representations of reality). Therefore, if you can determine the pose of an object relative to the world or to the user, Argon can determine the pose of the content relative to the user, and the application will be able to display content relative to it.  
 
 ## Vision-based Tracking and Vuforia
-The Argon Browser includes a computer-vision tracking system called [Vuforia](http://www.vuforia.com). Vuforia is a platform native SDK that can find and precisely tracking where images and objects are relative to the camera.  argon.js can represents these tracked *targets* as frames of reference expressed relative to the camera on the device (which is what we also use as the location of the user).  This means that anything tracked by Vuforia can have it's pose computed relative to any other frame of reference Argon knows about, and attaching content to objects tracked by Vuforia is done in exactly the same was that content was attached to the world in the first parts of this tutorial.
+The Argon Browser includes a computer-vision tracking system called [Vuforia](http://www.vuforia.com). Vuforia is a platform native SDK that can find and precisely track where images and objects are relative to the camera.  argon.js can represents these tracked *targets* as frames of reference expressed relative to the camera on the device (which is what we also use as the location of the user).  This means that anything tracked by Vuforia can have its pose computed relative to any other frame of reference Argon knows about, and attaching content to objects tracked by Vuforia is done in exactly the same way that content was attached to the world in the first parts of this tutorial.
 
-To use Vuforia with Argon, you must create an account on the [Vuforia Developer Portal](https://developer.vuforia.com) and use the tools there to get a license key and create target datasets. (Currently, argon.js does not support all of the features of the Vuforia Native SDK, such as cloud recognition and VuMarks, but we hope to soon).
+To use Vuforia with Argon, you must create an account on the [Vuforia Developer Portal](https://developer.vuforia.com) and use the tools there to get a license key and create target datasets. (Currently, argon.js does not support all of the features of the Vuforia Native SDK, such as cloud recognition and VuMarks, but we hope to soon.)
 
 In the Vuforia Portal's *License Manager* you should obtain a copy of your license key.  It will look something like this:
 <pre>
@@ -27,7 +27,9 @@ AYVDMl7/////AAAAGUNYbWe+HkCjrn65cBM7Lm0Z6OHGozSF6sPHjCvjp3LhFIlirezFjpIqp0Xtg0Ob
 </pre>
 
 In the Vuforia Portal's *Target Manager* you should create and download a target database. 
->Please pay attention to the sizes you enter for the various targets: argon.js will use these sizes as if they are expressed in meters.  
+
+> Please pay attention to the sizes you enter for the various targets: argon.js will use these sizes as if they are expressed in meters.  
+
 Select the SDK option when asked, and you should receive two files with the same name, one with a `.dat` extension and one with a `.xml` extension.  
 
 In the remainder of this part of the tutorial, you will learn how to use this key and target database to do vision-based tracking with Argon.
@@ -35,13 +37,13 @@ In the remainder of this part of the tutorial, you will learn how to use this ke
 ## The Vuforia License Data File
 To use Vuforia, the native library must be initialized with a valid license key.  The Argon Browser requires each web app to provide this key in an encrypted format, so that programmers are not making their license key visible to others. This also means that only the users of your applications can access Vuforia functionality that is tied to your key, especially services that cost money to use. 
 
-To create an encrypted license key file, you need to use [PGP](https://en.wikipedia.org/wiki/Pretty_Good_Privacy) to encrypt an JSON file with the Argon Browser's public key (available in the public PGP key store as `secure@argonjs.io`).  To simplify the process, and ensure a valid JSON file is encrypted, you should use the [Vuforia PGP Encryptor](/start/vuforia-pgp-encryptor) page on this site.
+To create an encrypted license key file, you need to use [PGP](https://en.wikipedia.org/wiki/Pretty_Good_Privacy) to encrypt an JSON file with the Argon Browser's public key (available in the public PGP key store as `secure@argonjs.io`).  To simplify the process and ensure a valid JSON file is encrypted, you should use the [Vuforia PGP Encryptor](/start/vuforia-pgp-encryptor) page on this site.
 
 The JSON file contains two things, which you enter in the first two boxes on the web page.  The first box is for your Vuforia license key, which you should paste in exactly as it appears on the Vuforia web site.  Do not add extra spaces or line breaks. 
 
 > If you are using a public computer, you should empty the browser cache after using the vuforia-pgp-encryptor page, to ensure your license key is not available after you are done.
 
-> **IMPORTANT: You are responsible for complying with the Vuforia Terms of Service**. Vuforia requires each separate application to have it's own key, and distributed applications cannot use a developer key. The free developer key cannot be used for commercial, published applications. 
+> **IMPORTANT: You are responsible for complying with the Vuforia Terms of Service**. Vuforia requires each separate application to have its own key, and distributed applications cannot use a developer key. The free developer key cannot be used for commercial, published applications. 
 
 In the second box, you should enter a list of domains and URL patterns specifying what URLs this license key and corresponding tracking database can be used from (the website shows you documentation on how to specify these patterns). The encrypted key used with the samples includes these patterns (among others):
 <pre>
@@ -51,7 +53,7 @@ ael.gatech.edu/**
 </pre>
 You will notice that if you try to run the code for this example from your own computer or any website aside from those, Vuforia it will not work.
 
-The website runs entirely in the web client. No information you enter is sent out of your browser, and the JSON file and encrypted license data are generated as you type, and shown the remaining two text boxes on the web page. You do not need to do anything with the *License Data (JSON)* box, it is shown so you can see what the JSON file looks like.  
+The website runs entirely in the web client. No information you enter is sent out of your browser, and the JSON file and encrypted license data are generated as you type and appear in the remaining two text boxes on the web page. You do not need to do anything with the *License Data (JSON)* box, it is shown so you can see what the JSON file looks like.  
 
 When you are done, copy the contents of the *License Data (encrypted)* box.  You will need to add that to the web application so it can be passed to Argon to initialize Vuforia for your web page.
 
@@ -59,7 +61,7 @@ When you are done, copy the contents of the *License Data (encrypted)* box.  You
 
 The code in the example to initialize and set up argon.js and three.js is similar to our previous examples. The WebGL and `CSS3DArgonHUD` renderers are used, `localOriginEastUpSouth` is set as the local frame of reference, and the update and render event listeners at the bottom of the application code are almost identical to those in the previous example.
 
-The three.js `Stats()` display is added to the HUD and then the `stats` object is used just as any other three.js example:
+The three.js `Stats()` display is added to the HUD, and then the `stats` object is used just as in any other three.js example:
 {% include code_highlight.html
 tscode='
 // show the rendering stats
@@ -101,12 +103,12 @@ Let's go through each of these steps in turn.  But before we dive in, you should
 
 All of the commands and communication between your web application and the Vuforia APIs are asynchronous, for a number of reasons:
 
-1. Each web page in the Argon Browser runs in a separate thread, and asynchronously from the native code. Each request you make will receive a reply at some point in the future, similarly to how requests to servers in web applications are asynchronous.
+1. Each web page in the Argon Browser runs in a separate thread and asynchronously from the native code. Each request you make will receive a reply at some point in the future, similarly to how requests to servers in web applications are asynchronous.
 2. Some of the Vuforia commands, especially the ones involved in initialization and setup, take time to complete, so cannot be handled synchronously because the web applications would appear to freeze while the command was executing.  Downloading datasets, in particular, can be slow depending on the size of the dataset and the speed of the network.
-3. The Argon Browser must media between different web applications that want to use Vuforia.  There is nothing to stop a user from loading two web applications at the same time, both of which want to use Vuforia.  These applications may use different licenses, and configure Vuforia in different ways.  Therefore, argon.js *virtualizes* Vuforia, keeping track of the configuration of each web page, and chooses which pages gets control of Vuforia (typically, that would be the foreground page).  argon.js applications do not need to manage this process.
+3. The Argon Browser must mediate between different web applications that want to use Vuforia.  There is nothing to stop a user from loading two web applications at the same time, both of which want to use Vuforia.  These applications may use different licenses and configure Vuforia in different ways.  Therefore, argon.js *virtualizes* Vuforia, keeping track of the configuration of each web page, and chooses which pages gets control of Vuforia (typically, that would be the foreground page).  argon.js applications do not need to manage this process.
 
 ### Initializing Vuforia
-An Argon application can get to see if the platform the web application is running in supports Vuforia using `app.vuforia.isAvailable()`, which returns a Promise that passes a boolean to the success function (`true` if Vuforia is available). To initialize Vuforia, an application calls `app.vuforia.init()` and passes in an object with the encrypted license key data in the `encryptedLicenseData` property. A Promise is returned here, on success; otherwise an error is raised. `catch` can be used to see why Vuforia failed ot initialize.  The initialization process is shown in the code below.
+An Argon application can get to see if the platform the web application is running on supports Vuforia using `app.vuforia.isAvailable()`, which returns a Promise that passes a boolean to the success function (`true` if Vuforia is available). To initialize Vuforia, an application calls `app.vuforia.init()` and passes in an object with the encrypted license key data in the `encryptedLicenseData` property. A Promise is returned here, on success; otherwise, an error is raised. `catch` can be used to see why Vuforia failed to initialize.  The initialization process is shown in the code below.
 
 {% include code_highlight.html
 tscode='
@@ -201,7 +203,7 @@ app.vuforia.isAvailable().then(function (available) {
 });'
 %}
 
-If Vuforia initializes successfully, the function passed to `then()` is run with the Vuforia API object as a parameter.  Inside this function, an application would typically finish setting up Vuforia using it's API object, by creating one or more datasets, loading one of them, and setting up whatever application logic is needed to deal with the tracked targets.
+If Vuforia initializes successfully, the function passed to `then()` is run with the Vuforia API object as a parameter.  Inside this function, an application would typically finish setting up Vuforia using its API object, by creating one or more datasets, loading one of them, and setting up whatever application logic is needed to deal with the tracked targets.
 
 {% include code_highlight.html
 tscode='
@@ -325,7 +327,7 @@ The two files downloaded as part of the dataset from the Vuforia developer site 
 
 `dataset.getTrackables()` can be called after the dataset has been downloaded, and returns a list of the trackable objects and targets in that dataset. (This information is actually contained in the `xml` file, if you want to look at the one you downloaded).
 
-Each trackable has a Cesium `Entity` created for it inside argon.js. argon.js applications only recieve information for trackables that they have asked for, which is done using `app.context.subcribeToEntityById()` (where the trackable `id` is contained in `trackables["targetname"].id`).  The `targetname` is the name you gave the target when you created it in the Vuforia developer portal, and can also be seen in the `xml` file.
+Each trackable has a Cesium `Entity` created for it inside argon.js. argon.js applications only receive information for trackables that they have asked for, which is done using `app.context.subcribeToEntityById()` (where the trackable `id` is contained in `trackables["targetname"].id`).  The `targetname` is the name you gave the target when you created it in the Vuforia developer portal, and can also be seen in the `xml` file.
 
 At this point, the tracking of the targets is communicated to an application in the same way as any other Argon Entity. Each frame, `app.context.getEntityPose(targetEntity)` will return a pose object for the entity.  `pose.poseStatus` is a bit mask that can be checked to see the status of the entity:
 
