@@ -1,6 +1,1 @@
----
-layout: page
-title: Frames of Reference
----
-
 Add more information about frames of reference and move some oft hat from architecture

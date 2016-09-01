@@ -1,8 +1,11 @@
-permalink:           :path/:name/
+permalink: /:path/:name/
 
 collections:
   tutorial: 
     title: 'Tutorial'
+    output: true
+  concepts:
+    title: 'Concepts'
     output: true
 
 # Setup

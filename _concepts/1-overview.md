@@ -1,29 +1,32 @@
 ---
 layout: page
 title: Overview
-nav_order: 15
+permalink: /concepts/overview/
 ---
 
-On this page, we provide an overview of the design of *argon.js*, introducing the terminology and concepts used by the framework. In the tutorials, we will go through a sequence of examples that show how to leverage the various features of *argon.js* in a web application. 
+On this page, we provide an overview of the design of *argon.js*, introducing the terminology and concepts used by the framework.
 
-## Design Goals
+The goal of the *argon.js* framework and associated [Argon Browser](http://argonjs.io/argon-app) (currently on iOS) is to use web technologies to create fully-registered 3D Augmented Reality (AR) applications that leverage 3D graphics, geo-spatial-positioning, and computer-vision tracking (currently using the [Vuforia](https://www.vuforia.com) vision engine). While some of these capabilities are currently available only in the **Argon Browser**, *argon.js* was designed to help developers create platform-independent AR web content that will eventually run fully-featured on other platforms as the necessary features for 3D AR on the web become available. Therefore, the central design goal of *argon.js* is to provide an abstraction layer for AR between the web-app and the browser.
 
-The goal of the *argon.js* framework and associated [Argon Browser](http://argonjs.io/argon-app) (currently on iOS) is to use web technologies to create fully-registered 3D Augmented Reality (AR) applications that leverage 3D graphics, geo-spatial-positioning, and computer-vision tracking (currently using the [Vuforia](https://www.vuforia.com) vision engine). While some of these capabilities are currently available only in the **Argon Browser**, *argon.js* was designed to help developers create platform-independent AR web content that will eventually run fully-featured on other platforms as the necessary features for 3D AR become available. Therefore, the central design goal of *argon.js* is to provide an abstraction layer between the web-app and the browser.
+## Core Abstractions
 
-## Powerful Abstractions
+<figure>
+<a href="/concepts/argonjs-framework.png"><img src="/concepts/argonjs-framework.png" /></a>
+<figurecaption><sub>Fig. 1 The argon.js framework</sub></figurecaption>
+</figure>
 
-There are essentially 3 types of core abstractions that are defined by the *argon.js* framework:
+There are 3 core abstractions that are defined by the *argon.js* framework:
 
-* **Reality Augmentor** - a system responsible for *augmenting* a view of reality
-* **Reality View** - a system responsible for *presenting* a view of reality
-* **Reality Manager** - a system responsible for *blending* a particular **Reality View** with
-one or more **Reality Augmentors**
+* **Reality Augmentor** - responsible for *augmenting* a view of reality
+* **Reality View** - responsible for *presenting* a view of reality
+* **Reality Manager** - responsible for *blending* a particular **Reality View** with one or more **Reality Augmentors**
 
-These **abstractions** are based on a broad view of Augmented Reality, enabling any 3D view of reality to be augmented. 
+These **abstractions** are based on a broad view of Augmented Reality, enabling any 3D view of reality to be augmented. The framework anticipates a future in which AR-enabled browsers may give users control over the way they interact with AR content, and let the user (not the applications) control how they are displayed by allowing the user to change their view of reality. For example, a user may want to switch from live video, to remote video, to a virtual flyover of their location—all while an AR application is running. Moreso, in these future browsers, users may want to run multiple AR applications simultaneously, and different application requirements may cause the browser to use different views of reality for the different applications. We are exploring these ideas within the [Argon Browser](http://argonjs.io/argon-app/) (which already allows multiple apps to run and be visible at the same time, for example), and these use-cases have informed the design of *argon.js*.
 
-In *argon.js*, a **Reality View** is defined by (at minimum) a visual representation of the world and a **Reference Frame** representing the 3D eye pose of the viewer. On a mobile device or tablet, this **Reality View** would generally be geo-posed live-video, enabling rich video-mixed AR experiences (overlaying graphics on the video from the device's camera). However, a **Reality View** could also be constructed from a geo-located panoramic image, geo-posed remote video, an optical see-through display, etc. Developers are free to define their own custom **Reality View**s: anything that displays a view of the world can conceivably be built into a **Reality View** with argon.js. The samples show an example of this, using Google Streetview as the view of reality over which any AR content can be displayed.
+Traditionally, Augmented Reality (AR) apps have had to take on all three of these roles at once. However, by separating these concerns out, each role can be easily swapped out with another implementation, allowing for a much more flexible and adaptive AR application ecosystem.
 
 ## Separation of Concerns
+
 Unlike traditional AR frameworks and toolkits, applications written with *argon.js* are *not* responsible for managing their own views of reality. Rather, AR applications built with argon.js are inherently decoupled from the responsibility of "presenting" a view of reality, allowing them to focus only on "augmenting" a view of reality (i.e, functioning exclusively in the role of a **Reality Augmentor**). Instead of configuraing and loading it's own view of reality, an application is able to make a request to a **Reality Manager** by specifying either a particular desired **Reality View** (e.g., one that displays a certain kind of panoramic image) or expressing the specific capabilities needed for the application to function (e.g., geolocation, Vuforia vision tracking). The **Reality Manager** then supplies a **Reality View** to the application based on the capabilities of the platform and/or user preferences. By encouraging developers to develop applications based on the capabilities they need rather than requesting specific **Reality View**s, *argon.js* applications are more likely to run on new platforms as they become available.
 
 A second reason for this inversion of control in *argon.js* is to support situations where the **Reality View** may need to change while the app is running. The *argon.js* framework anticipates a future in which AR-enabled browsers may give users control over the way they interact with AR content, and let the user (not the applications) control how they are displayed by allowing them to change their view of reality. For example, a user may want to switch from live video, to remote video, to a virtual flyover of their area—while an AR application is running. Similarly, in these future browsers, users may want to run multiple AR applications simultaneously, and different application requirements may cause the browser to use different views of reality for the different applications. We are exploring these ideas within the **Argon browser** (which already allows multiple apps to run and be visible at the same time, for example), and these use-cases have informed the design of *argon.js*.
