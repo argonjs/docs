@@ -50,7 +50,7 @@ var uniforms = {
     amplitude: { type: "f", value: 0.0 }
 };
 var argonTextObject = new THREE.Object3D();
-argonTextObject.position.z = -250;
+argonTextObject.position.z = -0.50;
 userLocation.add(argonTextObject);
 var loader = new THREE.FontLoader();
 loader.load('../resources/fonts/helvetiker_bold.typeface.js', function (font) {
@@ -100,64 +100,76 @@ loader.load('../resources/fonts/helvetiker_bold.typeface.js', function (font) {
     });
     var textMesh = new THREE.Mesh(bufferGeometry, shaderMaterial);
     argonTextObject.add(textMesh);
+    argonTextObject.scale.set(0.001, 0.001, 0.001);
     // add an argon updateEvent listener to slowly change the text over time.
     // we don't have to pack all our logic into one listener.
     app.context.updateEvent.addEventListener(function () {
         uniforms.amplitude.value = 1.0 + Math.sin(Date.now() * 0.001 * 0.5);
     });
 });
-// tell argon to initialize vuforia for our app, using our license information.
-app.vuforia.init({
-    encryptedLicenseData: "-----BEGIN PGP MESSAGE-----\nVersion: OpenPGP.js v2.3.2\nComment: http://openpgpjs.org\n\n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\n=uYu7\n-----END PGP MESSAGE-----"
-}).then(function (api) {
-    // the vuforia API is ready, so we can start using it.
-    // tell argon to download a vuforia dataset.  The .xml and .dat file must be together
-    // in the web directory, even though we just provide the .xml file url here 
-    api.objectTracker.createDataSet('../resources/datasets/StonesAndChips.xml').then(function (dataSet) {
-        // the data set has been succesfully downloaded
-        // tell vuforia to load the dataset.  
-        dataSet.load().then(function () {
-            // when it is loaded, we retrieve a list of trackables defined in the
-            // dataset and set up the content for the target
-            var trackables = dataSet.getTrackables();
-            // tell argon we want to track a specific trackable.  Each trackable
-            // has a Cesium entity associated with it, and is expressed in a 
-            // coordinate frame relative to the camera.  Because they are Cesium
-            // entities, we can ask for their pose in any coordinate frame we know
-            // about.
-            var stonesEntity = app.context.subscribeToEntityById(trackables['stones'].id);
-            // create a THREE object to put on the trackable
-            var stonesObject = new THREE.Object3D;
-            scene.add(stonesObject);
-            // the updateEvent is called each time the 3D world should be
-            // rendered, before the renderEvent.  The state of your application
-            // should be updated here.
-            app.context.updateEvent.addEventListener(function () {
-                // get the pose (in local coordinates) of the stones target
-                var stonesPose = app.context.getEntityPose(stonesEntity);
-                // if the pose is known the target is visible, so set the
-                // THREE object to it's location and orientation
-                if (stonesPose.poseStatus & Argon.PoseStatus.KNOWN) {
-                    stonesObject.position.copy(stonesPose.position);
-                    stonesObject.quaternion.copy(stonesPose.orientation);
-                }
-                // when the target is first seen after not being seen, the 
-                // status is FOUND.  Here, we move the 3D text object from the
-                // world to the target.
-                // when the target is first lost after being seen, the status 
-                // is LOST.  Here, we move the 3D text object back to the world
-                if (stonesPose.poseStatus & Argon.PoseStatus.FOUND) {
-                    stonesObject.add(argonTextObject);
-                    argonTextObject.position.z = 0;
-                }
-                else if (stonesPose.poseStatus & Argon.PoseStatus.LOST) {
-                    argonTextObject.position.z = -250;
-                    userLocation.add(argonTextObject);
-                }
+app.vuforia.isAvailable().then(function (available) {
+    // vuforia not available on this platform
+    if (!available) {
+        console.warn("vuforia not available on this platform.");
+        return;
+    }
+    // tell argon to initialize vuforia for our app, using our license information.
+    app.vuforia.init({
+        encryptedLicenseData: "-----BEGIN PGP MESSAGE-----\nVersion: OpenPGP.js v2.3.2\nComment: http://openpgpjs.org\n\nwcFMA+gV6pi+O8zeARAAssqSfRHFNoDTNaEdU7i6rVRjht5U4fHnwihcmiOR\nu15f5zQrYlT+g8xDM69uz0r2PlcoD6DWllgFhokkDmm6775Yg9I7YcguUTLF\nV6t+wCp/IgSRl665KXmmHxEd/cXlcL6c9vIFT/heEOgK2hpsPXGfLl1BJKHc\nCqFZ3I3uSCqoM2eDymNSWaiF0Ci6fp5LB7i1oVgB9ujI0b2SSf2NHUa0JfP9\nGPSgveAc2GTysUCqk3dkgcH272Fzf4ldG48EoM48B7e0FLuEqx9V5nHxP3lh\n9VRcAzA3S3LaujA+Kz9/JUOckyL9T/HON/h1iDDmsrScL4PaGWX5EX0yuvBw\nFtWDauLbzAn5BSV+pw7dOmpbSGFAKKUnfhj9d1c5TVeaMkcBhxlkt7j7WvxS\nuuURU3lrH8ytnQqPJzw2YSmxdeHSsAjAWnCRJSaUBlAMj0QsXkPGmMwN8EFS\n9bbkJETuJoVDFfD472iGJi4NJXQ/0Cc4062J5AuYb71QeU8d9nixXlIDXW5U\nfxo9/JpnZRSmWB9R6A2H3+e5dShWDxZF/xVpHNQWi3fQaSKWscQSvUJ83BBP\nltCvDo+gpD6tTt+3SnAThLuhl38ud7i1B8e0dOCKpuYeSG0rXQPY53n2+mGK\nP1s0e0R7D5jztijwXvGPf45z232cztWsZWvuD2x42DXBwU0DAGn1enGTza0Q\nB/j9y72hJrXx/TdOq85QDMBAA+Ocm9MSGylOqMOb9ozC+DVhhVx7doqS3xV9\nh3jLf6V+OF6VIPHQBxAzH5svlktEOcTtjrjQxnUMmNuHbNQmZlA7uYsAqUpF\nnWqPtJeHMi2F/gYYI/ApK3NGxzJe21dAf2cdp26wf/PoLusotCQH1YVpuR+V\n18Mb8hMpPlB1j5SXnBlv98LxiOGlG6/lQWxpMzkMSZZTxMxa1pCsYNJKK9Bg\npFUyp4x0W4bQL1mRlqaO04cfoErfHqQzboS2b7WRrNy7YJ9rcBbmpbSc+GEY\nT7ZUPs66EHgdp6uWYPbM1/oajHQBSPALiV65k06XlR4H+QG1ClkSIkbguKnu\nmbpgF7wF5bAfjVVK/ST000Dzr09sgfm4wlIHRcezOzUgjIDVAQE63PznhzfZ\nPEwOKC9ex9t9G+HjvhxICYFoxJLcHJ8ytTWEguNFqSIRTKWTgvAycvTFkJA/\npasmzov3Nouak8sE28r2NRpWbmI7muLvHfPWgy/rVczF+E1sOkbwtsdOgmym\nyC9yB2IB3fhpLgU28cuI26+cx5IIke0jUgftvza8Oqa0gFZzvu8LaR/RsUdp\n9/CRpiYFvvamNmCDIxxYKtAFCOkEni/5ht4poI2ZxHeWtjwZ2GBqby7BqpUu\nxLXgv+3XpVq1sSUVurKbntDXUy3BwUwDju235GExYfIBEADMsiKpgf0sGKeW\na5uzMKZgnMm1MoRFBJNsjmBZrbsMxn6lf2ry3XM1xw/w15lepn4X/EMDLeRw\n1m3vw4JL7dLY6e2oOllWyscCs+qE8Cwwx9x6q/gAMfwyrqMQ5EH8psIrRKZM\neZwGEnSIuUXtJu3ShyqZUqfbpXhr+TxUEXY7n7NuCRJeM70PWPZB5IC1h3Bp\nkgxMRP4zHN2VG4PlcX2fLjpYsx1BHtR2T1biYxbk1AZ26s97XEMH7t9oe+8b\nG+QZc500MmPOd+62UZmnOf/Dul9q/H/0+IlWlWSUTTZFtlL+LwR56t28xqca\nFjUW8TXv6zYUvY7kk5Mlf2iWPA11wJuHaL5DnGaOoNgFVzicNQKy3SfeuYyp\nrSwClM37jRKw+ZNGQDPSAhtrwYZxtndCw/jieqdxIbFG9Td+BunpJNE+KICN\njmnvG5JrzdueKAyTGqxNOtQnNDJYcg+p5rZVZHGQMN/22n2aiRpWhVAdJIXE\nYgpsFH6R01N3Y55RFNrhusOhuWodj0XuS1EhknU47XyIpNVSZhWG/e+vXMHb\nsN5cO0V7iCFrSxKXg6AwVneoWJC5anT9IabIcgAz07SjdjceC2MlW0vdjPks\nFNygBlP9fTIjBGRzg5QQCh/LyyFUTr1rYRbF+4k5kBQ3MtD2a/lS3Sk1MK/+\nEs9PfWaAoNLB+QGqSi1qtIhds22zelOtc2MGFxgwb/iNZOUccauv6OXThvDD\ngzpn7gZi0+N7pOwx9lJM9QgC4hTMlo268vhNd/MMIPMeyp5n5D8p8ewAutZm\nAcIJkP3h2tUG1V/RvVLF22F+ilh3h++7TeSfHdTdv6ArwDJXdQunHCp3020f\nvhT6XG0ND+UMFtrptJe7+NoRpNg9oZo6kvwDzhPdIa2OlVjXmr25ueC8FlET\ncYdFbIisK+std7/XMlkE5wlGkf9G0RoHsxXqB2Nsj8l3qF5UNyWD+/2Wh+L9\nCDjUbY1FxwlVJ4UZ7lz+8jWHO5jYY99adPoATpUaWYxm9oPxz/QR4kvgvLjl\n9Ti8379Y8qihzqsRmf6YLYyggknlt9Uyl2HjA+1zcwbDnb3I6g/XjTFUPy1D\nxZqqSEuCNDLh7m1+GDA3KXQnLIqOdcxOVzyFCDtKI9c6b0D0ezNkxUjgkoIp\nmxSSLDjzmHuPLsQVwqxP4KNU1gT7mXTnhlhsG2Vll/WZD+tuzGK8h9anf6/p\n4pCk61Dhj1hmb9msTaK4FGhmBMtJ6kQ4SzGOfFKG5IElAHidYgd0iz7AqEzX\nGttDkcHGM9iPIYUBY2r/538M/kxeVx5fBiWEkmWz5FMzqPRs3GZWYiAb2tnp\nWSDXW3B1mwznwcCkyUP6OP/c6FFmb6Rag/ZaItVAvVjmA7tXICLJPhYIs9hE\nI6zJSVZ81YtKg9Nb6Rx49qf18pQ1SWZNGrZrWaTJTLu4cu4c5v/czY5kyT0Y\n8RqNUlI5hwWU8G9LpJ5jv8dssrgcweTG/PEbCkzqz0R6W6VgDUyqo6WSGgoS\nB9or791lGcDazNT6CJ4/2Z1wBd4BSHkhSwfcPovGOleZFE24gLiG6puHyVjk\nWEIir2WXzhypwLkG/dn+ZJW1ezOvTb4gVVILHrWhNh8=\n=LoZg\n-----END PGP MESSAGE-----"
+    }).then(function (api) {
+        // the vuforia API is ready, so we can start using it.
+        // tell argon to download a vuforia dataset.  The .xml and .dat file must be together
+        // in the web directory, even though we just provide the .xml file url here 
+        api.objectTracker.createDataSet("../resources/datasets/ArgonTutorial.xml").then(function (dataSet) {
+            // the data set has been succesfully downloaded
+            // tell vuforia to load the dataset.  
+            dataSet.load().then(function () {
+                // when it is loaded, we retrieve a list of trackables defined in the
+                // dataset and set up the content for the target
+                var trackables = dataSet.getTrackables();
+                // tell argon we want to track a specific trackable.  Each trackable
+                // has a Cesium entity associated with it, and is expressed in a 
+                // coordinate frame relative to the camera.  Because they are Cesium
+                // entities, we can ask for their pose in any coordinate frame we know
+                // about.
+                var techSquareEntity = app.context.subscribeToEntityById(trackables["GVUBooklet"].id);
+                // create a THREE object to put on the trackable
+                var techSquareObject = new THREE.Object3D;
+                scene.add(techSquareObject);
+                // the updateEvent is called each time the 3D world should be
+                // rendered, before the renderEvent.  The state of your application
+                // should be updated here.
+                app.context.updateEvent.addEventListener(function () {
+                    // get the pose (in local coordinates) of the techSquare target
+                    var techSquarePose = app.context.getEntityPose(techSquareEntity);
+                    // if the pose is known the target is visible, so set the
+                    // THREE object to the location and orientation
+                    if (techSquarePose.poseStatus & Argon.PoseStatus.KNOWN) {
+                        techSquareObject.position.copy(techSquarePose.position);
+                        techSquareObject.quaternion.copy(techSquarePose.orientation);
+                    }
+                    // when the target is first seen after not being seen, the 
+                    // status is FOUND.  Here, we move the 3D text object from the
+                    // world to the target.
+                    // when the target is first lost after being seen, the status 
+                    // is LOST.  Here, we move the 3D text object back to the world
+                    if (techSquarePose.poseStatus & Argon.PoseStatus.FOUND) {
+                        techSquareObject.add(argonTextObject);
+                        argonTextObject.position.z = 0;
+                    }
+                    else if (techSquarePose.poseStatus & Argon.PoseStatus.LOST) {
+                        argonTextObject.position.z = -0.50;
+                        userLocation.add(argonTextObject);
+                    }
+                });
+            }).catch(function (err) {
+                console.log("could not load dataset: " + err.message);
             });
+            // activate the dataset.
+            api.objectTracker.activateDataSet(dataSet);
         });
-        // activate the dataset.
-        api.objectTracker.activateDataSet(dataSet);
+    }).catch(function (err) {
+        console.log("vuforia failed to initialize: " + err.message);
     });
 });
 // the updateEvent is called each time the 3D world should be
@@ -167,7 +179,7 @@ app.context.updateEvent.addEventListener(function () {
     // get the position and orientation (the "pose") of the user
     // in the local coordinate frame.
     var userPose = app.context.getEntityPose(app.context.user);
-    // assuming we know the user's pose, set the position of our 
+    // assuming we know the user pose, set the position of our 
     // THREE user object to match it
     if (userPose.poseStatus & Argon.PoseStatus.KNOWN) {
         userLocation.position.copy(userPose.position);
