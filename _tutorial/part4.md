@@ -225,24 +225,24 @@ api.objectTracker.createDataSet("../resources/datasets/ArgonTutorial.xml").then(
         // coordinate frame relative to the camera.  Because they are Cesium
         // entities, we can ask for their pose in any coordinate frame we know
         // about.
-        const techSquareEntity = app.context.subscribeToEntityById(trackables["TechSquare"].id)
+        const gvuBrochureEntity = app.context.subscribeToEntityById(trackables["GVUBrochure"].id)
 
         // create a THREE object to put on the trackable
-        const techSquareObject = new THREE.Object3D;
-        scene.add(techSquareObject);
+        const gvuBrochureObject = new THREE.Object3D;
+        scene.add(gvuBrochureObject);
 
         // the updateEvent is called each time the 3D world should be
         // rendered, before the renderEvent.  The state of your application
         // should be updated here.
         app.context.updateEvent.addEventListener(() => {
-            // get the pose (in local coordinates) of the techSquare target
-            const techSquarePose = app.context.getEntityPose(techSquareEntity);
+            // get the pose (in local coordinates) of the gvuBrochure target
+            const gvuBrochurePose = app.context.getEntityPose(gvuBrochureEntity);
 
             // if the pose is known the target is visible, so set the
             // THREE object to the location and orientation
-            if (techSquarePose.poseStatus & Argon.PoseStatus.KNOWN) {
-                techSquareObject.position.copy(<any>techSquarePose.position);
-                techSquareObject.quaternion.copy(<any>techSquarePose.orientation);
+            if (gvuBrochurePose.poseStatus & Argon.PoseStatus.KNOWN) {
+                gvuBrochureObject.position.copy(<any>gvuBrochurePose.position);
+                gvuBrochureObject.quaternion.copy(<any>gvuBrochurePose.orientation);
             }
 
             // when the target is first seen after not being seen, the 
@@ -250,10 +250,10 @@ api.objectTracker.createDataSet("../resources/datasets/ArgonTutorial.xml").then(
             // world to the target.
             // when the target is first lost after being seen, the status 
             // is LOST.  Here, we move the 3D text object back to the world
-            if (techSquarePose.poseStatus & Argon.PoseStatus.FOUND) {
-                techSquareObject.add(argonTextObject);
+            if (gvuBrochurePose.poseStatus & Argon.PoseStatus.FOUND) {
+                gvuBrochureObject.add(argonTextObject);
                 argonTextObject.position.z = 0;
-            } else if (techSquarePose.poseStatus & Argon.PoseStatus.LOST) {
+            } else if (gvuBrochurePose.poseStatus & Argon.PoseStatus.LOST) {
                 argonTextObject.position.z = -0.5;
                 userLocation.add(argonTextObject);
             }
@@ -283,32 +283,32 @@ api.objectTracker.createDataSet("../resources/datasets/ArgonTutorial.xml").then(
         // coordinate frame relative to the camera.  Because they are Cesium
         // entities, we can ask for their pose in any coordinate frame we know
         // about.
-        var techSquareEntity = app.context.subscribeToEntityById(trackables["TechSquare"].id);
+        var gvuBrochureEntity = app.context.subscribeToEntityById(trackables["gvuBrochure"].id);
         // create a THREE object to put on the trackable
-        var techSquareObject = new THREE.Object3D;
-        scene.add(techSquareObject);
+        var gvuBrochureObject = new THREE.Object3D;
+        scene.add(gvuBrochureObject);
         // the updateEvent is called each time the 3D world should be
         // rendered, before the renderEvent.  The state of your application
         // should be updated here.
         app.context.updateEvent.addEventListener(function () {
-            // get the pose (in local coordinates) of the techSquare target
-            var techSquarePose = app.context.getEntityPose(techSquareEntity);
+            // get the pose (in local coordinates) of the gvuBrochure target
+            var gvuBrochurePose = app.context.getEntityPose(gvuBrochureEntity);
             // if the pose is known the target is visible, so set the
             // THREE object to the location and orientation
-            if (techSquarePose.poseStatus & Argon.PoseStatus.KNOWN) {
-                techSquareObject.position.copy(techSquarePose.position);
-                techSquareObject.quaternion.copy(techSquarePose.orientation);
+            if (gvuBrochurePose.poseStatus & Argon.PoseStatus.KNOWN) {
+                gvuBrochureObject.position.copy(gvuBrochurePose.position);
+                gvuBrochureObject.quaternion.copy(gvuBrochurePose.orientation);
             }
             // when the target is first seen after not being seen, the 
             // status is FOUND.  Here, we move the 3D text object from the
             // world to the target.
             // when the target is first lost after being seen, the status 
             // is LOST.  Here, we move the 3D text object back to the world
-            if (techSquarePose.poseStatus & Argon.PoseStatus.FOUND) {
-                techSquareObject.add(argonTextObject);
+            if (gvuBrochurePose.poseStatus & Argon.PoseStatus.FOUND) {
+                gvuBrochureObject.add(argonTextObject);
                 argonTextObject.position.z = 0;
             }
-            else if (techSquarePose.poseStatus & Argon.PoseStatus.LOST) {
+            else if (gvuBrochurePose.poseStatus & Argon.PoseStatus.LOST) {
                 argonTextObject.position.z = -0.5;
                 userLocation.add(argonTextObject);
             }
