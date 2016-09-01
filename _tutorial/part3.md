@@ -4,7 +4,7 @@ title: 'Part 3: Stereo Viewer Mode'
 ---
 > Download [Argon4](http://argonjs.io/argon-app) and the [Tutorial Source Code](https://github.com/argonjs/docs/tree/gh-pages/code). <br> This tutorial uses the *3-stereo* and *resources* directories.<br> **[Live Demo](/code/3-stereo)**
 
-One of the features of the Argon4 browser is it's support for *Viewer Mode*, allowing the user to switch into a stereo view suitable for Google Cardboard and similar phone-based 3D viewers. argon.js generalizes the idea of stereo viewing by supporting an arbitrary number of views within it's main view. The goal is to not just support stereo head-worn displays, but eventually support other forms of AR, such as the multi-projector room mapping done by Microsoft's [RoomAlive](https://github.com/Kinect/RoomAliveToolkit) project.  
+One of the features of the Argon4 browser is its support for *Viewer Mode*, allowing the user to switch into a stereo view suitable for Google Cardboard and similar phone-based 3D viewers. argon.js generalizes the idea of stereo viewing by supporting an arbitrary number of views within its main view. The goal is not just to support stereo head-worn displays, but eventually support other forms of AR, such as the multi-projector room mapping done by Microsoft's [RoomAlive](https://github.com/Kinect/RoomAliveToolkit) project.  
 
 Revisiting the render update listener from [part 2](../part2), you can see how this manifests itself in your code.
 
@@ -27,7 +27,7 @@ app.renderEvent.addEventListener(() => {
         // this subview
         camera.position.copy(subview.pose.position);
         camera.quaternion.copy(subview.pose.orientation);
-        // the underlying system provide a full projection matrix
+        // the underlying system provides a full projection matrix
         // for the camera. 
         camera.projectionMatrix.fromArray(subview.projectionMatrix);
 
@@ -69,7 +69,7 @@ app.renderEvent.addEventListener(function () {
         // this subview
         camera.position.copy(subview.pose.position);
         camera.quaternion.copy(subview.pose.orientation);
-        // the underlying system provide a full projection matrix
+        // the underlying system provides a full projection matrix
         // for the camera. 
         camera.projectionMatrix.fromArray(subview.projectionMatrix);
         // set the viewport for this view
@@ -97,7 +97,7 @@ The `getSubviews()` method returns an array of subview specifications.  Each sub
 - `index`, an integer identifying this view, starting at 0.
 - `type` of the subview: the only subview (`SINGULAR`), used for the left or right eye in stereo mode (`LEFTEYE`, `RIGHTEYE`) or some other subview (`OTHER`)
 - `projectionMatrix` for the camera of the subview, a 16 element projection matrix.
-- `frustum` of this camera, show match the `projectionMatrix`
+- `frustum` of this camera, should match the `projectionMatrix`
 - `pose` of the camera for this subview.
 - `viewport` of this subview, relative to the main view.
 
@@ -131,7 +131,7 @@ hud.appendChild(hudContent);
 var locationElements = hud.domElement.getElementsByClassName('location');
 
 // We also move the description box to the left Argon HUD.  
-// We don't duplicated it because we only use it in mono mode, but will
+// We don't duplicate it because we only use it in mono mode, but will
 // nest it inside another element that we can turn on and off
 var holder = document.createElement( 'div' );
 var hudDescription = document.getElementById( 'description' );
@@ -145,7 +145,7 @@ var hudContent = document.getElementById('hud');
 hud.appendChild(hudContent);
 var locationElements = hud.domElement.getElementsByClassName('location');
 // We also move the description box to the left Argon HUD.  
-// We don't duplicated it because we only use it in mono mode, but will
+// We don't duplicate it because we only use it in mono mode, but will
 // nest it inside another element that we can turn on and off
 var holder = document.createElement('div');
 var hudDescription = document.getElementById('description');
