@@ -8,5 +8,5 @@ title: 'Part 9: argon.js in Other Browsers'
 
 This part of the tutorial will discuss how to create Argon applications that correctly deal with being viewed in traditional web browsers in addition to Argon4.  
 
-This tutorial will leverage custom realities, and discuss how the goal of keeping the user in control of the experience has guided the design of argon.js and how it supports multiple browsers.
+This tutorial will leverage custom realities and discuss how the goal of keeping the user in control of the experience has guided the design of argon.js and how it supports multiple browsers.
 
