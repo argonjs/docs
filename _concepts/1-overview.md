@@ -6,7 +6,7 @@ permalink: /concepts/overview/
 
 On this page, we provide an overview of the design of *argon.js*, introducing the terminology and concepts used by the framework.
 
-The goal of the *argon.js* framework and associated [Argon Browser](http://argonjs.io/argon-app) (currently on iOS) is to use web technologies to create fully-registered 3D Augmented Reality (AR) applications that leverage 3D graphics, geo-spatial-positioning, and computer-vision tracking (currently using the [Vuforia](https://www.vuforia.com) vision engine). While some of these capabilities are currently available only in the **Argon Browser**, *argon.js* was designed to help developers create platform-independent AR web content (that mixes virtual elements with some view of the real world) that will eventually run fully-featured on other platforms as the necessary features for 3D AR on the web become available. Therefore, the central design goal of *argon.js* is to provide an abstraction layer for AR between the web-app and the browser.
+The goal of the *argon.js* framework and associated [Argon Browser](http://argonjs.io/argon-app/) (currently on iOS) is to use web technologies to create fully-registered 3D Augmented Reality (AR) applications that leverage 3D graphics, geo-spatial-positioning, and computer-vision tracking (currently using the [Vuforia](https://www.vuforia.com) vision engine). While some of these capabilities are currently available only in the **Argon Browser**, *argon.js* was designed to help developers create platform-independent AR web content (that mixes virtual elements with some view of the real world) that will eventually run fully-featured on other platforms as the necessary features for 3D AR on the web become available. Therefore, the central design goal of *argon.js* is to provide an abstraction layer for AR between the web-app and the browser.
 
 ## Core Abstractions
 
@@ -31,7 +31,7 @@ Unlike traditional AR frameworks and toolkits, applications written with *argon.
 
 A second reason for this inversion of control in *argon.js* is to support situations where the **Reality View** may need to change while the app is running, such as when the user changes focus to a different web application that requests a different **Reality View** or capabilities. 
     
-The *argon.js* framework does not prescribe or support any particular rendering or  library. Rather, it provides a uniform view of the data necessary for a real-time 3D AR application to the web developer. In our work, we have been using the [three.js](http://threejs.org) rendering library for 3D content. We have also adapted Mozilla's [A-Frame](http://argonjs.io/argon-aframe) to simplify the creation of web-based AR experiences (see the [argon-aframe](http://argonjs.io/argon-aframe) repository).
+The *argon.js* framework does not prescribe or support any particular rendering or  library. Rather, it provides a uniform view of the data necessary for a real-time 3D AR application to the web developer. In our work, we have been using the [three.js](http://threejs.org) rendering library for 3D content. We have also adapted Mozilla's [A-Frame](http://argonjs.io/argon-aframe/) to simplify the creation of web-based AR experiences (see the [argon-aframe](http://argonjs.io/argon-aframe/) repository).
 
 ## Geospatial Frames of Reference
 

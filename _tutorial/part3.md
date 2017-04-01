@@ -2,7 +2,7 @@
 layout: page
 title: 'Part 3: Stereo Viewer Mode'
 ---
-> Download [Argon4](http://argonjs.io/argon-app) and the [Tutorial Source Code](https://github.com/argonjs/docs/tree/gh-pages/code). <br> This tutorial uses the *3-stereo* and *resources* directories.<br> **[Live Demo](/code/3-stereo)**
+> Download [Argon4](http://argonjs.io/argon-app/) and the [Tutorial Source Code](https://github.com/argonjs/docs/tree/gh-pages/code). <br> This tutorial uses the *3-stereo* and *resources* directories.<br> **[Live Demo](/code/3-stereo)**
 
 One of the features of the Argon4 browser is its support for *Viewer Mode*, allowing the user to switch into a stereo view suitable for Google Cardboard and similar phone-based 3D viewers. argon.js generalizes the idea of stereo viewing by supporting an arbitrary number of views within its main view. The goal is not just to support stereo head-worn displays, but eventually support other forms of AR, such as the multi-projector room mapping done by Microsoft's [RoomAlive](https://github.com/Kinect/RoomAliveToolkit) project.  
 

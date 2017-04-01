@@ -2,7 +2,7 @@
 layout: page
 title: 'Part 9: argon.js in Other Browsers'
 ---
-> Download [Argon4](http://argonjs.io/argon-app) and the [Tutorial Source Code](https://github.com/argonjs/docs/tree/gh-pages/code). <br> This tutorial uses the *9-browsers* and *resources* directories.<br> **[Live Demo](/code/9-browsers)**
+> Download [Argon4](http://argonjs.io/argon-app/) and the [Tutorial Source Code](https://github.com/argonjs/docs/tree/gh-pages/code). <br> This tutorial uses the *9-browsers* and *resources* directories.<br> **[Live Demo](/code/9-browsers)**
 
 ## Coming Soon ...
 

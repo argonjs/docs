@@ -2,7 +2,7 @@
 layout: page
 title: 'Part 4: Reference Frames and Vuforia Tracking'
 ---
-> Download [Argon4](http://argonjs.io/argon-app) and the [Tutorial Source Code](https://github.com/argonjs/docs/tree/gh-pages/code). <br> This tutorial uses the *4-vuforia* and *resources* directories.<br> **[Live Demo](/code/4-vuforia)**
+> Download [Argon4](http://argonjs.io/argon-app/) and the [Tutorial Source Code](https://github.com/argonjs/docs/tree/gh-pages/code). <br> This tutorial uses the *4-vuforia* and *resources* directories.<br> **[Live Demo](/code/4-vuforia)**
 
 In the first three parts of this tutorial, we showed how to set up an Argon web application, use Argon's geospatial reference frames, include both WebGL and HTML content in the 3D scene, and properly support stereo views.
 

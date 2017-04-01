@@ -3,7 +3,7 @@ layout: page
 title: 'Part 8: Panoramic images and Custom Realities'
 ---
 
-> Download [Argon4](http://argonjs.io/argon-app) and the [Tutorial Source Code](https://github.com/argonjs/docs/tree/gh-pages/code). <br> This tutorial uses the *8-panoramas* and *resources* directories.<br> **[Live Demo](/code/8-panoramas)**
+> Download [Argon4](http://argonjs.io/argon-app/) and the [Tutorial Source Code](https://github.com/argonjs/docs/tree/gh-pages/code). <br> This tutorial uses the *8-panoramas* and *resources* directories.<br> **[Live Demo](/code/8-panoramas)**
 
 ## Coming Soon ...
 

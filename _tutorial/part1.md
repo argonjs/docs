@@ -3,7 +3,7 @@ layout: page
 title: 'Part 1: Getting Started'
 ---
 
-> Download [Argon4](http://argonjs.io/argon-app) and the [Tutorial Source Code](https://github.com/argonjs/docs/tree/gh-pages/code). <br> This tutorial uses the *1-geopose* and *resources* directories.<br> **[Live Demo](/code/1-geopose)**
+> Download [Argon4](http://argonjs.io/argon-app/) and the [Tutorial Source Code](https://github.com/argonjs/docs/tree/gh-pages/code). <br> This tutorial uses the *1-geopose* and *resources* directories.<br> **[Live Demo](/code/1-geopose)**
 
 In general, *argon.js* apps can be structured however you want. This tutorial
 follows a [single-page app](https://en.wikipedia.org/wiki/Single-page_application)
@@ -45,7 +45,7 @@ The code for this tutorial (and argon.js!) is written in Typescript, [a typed su
 
 Note: This tutorial assumes that you are already familiar with the fundamentals of computer graphics: the concept of a scene graph, creating and manipulating 3D objects and textures, the camera, etc. While Argon is agnostic as to what rendering system you use, the Argon samples and tutorials currently use the javascript graphics framework [three.js](http://threejs.org/) to create and manage the scene graph. See the [threejs.org](http://threejs.org) documentation for a complete description.  
 
-In order to initialize Argon and [three.js](http://threejs.org/), this example (like most of the [Argon samples](http://argonjs.io/samples)) begins with:
+In order to initialize Argon and [three.js](http://threejs.org/), this example (like most of the [Argon samples](http://argonjs.io/samples/)) begins with:
 
 {% include code_highlight.html
 tscode='

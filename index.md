@@ -12,4 +12,4 @@ This site contains a collection of articles for learning how to use *argon.js* t
 * For an introduction to the terminology and concepts used by the framework, please read the [overview](/concepts/overview/).
 * For a guided walkthrough demonstrating how to build simple *argon.js* apps from start to finish, leveraging the [three.js](http://threejs.org) rendering library, check out the [tutorial](/tutorial/).
 * If you would like to contribute to *argon.js* (or just peer at the source), the *argon.js* framework is available on [Github](https://github.com/argonjs/argon).
-* Apps built with *argon.js* will run in any standard web browser. However, the [Argon Browser](http://argonjs.io/argon-app) supports additional AR capabilties that can be leveraged by *argon.js* apps.
+* Apps built with *argon.js* will run in any standard web browser. However, the [Argon Browser](http://argonjs.io/argon-app/) supports additional AR capabilties that can be leveraged by *argon.js* apps.

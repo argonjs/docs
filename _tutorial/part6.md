@@ -2,7 +2,7 @@
 layout: page
 title: 'Part 6: Lighting the World with the Sun and Moon'
 ---
-> Download [Argon4](http://argonjs.io/argon-app) and the [Tutorial Source Code](https://github.com/argonjs/docs/tree/gh-pages/code). <br> This tutorial uses the *6-sunmoon* and *resources* directories.<br> **[Live Demo](/code/6-sunmoon)**
+> Download [Argon4](http://argonjs.io/argon-app/) and the [Tutorial Source Code](https://github.com/argonjs/docs/tree/gh-pages/code). <br> This tutorial uses the *6-sunmoon* and *resources* directories.<br> **[Live Demo](/code/6-sunmoon)**
 
 ## Coming Soon ...
 

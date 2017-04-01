@@ -2,7 +2,7 @@
 layout: page
 title: 'Part 5: Directions CSS'
 ---
-> Download [Argon4](http://argonjs.io/argon-app) and the [Tutorial Source Code](https://github.com/argonjs/docs/tree/gh-pages/code). <br> This tutorial uses the *5-directionsHTML* and *resources* directories. **[Live Demo](/code/5-directionsHTML)**
+> Download [Argon4](http://argonjs.io/argon-app/) and the [Tutorial Source Code](https://github.com/argonjs/docs/tree/gh-pages/code). <br> This tutorial uses the *5-directionsHTML* and *resources* directories. **[Live Demo](/code/5-directionsHTML)**
 
 This part of the tutorial uses HTML elements to place labels at the compass points (east, west, north, south), as well as up and down. The purpose is to demonstrate how to place content near the user, such that it moves with them but has a fixed orientation relative to the earth, as well as demonstrating creating HTML content on the fly.
 

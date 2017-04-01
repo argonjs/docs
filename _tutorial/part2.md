@@ -2,7 +2,7 @@
 layout: page
 title: 'Part 2: Adding HTML Content'
 ---
-> Download [Argon4](http://argonjs.io/argon-app) and the [Tutorial Source Code](https://github.com/argonjs/docs/tree/gh-pages/code). <br> This tutorial uses the *2-html* and *resources* directories.<br> **[Live Demo](/code/2-html)**
+> Download [Argon4](http://argonjs.io/argon-app/) and the [Tutorial Source Code](https://github.com/argonjs/docs/tree/gh-pages/code). <br> This tutorial uses the *2-html* and *resources* directories.<br> **[Live Demo](/code/2-html)**
 
 This tutorial will expand on the geospatial cube example developed in [part 1](../part1) to include HTML content, highlighting the issues programmers should be aware of when adding HTML elements to the 2D display and into the 3D scene. While the focus is on integrating HTML content with the [three.js](http://threejs.org) rendering framework used in the examples, the underlying issues will be similar for any rendering system.
 

@@ -2,7 +2,7 @@
 layout: page
 title: 'Part 7: Adapting Existing three.js Applications'
 ---
-> Download [Argon4](http://argonjs.io/argon-app) and the [Tutorial Source Code](https://github.com/argonjs/docs/tree/gh-pages/code). <br> This tutorial uses the *7-periodic* and *resources* directories.<br> **[Live Demo](/code/7-periodic)**
+> Download [Argon4](http://argonjs.io/argon-app/) and the [Tutorial Source Code](https://github.com/argonjs/docs/tree/gh-pages/code). <br> This tutorial uses the *7-periodic* and *resources* directories.<br> **[Live Demo](/code/7-periodic)**
 
 ## Coming Soon ...
 
